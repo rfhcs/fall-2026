@@ -1,41 +1,300 @@
-\documentclass[11pt]{article}
+\documentclass[10pt]{article}
 \usepackage{geometry}
 \geometry{
 letterpaper,
-top=1in,
-left=1in,
-right=1in,
-bottom=1in
+margin={1in}
 }
 
 % required packages
 \usepackage[hidelinks]{hyperref}
-\usepackage{titlesec}
-\usepackage{color}
-\usepackage{verbatim}
-\usepackage{enumitem}
-\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
 
-% line spacing
-\usepackage{setspace}
-\setlength{\parindent}{20pt}
-\setlength{\parskip}{1em}
+% custom commands
+\newcommand{\ket}[1]{\vert #1 \rangle}
+\newcommand{\bra}[1]{\langle #1 \vert}
+\newcommand{\braket}[2]{\langle #1 \vert #2 \rangle}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
-% margin adjustments
-\raggedbottom
-
-% title stuff
-\title{CSCI 5244: Homework Set 1}
+% title
+\title{CSCI 5244: Homework set 1}
 \author{Rey Stone}
-
+\date{}
 
 \begin{document}
 
 \maketitle
 
 \begin{enumerate}
-  \item{Why}
+  \item Given a state of a qubit $\ket{\psi} = a \ket{0} + b \ket{1}$, where $a, b \in \mathbb{C}$ and $\abs{a}^2 + \abs{b}^2 = 1$, and recall that states $\ket{+} = \frac{1}{\sqrt{2}} (\ket{0} + \ket{1})$ and $\ket{-} = \frac{1}{\sqrt{2}} (\ket{0} - \ket{1})$
 
+    \begin{enumerate}
+      \item In 2-dimensional complex space with basis ${\ket{0}, \ket{1}}$, write down the matrix form of operator $A = \ket{+} \bra{+} + \frac{1}{2} \ket{-} \bra{-}$ and verify A is an observable (i.e., self-adjoint).
+
+        First, the column vector of $\ket{0}$ can be written as $\begin{pmatrix} 1 \\ 0 \end{pmatrix}$ and $\ket{1}$ as $\begin{pmatrix} 0 \\ 1 \end{pmatrix}$.
+
+        Solving for $\ket{+}$:
+
+        \begin{align*}
+          \frac{1}{\sqrt{2}} \left(\begin{pmatrix} 0 \\ 1 \end{pmatrix} + \begin{pmatrix} 1 \\ 0 \end{pmatrix} \right) = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+        \end{align*}
+
+        Solving for $\ket{-}$:
+
+        \begin{equation*}
+          \frac{1}{\sqrt{2}} \left(\begin{pmatrix} 0 \\ 1 \end{pmatrix} - \begin{pmatrix} 1 \\ 0 \end{pmatrix} \right) = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+        \end{equation*}
+
+        Corresponding $\bra{+}$ and $\bra{-}$ are just the complex conjugate of their respective kets in row vector form.
+        
+        The complex conjugate to both of these are represented as follows:
+
+        \begin{align*}
+          \bra{0} &= \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1 \end{pmatrix} \\
+          \bra{1} &= \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & -1 \end{pmatrix} 
+        \end{align*}
+
+        Solving first operation $\ket{+}\bra{+}$:
+
+        \begin{equation*}
+          \frac{1}{\sqrt{2}} \begin{pmatrix} 1 \\ 1 \end{pmatrix} \cdot \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & 1 \end{pmatrix} = \frac{1}{2} \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}
+        \end{equation*}
+
+        Solving operation $\ket{-}\bra{-}$:
+
+        \begin{equation*}
+          \frac{1}{\sqrt{2}} \begin{pmatrix} 1 \\ -1 \end{pmatrix} \cdot \frac{1}{\sqrt{2}} \begin{pmatrix} 1 & -1 \end{pmatrix} = \frac{1}{2} \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix}
+        \end{equation*}
+
+        Matrix form of operator A:
+
+        \begin{align*}
+          A &= \frac{1}{2} \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix} + \frac{1}{2} \left( \frac{1}{2} \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix} \right) \\
+            &= \frac{1}{2} \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix} + \frac{1}{4} \begin{pmatrix} 1 & -1 \\ -1 & 1 \end{pmatrix} \\
+            &= \frac{1}{4} \begin{pmatrix}3 & 1 \\ 1 & 3 \end{pmatrix}
+        \end{align*}
+
+        Matrix $A$ is self-adjoint iff $A^{\dagger} = A$ where $A^{\dagger}$ is the conjugate transpose:
+
+        \begin{equation*}
+          A = \frac{1}{4} \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}
+        \end{equation*}
+
+        Switch off-diagonal entries:
+
+        \begin{equation*}
+          \frac{1}{4} \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}
+        \end{equation*}
+
+        Since we are not dealing with any imaginary numbers, no conjugation is needed. Thus proves that $A^{\dagger} = A$ making it self-adjoint, and making it a valid observable.
+
+      \item If you measure the observable $A$ on the state $\ket{\psi}$, what are the possible measurement outcomes and associated probabilities?
+
+        The measurement of observable $A$ "snaps" onto one of $A$'s eigenvalues $\ket{n}$ such that:
+
+        \begin{equation*}
+          Prob(a_n) = ||E_n \ket{\psi}||^2 = \bra{\psi} E_n \ket{\psi} \\
+          \textit{\ (from the slides)}
+        \end{equation*}
+
+        The observable $A$ is already in the form $A = \ket{+}\bra{+} + \frac{1}{2} \ket{-}\bra{-}$, so the expected value of measurement can be written as:
+
+        \begin{equation*}
+          A = \sum_n \lambda_n \ket{v_n}\bra{v_n}
+        \end{equation*}
+
+        With possible outcomes being $\lambda_n$ with $Prob(\lambda_n) = |\braket{v_n}{\psi}|^2$.
+
+        Already we can see that the two potential eigenvalues are $1$ in front of $\ket{+}\bra{+}$ and $\frac{1}{2}$ in front of $\ket{-}\bra{-}$
+
+        The first probability Prob(1) can be calculated as such:
+
+        \begin{align*}
+          \bra{+} &= \frac{1}{\sqrt2}(\bra{0} + \bra{1}) = \frac{1}{\sqrt{2}} (( 1 \ 0 ) + ( 0 \ 1 )) = \frac{1}{\sqrt2} ( 1 \ 1 ) \\
+         \braket{+}{\psi} &= \frac{1}{\sqrt2} (1 \ 1) \begin{pmatrix} a \\ b \end{pmatrix} = \frac{1}{\sqrt2}(a + b)
+        \end{align*}
+
+        $Prob(1) = |\braket{+}{\psi}|^2$ which is the squared magnitude of $\frac{1}{\sqrt2}(a+b)$. And the absolute square of a complex number $z$ is defined as $|z| = zz^*$ where $z^*$ is the complex conjugate.
+
+        \begin{align*}
+          Prob(1) &= \frac12 (|a|^2 + |b|^2 + ab^* + a^*b) \\
+                  &= \frac12 (1 + ab* + a^*b) \\
+                  &= \frac12 (1 + 2Re(ab^*)) \ a^*b \text{ is the complex conjugate of } ab^* \\
+                  &= \frac12 + Re(ab^*)
+        \end{align*}
+
+        The second probability Prob($\frac12$) can be calculated like so:
+
+        \begin{align*}
+         \bra{-} &= \frac{1}{\sqrt2} (\bra{0} - \bra{1}) = \frac{1}{\sqrt2}(1 \ -1) \\
+         \braket{-}{\psi} &= \frac{1}{\sqrt2}(1 \ -1) \begin{pmatrix} a \\ b \end{pmatrix} = \frac{1}{\sqrt2} (a -b)
+        \end{align*}
+
+        Using the same logic from Prob(1) where $\braket{-}{\psi}$ is just the squared magnitude of $\frac{1}{\sqrt2}(a-b)$, and the absolute square of a complex number $z$ is defined as $|z| = zz^*$ where $z^*$ is the complex conjugate, we can write out the following:
+
+        \begin{align*}
+          Prob(\frac12) &= \frac12 (|a|^2 + |b|^2 - ab^* - a^*b) \\
+                  &= \frac12 (1 - (ab* + a^*b)) \\
+                  &= \frac12 (1 - 2Re(ab^*)) \ a^*b \text{ is the complex conjugate of } ab^* \\
+                  &= \frac12 - Re(ab^*)
+        \end{align*}
+
+        As a sanity check, if we add these two probabilities together, we should get 1:
+
+        $$
+        \frac12 + Re(ab^*) + \frac12 - Re(ab^*) = 1
+        $$
+
+      \end{enumerate}
+
+    \item{Consider a state of two qubits $\ket{\psi} = \frac12 \ket{00} + \frac12 \ket{01} - \frac{i}{\sqrt2} \ket{11}$.}
+
+      \begin{enumerate}
+        \item{If you were to label the basis of 4-dimensional complex space in the following order: $\ket{00} \ket{01} \ket{10} \ket{11}$ what are the vector forms of $\ket{\psi}$ and $\bra{\psi}$?}
+
+          For $\ket{\psi}$ the basis is defined by the coefficients which can be written in column vector form as such:
+
+          \begin{equation*}
+            \ket{\psi} = \begin{pmatrix} \frac12 \\ \frac12 \\ 0 \\ -\frac{i}{\sqrt2} \end{pmatrix} \\
+          \end{equation*}
+
+          For $\bra{\psi}$, this can be represented as the complex conjugate of the column vector rewritten as a row vector:
+
+          \begin{equation*}
+            \bra{\psi} = ( \frac12 \ \frac12 \ 0 \ \frac{i}{\sqrt2})
+          \end{equation*}
+
+        \item{If you were to label the basis of 4-dimensional complex space in the following order: $\ket{00} \ket{10} \ket{01} \ket{11}$ what are the vector forms of $\ket{\psi}$ and $\bra{\psi}$?}
+
+          \begin{align*}
+            \ket{\psi} &= \begin{pmatrix} \frac12 \\ 0 \\ \frac12 \\ -\frac{i}{\sqrt2} \end{pmatrix} \\
+              \bra{\psi} &= ( \frac12 \ 0 \ \frac12 \ \frac{i}{\sqrt2})
+          \end{align*}
+
+        \item{If you were to label the basis of 4-dimensional complex space in the following order: $\ket{00} \ket{01} \ket{10} \ket{11}$ what is the matrix form of density operator $\rho = \ket{\psi} \bra{\psi}$?}
+
+          $\rho$ is a $4 \times 4$ matrix formed by the outer product of $\ket{\psi}\bra{\psi}$.
+
+          \begin{align*}
+            \ket{\psi}\bra{\psi} &= \begin{pmatrix} \frac12 \\ \frac12 \\ 0 \\ -\frac{i}{\sqrt2} \end{pmatrix} \begin{pmatrix} \frac12 \ \frac12 \ 0 \ -\frac{i}{\sqrt2} \end{pmatrix} \\
+                                 &= \begin{pmatrix}
+                                   \frac14 & \frac14 & 0 & \frac{i}{2\sqrt2} \\
+                                   \frac14 & \frac14 & 0 & \frac{i}{2\sqrt2} \\
+                                   0 & 0 & 0 & 0 \\
+                                   -\frac{i}{2\sqrt2} & -\frac{i}{2\sqrt2} & 0 & \frac12 \\
+                                 \end{pmatrix}
+         \end{align*}
+
+        \item{Is $\ket{\psi}$ a separable state or entangled state?}
+
+          $\ket{\psi}$ is separable if it can be written as $(a\ket{0} + b\ket{1}) \otimes (c\ket{0} + d\ket{1})$ for some $a,b,c,d$.
+
+          For $\ket{\psi} = \frac12 \ket{00} + \frac12 \ket{01} - \frac{i}{\sqrt2} \ket{11}$, the coefficients are as follows:
+
+          \begin{equation*}
+            ac = \frac12, \ ad = \frac12, \ bc = 0, \ bd = -\frac{i}{\sqrt2}
+          \end{equation*}
+
+          With case $b = 0$, the equation $bd = -\frac{i}{\sqrt2} \ne 0$.
+
+          With case $c = 0$, $ac = \frac12 \ne 0$.
+
+          This state does not follow $(a\ket{0} + b\ket{1}) \otimes (c\ket{0} + d\ket{1})$, and therefore this state is entangled and cannot be separated.
+
+      \end{enumerate}
+
+    \item{Recall the quantum gate notation and diagrams, and consider the following circuit (not shown in my homework, but assume that it is there).}
+
+      \begin{enumerate}
+        \item{What is the output of the above circuit?}
+
+          Applying Hadamard gate to the first qubit:
+
+          \begin{equation*}
+            \frac{1}{\sqrt2} (\ket{0} + \ket{1}) \otimes \frac{1}{\sqrt2} (\ket{0} + \ket{1})
+          \end{equation*}
+
+          Apply CNOT gate:
+
+          \begin{align*}
+            &= \frac{1}{2}[(\ket{0} + \ket{1}) \otimes (\ket{0} + \ket{1})] \\
+            &= \frac{1}{2} (\ket{00} + \ket{01} + \ket{01} + \ket{11}) \\
+            &= \frac{1}{2} (\ket{00} + \ket{01} + \ket{11} + \ket{10}) \ \text{CNOT applied}
+          \end{align*}
+
+          Apply phase change $e^{i\pi/4}$:
+
+          \begin{align*}
+            \frac{1}{2}(\ket{00} + \ket{10} + \ket{01} + e^{i\pi/4}\ket{11})
+          \end{align*}
+
+        \item{We measure the second qubit on the computational basis $\{\ket{0}, \ket{1}\}$ at the end of computation. After the measurement, what are the possible states of the first qubit, and the associated probabilities?}
+
+          The equation is:
+
+          \begin{equation*}
+            \frac{1}{\sqrt2}(\ket{0}\ket{+} + \ket{1} \frac{1}{\sqrt2}(\ket{0} + e^{i\pi/4}\ket{1}))
+          \end{equation*}
+
+          For qubit 2 = 0:
+
+          \begin{equation*}
+            \frac12 \ket{00} + \frac12 \ket{10} = \frac12 (\ket{0} + \ket{1}) \otimes \ket{0} \\
+          \end{equation*}
+
+          For qubit 1 = 0:
+
+          \begin{equation*}
+            \frac12 \ket{01} + \frac12 e^{i\pi/4} \ket{11} = \frac12 (\ket{0} + e^{i\pi/4} \ket{1}) \otimes \ket{1}
+          \end{equation*}
+
+          The probability of an outcome = squared length ($\braket{\psi} = \sum |c_i^2|$)
+
+          For qubit 2 = 0:
+
+          \begin{equation*}
+            |\frac12|^2 + |\frac12|^2 = \frac12
+          \end{equation*}
+
+          For qubit 2 = 1:
+
+          \begin{align*}
+            &|\frac12|^2 + |e^{i\pi/4}|^2 \\
+            &=\frac14 + \sqrt{\cos(\pi/4)^2 + \sin(\pi/4)^2} \\
+            &= \frac14 + \frac14 = \frac12
+          \end{align*}
+
+          Normalizing the branches:
+
+          \begin{align*}
+            k^2 \cdot \frac12 &= 1 \\
+            k^2 &= 2 \\
+            k &= \sqrt2 \\
+            \frac{1}{\sqrt2}(\ket{0} &+ e^{i\pi/4}\ket{1}
+          \end{align*}
+
+          Apply to qubit 2 = 0:
+
+          \begin{equation*}
+            \sqrt2 (\frac12 \ket{0} + \frac12 \ket{1}) \\= \frac{1}{\sqrt2} (\ket{0} + \ket{1})
+          \end{equation*}
+
+          Apply to qubit 2 = 1:
+
+          \begin{align*}
+            \sqrt2 (\frac12 \ket{0} + \frac12 e^{i\pi/4} \ket{1}) \\= \frac{1}{\sqrt2} (\ket{0} + e^{i\pi/4} \ket{1})
+          \end{align*}
+
+          Measuring qubit 2 to get the outcome of 0: probability $\frac12$, and qubit 1 collapses to $\frac{1}{\sqrt2} (\ket{0} + \ket{1})$
+
+          Measuring qubit 2 to get the outcome of 1: probability $\frac12$, and qubit 1 collapses to $\frac{1}{\sqrt2} (\ket{0} + e^{i\pi/4} \ket{1})$
+          
+
+      \end{enumerate}
+    
 \end{enumerate}
 
 \end{document}
