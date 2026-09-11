@@ -1,0 +1,319 @@
+l\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+}
+
+% headers + footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\lhead{\textit{CSCI 5832: Natural Language Processing}}
+\cfoot{\thepage}
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+
+% ----------- TITLE ------------
+
+\begin{titlepage}
+\centering
+\vspace*{\fill}
+
+{\huge Natural Language Processing \par}
+
+\vspace{20pt}
+
+% ----------- COURSE DESCRIPTION ------------
+
+\begin{center}
+\begin{minipage}{0.85\textwidth}
+Lecture notes from my graduate level Quantum Computing class taught by professor James H. Martin at the University of Colorado Boulder. This course covers a range of topics in natural language processing including, but not limited to: probabilistic language modeling, text classification, vector semantics, neural networks, large language models, and transformer architecture. The textbook used is the 3rd Edition of \textit{Speech and Language Processing} by Dan Jurafsky and James H. Martin. The draft of the 3rd edition can be found here: \url{https://web.stanford.edu/~jurafsky/slp3/}
+\vspace{20pt}
+
+\textit{Disclaimer}: This document will contain mistakes such as typos, errors, etc. These were taken during the process of learning a new subject, so do what you will with that information.
+\end{minipage}
+\end{center}
+
+\vspace*{\fill}
+
+\noindent\rule{10cm}{0.4pt}
+
+Fall Semester 2026
+
+University of Colorado Boulder
+\end{titlepage}
+
+% ----------- TABLE OF CONTENTS ------------
+
+\newpage
+\pagenumbering{gobble} 
+\tableofcontents
+\newpage
+
+% ----------- LECTURE NOTES ------------
+
+\pagenumbering{arabic}
+\raggedright
+
+\section{What is NLP?}
+
+\begin{itemize}
+  \item
+    any language tech involved with generating, manipulating, etc.
+    \begin{itemize}
+      \item
+        e.g. spellcheck, dictation, translation, text-to-speech
+    \end{itemize}
+
+  \item
+    \textbf{Computational Linguistics}: modeling human language using computers so we can understand how languages work
+    \begin{itemize}
+      \item
+        linked to psychology, philosophy, and cognitive science.
+    \end{itemize}
+\end{itemize}
+
+\subsection{The Three Pillars of Modern NLP}
+
+\begin{itemize}
+  \item
+    \textbf{Probabilistic language models}: systems that assign probability distributions over possible next words.
+    
+  \item
+    \textbf{Neural Networks}: the fundamental computational mechanism. Modeled after neurons turning into deep architectures optimized via gradient descent.
+
+  \item
+    \textbf{Embeddings:} vector-based representations where meaning is mapped as a point in high-dimensional continuous space.
+\end{itemize}
+
+\section{Words, Lexicons, Morphology}
+
+\begin{itemize}
+  \item
+    drives LLMS these days
+
+  \item
+    fundamental bridge from linguistic forms to underlying conceptual representations
+
+  \item
+    \textbf{type}: entries in vocab/lexicon
+
+  \item
+    how do we manage words/tokens?
+\end{itemize}
+
+\subsection{Morphology}
+
+\begin{itemize}
+  \item
+    the study of the ways words are built up from smaller units called morphemes.
+
+  \item
+    \textbf{Two classes of morphemes}:
+    \begin{itemize}
+      \item
+        \textbf{stems}: the core meaning-bearing unit
+      \item
+        \textbf{affixes}: bits and pieces that attach to stems but do not change the core meaning of the word
+        example: "star\_s" with the core being "star" and the "-s" being the plural affix we attach.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Inflectional morphology}
+
+the combination of stems and affixes where the resulting word...
+
+\begin{itemize}
+  \item
+    has the same word class
+  \item serves a grammatical purpose that is
+    \begin{itemize}
+      \item
+        different from the original
+      \item
+        transparently related to the original
+        \begin{itemize}
+          \item "walk" + "ing" = walking
+          \item "cat" + "s" = cats
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Derivational morphology}
+
+messy stuff that nobody ever "taught" when learning english
+
+\begin{itemize}
+  \item
+    wide variety of affixes
+    \begin{itemize}
+      \item
+        -al, -tion, -ee, -er, -ant, -ness
+      \item
+        anti-, un-, non-
+    \end{itemize}
+
+    \item
+      quasi-systematic rules
+
+    \item 
+      irregular meaning change
+      
+    \item
+      changes of word class
+\end{itemize}
+
+\subsection{Language classification}
+
+\begin{itemize}
+  \item
+    \textbf{Genetically}: groups based on family history
+  \item
+    \textbf{Areal}: geographical occurences
+  \item
+    \textbf{Typological}: shares grammar, morphology, phonology, syntax, etc.
+\end{itemize}
+
+\subsection{Morphological Typology}
+
+groups languages based on aspects of morphology
+
+\paragraph{Isolating vs Synthetic}
+
+\begin{itemize}
+  \item
+    \textbf{Isolating}: one morpheme per word
+  \item
+    \textbf{Synthetic}: lots of morphemes per word
+\end{itemize}
+
+\paragraph{Agglutinating vs fusional}
+
+\begin{itemize}
+  \item
+    \textbf{Agglutinating}: form words by concatenating stems with affixes to form words (with prefixes, suffixes, infixes)
+  \item
+    \textbf{Fusional}: allow morphemes to change form upon inflection; harder to isolate them
+\end{itemize}
+
+\subsubsection{Computational morphology}
+
+Morphological analysis takes surface form and returns the stem with a set of morphological features rather than segmenting the surface form.
+
+\subsection{Vocabulary}
+
+\begin{itemize}
+  \item
+    a vocabulary is the set of words a system has access to
+  \item
+    the minimal units of processing in an input that has some semblance of meaning attached to it.
+\end{itemize}
+
+\paragraph{What should such a vocabulary (or lexicon) consist of?}
+
+\begin{itemize}
+  \item all the words in a language?
+  \item all the words in some comprehensive dictionary?
+  \item some subset?
+\end{itemize}
+
+\subsection{Corpora}
+
+\begin{enumerate}
+  \item
+    Collect a big bunch of text.
+  \item
+    Figure out the words that appear in it.
+  \item
+    That's your vocabulary
+\end{enumerate}
+
+\paragraph{Dimensions}
+
+\begin{itemize}
+  \item
+    \textbf{Language}: dialects, creoles, pidgins, etc.
+  \item
+    \textbf{Provenance}: how was it obtained? Consent? Legal?
+  \item
+    \textbf{Genre}: Newswire, fiction, non-fiction, scientific articles, Wikipedia
+  \item
+    \textbf{Demographics}: Writer's age, gender, race, socioeconomic status, etc.
+  \item
+    \textbf{Medium}: Spoken, written, captioned, video
+  \item
+    \textbf{Writing system}: Over 350 systems in use
+\end{itemize}
+
+\paragraph{How many words are there?}
+
+N = number of mentions
+V = vocabulary = set types ($|V|$ is the size of the vocab)
+
+\subsection{Heap's Law}
+
+\[
+  |V| = kN^{\beta}
+\]
+
+Where $k$ and $\beta$ are free variables. Usually $k$ between 10 and 100 and $\beta$ between 0.6 and 0.7.
+
+\begin{itemize}
+  \item Size of the vocabulary grows \underline{somewhat faster} that the square root of the corpus size
+  \item The rate of the vocabulary growth slows as corpus grows, but never \underline{flattens out}.
+\end{itemize}
+
+\subsection{Issues in Normalization/Tokenization}
+
+\begin{itemize}
+  \item Hong Kong $\rightarrow$ one word? two?
+  \item m.p.g $\rightarrow$ is this even a word?
+  \item IRA, I.R.A $\rightarrow$ expand? keep out?
+\end{itemize}
+
+\subsection{Sentence Segmentation}
+
+Tokenization, morphology, and further syntactic processing first requires sentence segmentation
+
+\begin{itemize}
+  \item
+    Easy in English. Punctuation is used to mark sentence boundaries.
+
+    \begin{itemize}
+      \item "!", "?" are relatively unambiguous.
+      \item Periods can be. Like "Dr.", "I.R.A", etc.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Multilingual issues in Normalization}
+
+English is not the only language out there, and there are several problems that need to be faced.
+
+\begin{itemize}
+  \item Code switching -- "Chinglish", "Spanglish", etc.
+  \item Writing systems -- Latin, Chinese, Arabic
+  \item Complex morphology -- 
+  \item Sentence segmentation -- Chinese, Thai, Japanese do not use spaces to separate words
+\end{itemize}
+
+
+% ----------- NOTHING AFTER THIS LINE ------------
+\end{document}
