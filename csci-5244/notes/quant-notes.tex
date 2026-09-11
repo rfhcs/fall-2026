@@ -1,0 +1,293 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+}
+
+% headers + footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\lhead{\textit{CSCI 5244: Quantum Computing}}
+\cfoot{\thepage}
+
+% custom commands
+\newcommand{\ket}[1]{\vert #1 \rangle}
+\newcommand{\bra}[1]{\langle #1 \vert}
+\newcommand{\braket}[2]{\langle #1 \vert #2 \rangle}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+
+% ----------- TITLE ------------
+
+\begin{titlepage}
+\centering
+\vspace*{\fill}
+
+{\huge Quantum Computing \par}
+
+\vspace{20pt}
+
+% ----------- COURSE DESCRIPTION ------------
+
+\begin{center}
+\begin{minipage}{0.85\textwidth}
+Lecture notes from my graduate level Quantum Computing class taught by professor Lijun Chen at the University of Colorado Boulder. This course covers a range of foundational topics in quantum computation and information including: basics to quantum mechanics, entanglement, quantum optimization and machine learning, reliable and scalable quantum computing, and quantum communication and networking. There is no official textbook we are using, but rather a bunch of lecture slides from various undergrad and grad courses.
+
+\vspace{20pt}
+
+\textit{Disclaimer}: This document will contain mistakes such as typos, errors, etc. These were taken during the process of learning a new subject, so don't take these notes too seriously.
+\end{minipage}
+\end{center}
+
+\vspace*{\fill}
+
+\noindent\rule{10cm}{0.4pt}
+
+Fall Semester 2026
+
+University of Colorado Boulder
+
+\end{titlepage}
+
+% ----------- TABLE OF CONTENTS ------------
+
+\newpage
+\pagenumbering{gobble} 
+\tableofcontents
+\newpage
+
+% ----------- LECTURE NOTES ------------
+
+\pagenumbering{arabic}
+\raggedright
+
+\section{Basics of Quantum Mechanics}
+
+\subsection{Bit vs qubit}
+
+A bit is the basic unit of computation that takes a value of a 0 or a 1. Think of it as a two-state system: on or off, low or high etc.
+
+The quantum bit (qubit) is a basic unit of information that takes in two-dimensional complex vector space.
+
+\begin{equation}
+  \ket{\psi} = a\ket{0} + b\ket{1}, \abs{a}^2 + \abs{b}^2 = 1
+\end{equation}
+
+\begin{itemize}
+  \item $\ket{0}$ and $\ket{1}$: elements of an orthonormal basis
+  \item $a, b \in \mathbb{C}$ are the probability amplitudes which must satisfy $\sum_i \abs{a}^2 = 1$
+  \item if measured onto the basis, $\ket{0}$ is obtained with a probability $\abs{a}^2$ and $\ket{1}$ with probability $\abs{b}^2$
+\end{itemize}
+
+\subsection{Basics of Quantum Mechanics}
+
+\begin{itemize}
+  \item how do we represent a quantum state?
+  \item how to represent an observable?
+  \item how does a quantum system evolve over time?
+  \item what operations can we do on a quantum system?
+  \item how do we combine quantum systems?
+\end{itemize}
+
+\subsubsection{States}
+A state is a complete description of a physical system. A state in quantum mechanics is defined as a unit vector in Hibert space, denoted by $\ket{\psi}$ (Dirac's ket notation).
+
+\begin{itemize}
+  \item a vector space over complex numbers $\mathbb{C}$
+  \item \textbf{Inner Product}: $\braket{\psi}{\phi}$ that maps an ordered pair of vectors to $\mathbb{C}$ and that has these properties:
+    \begin{itemize}
+      \item Positivity: $\braket{\psi}{\psi} > 0$ for $\ket{\psi} \ne 0$
+      \item Skew symmetry: $\braket{\psi}{\phi} = \braket{\phi}{\psi}$
+    \end{itemize}
+  \item \textbf{Normalization}: $||\ket{psi}|| = \sqrt{\braket{\psi}{\psi}}$ 
+  \item \textbf{Global phase}: $\ket{\psi}$ and $e^{ia}\ket{\psi}, a \in \mathbb{R}$ are indistinguishable
+\end{itemize}
+
+Suppose there are $N$ distinguishable states. A quantum state $\ket{\psi}$ is a \textit{superposition} of these $N$ states:
+
+\begin{equation}
+  \ket{\psi} = a_1 \ket{1} + a_2 \ket{2} \cdots + a_n \ket{N}
+\end{equation}
+
+We can think of $\ket{\psi}$ as the unit vector:
+
+\[
+\begin{bmatrix}
+  a_1 \\
+  a_2 \\
+  \cdots \\
+  a_N
+\end{bmatrix}
+\]
+
+With the conjugate transpose:
+
+\[
+  \bra{\psi} = (a_0^*, a_1^*, \cdots, a_n^*)
+\]
+
+So, for the two states $\ket{\psi} = a_n \ket{N}$ and $\ket{\phi} = b_n \ket{B_N}$, their \textit{inner product} is:
+
+\begin{equation}
+  \braket{\psi}{\phi} = a_1^*b_1 + \cdots + a_n^*b_n
+\end{equation}
+
+The \textit{outer product} (projection to $\ket{\psi}$ corresponds to:
+
+\[
+  \begin{bmatrix}
+    a_1 \\
+    a_2 \\
+    \cdots \\
+    a_n
+  \end{bmatrix}
+  [b_1^*, b_2^*, \cdots, b_n^*]
+\]
+
+\subsubsection{Observable}
+
+A property of a physical system that can be measured. It's defined mathematically as a self-adjoint operator on Hilbert space
+
+\begin{equation}
+  A = A^{\dagger}
+\end{equation}
+
+\begin{itemize}
+  \item can be diagonalized:
+    \begin{equation}
+      A = \sum_n a_n E_n
+    \end{equation}
+    with $a_n$ being eigenvalues of $A$, and $E_n$ is the corresponding orthogonal projection onto the space of eigenvectors with eigenvalues $a_n$.
+
+  \item self-adjoint guarantees these eigenvalues $a_n$ are \textit{real} because the measurements represent actual outcomes (not fake ones)
+
+  \item the projections satisfy: $E_n = E^{\dagger}_n$ and $E_n E_m = \delta_{n,m} E_n$ \\
+    What this means is:
+    \begin{itemize}
+      \item Hermitian (self-adjoint)
+      \item $\delta_{n,m}$ is the \textbf{Kronecker delta} which equals 1 if $n = m$ and - if $n \ne m$.\\
+    \end{itemize}
+    For case $n=m$ (idempotent) applying the same projection twice does nothing.\\
+    For case $n\ne m$ $E_nE_m = 0$. Projecting onto space $m$ and then a different space gives you nothing because the two spaces don't overlap at all. The eigenspaces are mutually perpendicular.
+\end{itemize}
+
+\subsubsection{Measurement}
+
+The measurement of an observable $A$ prepares an eigenstate $\ket{n}$ of $A$ (state collapse):
+
+\begin{itemize}
+  \item Probability of outcome $a_n$:
+    \[
+      Prob(a_n) = ||E\ket{\psi}||^2 = \bra{\psi}E\ket{\psi}
+    \]
+  \item Post-measurement state:
+    \[
+      \frac{E_n \ket{\psi}}{||E_n\ket{\psi}||} \text{(state collapse)}
+    \]
+    Note: when measured again, the outcome remains the same.
+
+  \item Expected value over many trials: $\sum_n a_n \text{Prob}(a_n) = \bra{\psi}A\ket{\psi}$
+\end{itemize}
+
+Measuring is literally projecting the state vector onto an eigenspace and normalizing.
+
+\subsubsection{Dynamics}
+
+Dynamics describe how a state evolves over time. The time evolution of a closed system is described by a \textit{unitary operator}
+
+If the initial state at time $t$ is $\ket{\psi}t$, then the final state $\ket{\psi}t'$ at time $t'$ can be expressed as
+
+\begin{equation}
+  \ket{\psi(t')} = U(t', t)\ket{\psi(t)}\ket{\psi(t)}
+\end{equation}
+
+with unitary operator satisfying
+
+\begin{equation}
+  U^{dagger}U = UU^{dagger} = I
+\end{equation}
+
+Since the unitary operator preserves inner products: $\ket{\psi'} = U\ket{\psi}$ and $\ket{\phi'} = U\ket{\phi}$, then 
+
+\begin{equation}
+  \braket{\psi'}{\phi'} = \bra{\psi}U^{\dagger}U\ket{\phi} = \braket{\psi}{\phi}
+\end{equation}
+
+
+\subsubsection{Composite system}
+
+If the Hilbert space of system $\mathcal{A}$ is $\mathcal{H}$ and $\mathcal{B}$ with $\mathcal{H}_{\mathcal{B}}$, then the Hilbert space of the composite systems $AB$ is the \textit{tensor product} $\mathcal{H}_{\mathcal{A}} \otimes \mathcal{H}_{\mathcal{B}}$
+
+\begin{equation}
+  \mathcal{H}_{\mathcal{A}\mathcal{B}} = \mathcal{H}_{\mathcal{A}} \otimes \mathcal{H}_{\mathcal{B}}
+\end{equation}
+
+\begin{itemize}
+  \item with dimension $d_{\mathcal{A}}d_{\mathcal{B}}$ and orthonormal basis $\{\ket{i}_{\mathcal{A}} \otimes \ket{j}_{\mathcal{B}}\}$
+\end{itemize}
+
+\subsubsection{Entanglement}
+
+A state like the Bell state $\frac{1}{\sqrt2}(\ket{00} + \ket{11})$ cannot be factored as a tensor product $\ket{\psi}_A \otimes \ket{\phi}_B$
+
+\subsubsection{Density matrix} When you only care about subsystem $A$, you compute expectation values $\bra{\psi M_A} \otimes I_B \ket{\psi} = tr(M_A\rho_a)$ which defines the reduced density matrix $\rho_A = tr_B \ket{\psi}\bra{\psi}$ the \textit{partial trace}.
+
+Density matrices have the following properties:
+
+\begin{itemize}
+  \item $\rho$ is self-adjoint $\rho = \rho^{\dagger}$
+  \item $\rho$ is positive i.e. $\bra{\psi}\rho\ket{\psi} \ge 0$ for any $\ket{\psi}$
+  \item $tr \rho = 1$
+  \item pure state if rank($\rho$) = 1 and mixed state otherwise
+  \item pure state if $\rho^2 = \rho$ and mixed state otherwise
+\end{itemize}
+
+\subsubsection{No cloning theorem}
+
+States that no arbitrary transformation can make a copy of an arbitrary quantum state.
+
+Take two arbitrary states $\ket{\psi}_A$ and $\ket{\phi}_A$
+
+\begin{align*}
+  U\ket{\psi}_A \ket{0}_E &= \ket{\psi}_A \ket{\psi}_E \\
+  U\ket{\phi}_A \ket{0}_E &= \ket{\phi}_A \ket{\phi}_E \\
+\end{align*}
+
+The unitary transformation preserves the inner product 
+
+\begin{equation}
+  \braket{\psi}{\phi} = \braket{\psi}{\phi}^2
+\end{equation}
+
+But $\braket{\psi}{\phi}$ = 0 or 1 which is a contradiction unless the states were already orthogonal or identical. Thus, cloning arbitrary states is algebraically impossible.
+
+
+\newpage
+
+\section{Quantum Circuits}
+
+
+
+% ----------- NOTHING AFTER THIS LINE ------------
+\end{document}
