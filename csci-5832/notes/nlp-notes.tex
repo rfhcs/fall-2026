@@ -1,4 +1,4 @@
-l\documentclass[11pt]{article}
+\documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 
 % math packages
@@ -27,6 +27,9 @@ l\documentclass[11pt]{article}
 \lhead{\textit{CSCI 5832: Natural Language Processing}}
 \cfoot{\thepage}
 
+% line spacing & formatting
+\usepackage{parskip}
+
 % ----------- DOCUMENT STARTS HERE ------------
 
 \begin{document}
@@ -46,9 +49,10 @@ l\documentclass[11pt]{article}
 \begin{center}
 \begin{minipage}{0.85\textwidth}
 Lecture notes from my graduate level Quantum Computing class taught by professor James H. Martin at the University of Colorado Boulder. This course covers a range of topics in natural language processing including, but not limited to: probabilistic language modeling, text classification, vector semantics, neural networks, large language models, and transformer architecture. The textbook used is the 3rd Edition of \textit{Speech and Language Processing} by Dan Jurafsky and James H. Martin. The draft of the 3rd edition can be found here: \url{https://web.stanford.edu/~jurafsky/slp3/}
+
 \vspace{20pt}
 
-\textit{Disclaimer}: This document will contain mistakes such as typos, errors, etc. These were taken during the process of learning a new subject, so do what you will with that information.
+\textit{Disclaimer}: This document are notes taken by the author (me) a student in graduate school as way to internalize the material I am learning in this class. As such, these notes will inevitably contain mistakes such as errors, typos, etc. as well as personal anecdotes, quips, opinions, and biases. Do what you will with that information, and as a professor once said to me "It's better not to think about it too much."
 \end{minipage}
 \end{center}
 
@@ -73,38 +77,115 @@ University of Colorado Boulder
 \pagenumbering{arabic}
 \raggedright
 
-\section{What is NLP?}
+\section{Large Language Models}
+
+A large language model is a computational system that can predict the next word from previous words. Given a context of previous words a language model assigns probabilities what the next word will be.
+
+For example, when given the sentence "so long and thanks for...", the next word that comes after that is most likely to be guess "all" or "the" (my mind immediately went to Fall Out Boy's song \textit{Thnks fr th Mmrs}, "thanks for the memories"). Unlikely words would probably be "diagonalize" or "bipartite".
+
+The language model is a large neural network that takes in context and returns a probability of the next word. We can also use this prediction to \textbf{generate} text by sampling from a distribution (we just generate a random number and choose a word based on the probability assigned to it).
+
+\subsection{What is NLP?}
+
+Any language tech involved with generating, manipulating, etc. of text.
+
+\begin{itemize}
+    \item
+      e.g. spellcheck, dictation, translation, text-to-speech
+
+\end{itemize}
+
+\textbf{Computational Linguistics}: Modeling human language using computers so we can understand how languages work
 
 \begin{itemize}
   \item
-    any language tech involved with generating, manipulating, etc.
-    \begin{itemize}
-      \item
-        e.g. spellcheck, dictation, translation, text-to-speech
-    \end{itemize}
-
-  \item
-    \textbf{Computational Linguistics}: modeling human language using computers so we can understand how languages work
-    \begin{itemize}
-      \item
-        linked to psychology, philosophy, and cognitive science.
-    \end{itemize}
+    linked to psychology, philosophy, and cognitive science.
 \end{itemize}
 
 \subsection{The Three Pillars of Modern NLP}
 
-\begin{itemize}
+\begin{enumerate}
   \item
-    \textbf{Probabilistic language models}: systems that assign probability distributions over possible next words.
-    
+    \textbf{Probabilistic Language Models}: systems that assign probability distributions over possible next words.
   \item
-    \textbf{Neural Networks}: the fundamental computational mechanism. Modeled after neurons turning into deep architectures optimized via gradient descent.
+    \textbf{Neural Networks}: the fundamental computational mechanism. Modeled after human brain neurons turning into deep architectures optimized via gradient descent.
+  \item
+    \textbf{Embeddings}: vector-based representations where meaning is mapped as a point in high-dimensional continuous space.
+\end{enumerate}
 
-  \item
-    \textbf{Embeddings:} vector-based representations where meaning is mapped as a point in high-dimensional continuous space.
+\subsection{The entire brief history of speech and language processing (I guess)}
+
+The central ideas of NLP lie way back in the 1940s to the early 60s.
+
+\subsubsection{Foundations of NLP}
+
+\begin{itemize}
+  \item Shannon (1951) developed ideas about word prediction
+  \item Labs at Cornell and Stanford were applying small NNs to computational tasks.
+  \item In 1957 psychologist Osgood proposed that a meaning of a word could be modeled by a point in space
+    \begin{itemize}
+      \item Linguists proposed that a word's meaning is related to its context.
+    \end{itemize}
 \end{itemize}
 
-\section{Words, Lexicons, Morphology}
+\subsubsection{The Symbolic Turn}
+
+\begin{itemize}
+  \item Modeling language in terms of structure appeared.
+  \item Chomsky argued against statistical modeling and neural models of a language which led to a shift in  computer science, AI, and linguistic and cognitive sciences.
+  \item Symbolic approaches become more popular.
+\end{itemize}
+
+\subsubsection{Oh my gosh! Empiricism is back!}
+
+
+The field moved back to statistical and neural models (thanks, Chomsky) lasting from 1975 and 1988 to 2017.
+
+\begin{itemize}
+  \item Speech recognition from IBM became a thing.
+    \begin{itemize}
+      \item N-gram models and algorithms were developed for this purpose
+    \end{itemize}
+  \item Improved algorithms for NN training based on error backpropagation became popular.
+    \begin{itemize}
+      \item Led to connectionist/parallel distributed processing
+    \end{itemize}
+  \item First neural language models was proposed in 2003.
+  \item Transformer architecture becomes popular for general-purpose neural architecture for various tasks
+\end{itemize}
+
+\subsubsection{Just Chat it.}
+
+Before prompting, you had to label training data to train a classifier to assign a label to data. Now you can just prmopt! What is prompting? Given an algorithm that can predict words, just type in a question and append something like "the answer is" and it would predict the answer!
+
+After this, NLP became about generation rather than algorithms that can parse/interpret text. This paved the way for \textbf{generative AI} which focuses on generation of text, images, video, speech, etc.
+
+\subsection{Linguistic Structure}
+
+Understanding human language and their properties are important for studying speech and language processing.a
+
+\subsubsection{Syntactic structure}
+
+Abstract grammar relationships between words or phrases. For example, verbs have subjects and direct objects
+
+\centering
+\textit{She announced this in January}
+
+\raggedright
+Detecting these relationships is what \textbf{parsing} can do.
+
+\subsubsection{Coreference}
+
+When a text talks about a person, it can refer to them in many ways.
+
+\centering
+\textit{Victoria, the CFO of J.P Morgan, saw her pay jump from \$2.4 million, as the 32-year old became the company's president}
+
+\raggedright
+"Victoria" is the "CFO" and the "32-year old". They refer to the same entity "Victoria", just with different ways of saying it.
+
+
+\section{Words and Tokens}
 
 \begin{itemize}
   \item
@@ -137,9 +218,9 @@ University of Colorado Boulder
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Inflectional morphology}
+\subsubsection*{Inflectional morphology}
 
-the combination of stems and affixes where the resulting word...
+The combination of stems and affixes where the resulting word...
 
 \begin{itemize}
   \item
@@ -157,9 +238,9 @@ the combination of stems and affixes where the resulting word...
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Derivational morphology}
+\subsubsection*{Derivational morphology}
 
-messy stuff that nobody ever "taught" when learning english
+Messy stuff that nobody ever "taught" when learning English
 
 \begin{itemize}
   \item
@@ -181,7 +262,7 @@ messy stuff that nobody ever "taught" when learning english
       changes of word class
 \end{itemize}
 
-\subsection{Language classification}
+\subsubsection{Language classification}
 
 \begin{itemize}
   \item
@@ -192,11 +273,11 @@ messy stuff that nobody ever "taught" when learning english
     \textbf{Typological}: shares grammar, morphology, phonology, syntax, etc.
 \end{itemize}
 
-\subsection{Morphological Typology}
+\subsubsection{Morphological Typology}
 
-groups languages based on aspects of morphology
+Groups languages based on aspects of morphology
 
-\paragraph{Isolating vs Synthetic}
+\subsubsection*{Isolating vs Synthetic}
 
 \begin{itemize}
   \item
@@ -205,7 +286,7 @@ groups languages based on aspects of morphology
     \textbf{Synthetic}: lots of morphemes per word
 \end{itemize}
 
-\paragraph{Agglutinating vs fusional}
+\subsubsection*{Agglutinating vs fusional}
 
 \begin{itemize}
   \item
@@ -214,11 +295,13 @@ groups languages based on aspects of morphology
     \textbf{Fusional}: allow morphemes to change form upon inflection; harder to isolate them
 \end{itemize}
 
-\subsubsection{Computational morphology}
+\subsubsection*{Computational morphology}
 
 Morphological analysis takes surface form and returns the stem with a set of morphological features rather than segmenting the surface form.
 
-\subsection{Vocabulary}
+\subsection{So, what is a word?}
+
+\subsubsection{Vocabulary}
 
 \begin{itemize}
   \item
@@ -227,7 +310,7 @@ Morphological analysis takes surface form and returns the stem with a set of mor
     the minimal units of processing in an input that has some semblance of meaning attached to it.
 \end{itemize}
 
-\paragraph{What should such a vocabulary (or lexicon) consist of?}
+\subsubsection*{What should such a vocabulary (or lexicon) consist of?}
 
 \begin{itemize}
   \item all the words in a language?
@@ -235,7 +318,9 @@ Morphological analysis takes surface form and returns the stem with a set of mor
   \item some subset?
 \end{itemize}
 
-\subsection{Corpora}
+\subsubsection{Corpora}
+
+Words don't just appear out of nowhere. Corpora are the representative texts that are used either generically for diverse applications or designed for a specific domain or application.
 
 \begin{enumerate}
   \item
@@ -246,7 +331,7 @@ Morphological analysis takes surface form and returns the stem with a set of mor
     That's your vocabulary
 \end{enumerate}
 
-\paragraph{Dimensions}
+\subsubsection*{Dimensions}
 
 \begin{itemize}
   \item
@@ -263,7 +348,7 @@ Morphological analysis takes surface form and returns the stem with a set of mor
     \textbf{Writing system}: Over 350 systems in use
 \end{itemize}
 
-\paragraph{How many words are there?}
+\subsubsection*{How many words are there?}
 
 N = number of mentions
 V = vocabulary = set types ($|V|$ is the size of the vocab)
@@ -281,7 +366,20 @@ Where $k$ and $\beta$ are free variables. Usually $k$ between 10 and 100 and $\b
   \item The rate of the vocabulary growth slows as corpus grows, but never \underline{flattens out}.
 \end{itemize}
 
-\subsection{Issues in Normalization/Tokenization}
+\subsection{Text Normalization and Tokenization}
+
+This is essentially the question of "how do we process a corpora and take it from messy to clean and something that we can analyze?"
+
+Normalizing text can look like
+
+\begin{itemize}
+  \item Segmenting running text into sentences
+  \item Tokenizing sentences into words
+  \item Normalizing word formats
+  \item Recognizing different scripts/languages
+\end{itemize}
+
+\subsubsection{Issues in Normalizationn}
 
 \begin{itemize}
   \item Hong Kong $\rightarrow$ one word? two?
@@ -289,7 +387,7 @@ Where $k$ and $\beta$ are free variables. Usually $k$ between 10 and 100 and $\b
   \item IRA, I.R.A $\rightarrow$ expand? keep out?
 \end{itemize}
 
-\subsection{Sentence Segmentation}
+\subsubsection{Sentence Segmentation}
 
 Tokenization, morphology, and further syntactic processing first requires sentence segmentation
 
@@ -303,17 +401,138 @@ Tokenization, morphology, and further syntactic processing first requires senten
     \end{itemize}
 \end{itemize}
 
-\subsection{Multilingual issues in Normalization}
+\subsubsection{Multilingual issues in Normalization}
 
 English is not the only language out there, and there are several problems that need to be faced.
 
 \begin{itemize}
   \item Code switching -- "Chinglish", "Spanglish", etc.
   \item Writing systems -- Latin, Chinese, Arabic
-  \item Complex morphology -- 
+  \item Complex morphology -- words built with two or more morphemes
   \item Sentence segmentation -- Chinese, Thai, Japanese do not use spaces to separate words
 \end{itemize}
 
+\subsubsection{Tokenization}
+
+Tokenization is the process of segmenting text into tokens
+
+Given a training corpus, \underline{subword tokenization} identify the base word and subwords in a vocabulary empirically.
+
+Tokens are essentially a (crude) approximation to morphemes. They are minimal units to which we can associate meaning in a model. In worst case scenarios, a word can be decomposed into characters.
+
+For tokenization to work you need two things:
+
+\begin{itemize}
+  \item A learner that takes the raw training corpus and makes a vocabulary of a specific size
+  \item A tokenizer (encoder) that takes input text and tokenizes it according to the vocabulary
+\end{itemize}
+
+\subsection{Byte-Pair Encoding (BPE)}
+
+Byte Pair Encoding works by merging neighboring tokens $k$ times to create longer and longer tokens.
+
+The core of the algorithm is
+
+\begin{itemize}
+  \item Choose the most frequently occurring adjacent pair of vocabulary items in the training corpus
+  \item Add the newly merged symbol to the vocabulary
+  \item Replace every occurrence of the adjacent pair with said merged symbol
+  \item Redo the counts
+  \item Repeat $k$ times
+\end{itemize}
+
+\subsubsection*{BPE Example}
+
+Let's see how BPE really works with this sentence that will never exist beyond this example in the English language (see: infinite monkeys with infinite typewriters)
+
+\centering
+\texttt{set\_new\_new\_renew\_reset\_renew}
+
+\raggedright
+First, we can break up the corpus into words, with their counts (including whitespace!).
+
+\begin{center}
+\begin{tabular}{ll}
+  \textbf{corpus} & \textbf{vocabulary} \\
+  2 \ \texttt{\_ n e w} & \texttt{\_, e, n, r, s, t, w} \\
+  2 \ \texttt{\_ r e n e w} & \\
+  1 \ \texttt{s e t} & \\
+  1 \ \texttt{\_ r e s e t} 
+\end{tabular}
+\end{center}
+
+The BPE will iterate and counts all pairs of adjacent symbols. The most frequent in this corpus is \texttt{ne} which occurs in "new" and "renew". We merge those symbols and recount
+
+\begin{center}
+\begin{tabular}{ll}
+  \textbf{corpus} & \textbf{vocabulary} \\
+  2 \ \texttt{\_ne w} & \texttt{\_, e, n, r, s, t, w, ne} \\
+  2 \ \texttt{\_r e ne w} & \\
+  1 \ \texttt{s e t} & \\
+  1 \ \texttt{\_ r e s e t} 
+\end{tabular}
+\end{center}
+
+Now the most frequent pair is \texttt{ne} + \texttt{w}. So we merge and recount
+
+\begin{center}
+\begin{tabular}{ll}
+  \textbf{corpus} & \textbf{vocabulary} \\
+  2 \ \texttt{\_new} & \texttt{\_, e, n, r, s, t, w, ne, new} \\
+  2 \ \texttt{\_r e new} & \\
+  1 \ \texttt{s e t} & \\
+  1 \ \texttt{\_ r e s e t} 
+\end{tabular}
+\end{center}
+
+Merge 3 \& 4 are \texttt{\_r} merge and \texttt{\_re} merge respectively.
+
+\begin{center}
+\begin{tabular}{ll}
+  \textbf{corpus} & \textbf{vocabulary} \\
+  2 \ \texttt{\_new} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re} \\
+  2 \ \texttt{\_re new} & \\
+  1 \ \texttt{s e t} & \\
+  1 \ \texttt{\_re s e t} 
+\end{tabular}
+\end{center}
+
+If we do that enough times merges 5-8 look like this
+
+\begin{center}
+\begin{tabular}{ll}
+  \textbf{merge} & \textbf{vocabulary} \\
+  \texttt{(\_, new)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new} \\
+  \texttt{(\_re, new)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew} \\
+  \texttt{(s, e)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew, se} \\
+  \texttt{(se, t)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew, se, set} \\
+\end{tabular}
+\end{center}
+
+
+
+
+\subsubsection{Multilingual issues with Tokenization}
+
+Most models are assumed to be monolingual. Multilingual models were built for the use of translation, retrieval, etc. While most frontier models have "multilingual" capabilities, they weren't built that way. It just so happens that when you treat the Internet akin to a kid in a candy store, the models "learn" other languages just by happenstance.
+
+\subsubsection{Does vocab size matter?}
+
+It does! Smaller vocabularies have lower memory requirements, but they might miss more tokens. But smaller vocabularies lead to longer inputs, because the smaller words lead to more tokens (commercial LLMs charge by token).
+
+\section{N-Gram Language Models}
+
+\subsection{What is a language model?}
+
+A language model is a machine learning model that predicts words. More elegantly, it assigns probability to each possible next word, or gives a probability distribution of upcoming words that could may or may not be possible.
+
+\subsubsection{Word Prediction}
+
+Given a certain word, we can formalize this prediction of "given this word, what is the probability of this word occurring next?" as
+
+\begin{equation*}
+  P(w_n | w_{1:n-1})
+\end{equation*}
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
