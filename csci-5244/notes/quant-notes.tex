@@ -33,8 +33,10 @@
 
 % line spacing & formatting
 \usepackage{parskip}
+\usepackage{soul}
 
 % custom commands
+\newcommand{\invsq}{\frac{1}{\sqrt{2}}}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
 % ----------- DOCUMENT STARTS HERE ------------
@@ -326,7 +328,7 @@ Mapping the Hadamard gate to $\ket{0}, \ket{1}$ would look like
 
 Quantum interference occurs when the probability amplitudes of quantum states combine to either increase or decrease the likelihood of a specific measurement.
 
-Think of it like a pond and on this pond there are rubber ducks covering the entire pond (that's a lot of rubber ducks). Now, imagine you send a ripple down this pond. The ducks would bob up and down as the ripple passed through them. Quantum interference is like sending a ripple down one end of the pond, then sprinting to a new location and creating another ripple there. Some ripples cancel out, and some get bigger. Meanwhile, all the ducks just sit on the pond, taking the waves of interference as it bobs up and down without a care in the world...
+Think of it like a pond and on this pond there are rubber ducks covering the entire pond (that's a lot of rubber ducks). Now, imagine you send a ripple down this pond. The ducks would bob up and down as the ripple passed through them. Quantum interference is like sending a ripple down one end of the pond, then sprinting to a new location and creating another ripple there. Some ripples cancel out, and some get bigger. Meanwhile, all the ducks just sit on the pond, taking the waves of interference as they bob up and down without a care in the world...
 
 Now back to quantum. An example of an interference pattern can be inversely applied using the Hadamard gate
 
@@ -502,6 +504,135 @@ This theorem answers these two questions:
 Turns out the answer to both questions is: given a universal set of quantum gates, the quantum circuit and classical circuit need to be  $\log^{O(1)1/\epsilon}$ large.
 
 \section{Quantum Algorithms}
+
+\subsection{Deutsch's Algorithm}
+
+Suppose you have a black-box function $f$ mapping a single bit to another bit, and you want to determine if $f$ is a constant function or a balanced function. In classical computation, this requires two computations. But with quantum mechanics, we can do it with one!
+
+There are four possible functions:
+
+\centering
+\begin{tabular}{c|c|c|c|c}
+  \ & $f_0$ & $f_1$ & $f_2$ & $f_3$  \\
+  \hline
+  0 & 0 & 0 & 1 & 1 \\
+  1 & 1 & 0 & 1 & 0 \\
+\end{tabular}
+
+\raggedright
+\textbf{Q: Why can't we do it with a single qubit?}
+
+A single qubit acting on $\ket{0} and \ket{1}$ would be $\begin{pmatrix} 1 & 1 \\ 0 & 0 \end{pmatrix}$ which is not a unitary matrix.
+
+With a two qubit gate, we can use unitary $B_f$ (a "phase oracle" of $f$) acting as:
+
+\[
+  B_f : \ket{x}\ket{y} \mapsto \ket{x}\ket{y \oplus f(x)}
+\]
+
+...which is always unitary because it's XOR-ing it's own inverse.
+
+\subsubsection*{Example}
+
+\centering
+\begin{quantikz}
+\lstick{0} & \gate{H} & \gate[2]{B_f} & \gate{H} & \gate{M} \\
+\lstick{1} & \gate{H} && \ \text{garbage} \\
+\end{quantikz}
+
+\raggedright
+Let's walk through the above circuit.
+
+Before applying the Hadamard gate we have
+
+\[
+  \ket{0}\ket{1}
+\]
+
+Applying the Hadamard to both yields
+
+\[
+  \ket{0}\ket{1} = \frac12 \Big[ \ket{0}(\ket{0} - \ket{1}) + \ket{1}(\ket{0} - \ket{1}) \Big]
+\]
+
+Expanding and applying $B_f$ (which turns $\ket{x}\ket{y}$ into $\ket{x}\ket{y \oplus f(x)}$, and flipping $y$ inside ($\ket{0} - \ket{1}$) just flips its overall sign when $f(x) = 1$) gives:
+
+\[
+  \frac12 \Big[\ket{0}\ket{f(0) \oplus 0} - \ket{0}\ket{f(0) \oplus \ket{1}} + \ket{1}\ket{f(1) \oplus 0} - \ket{1}\ket{f(1) \oplus \ket{1}}\Big]
+\]
+
+This can be simplified as
+
+\begin{align*}
+ &= \frac12 (-1)^{f(0)}\ket{0}(\ket{0} - \ket{1}) + \frac12 (-1)^{f(1)} \ket{1} (\ket{0} - \ket{1}) \\
+ &= \Big(\invsq(-1)^{f(0)}\ket{0} + \invsq(-1)^{f(1)}\ket{1}\Big)\Big(\invsq \ket{0} - \invsq \ket{1}\Big)
+\end{align*}
+
+Notice how the state of the second qubit has not changed! This is known as "phase kickback".
+
+We can now throw out the second qubit which leaves us with
+
+\[
+ \Big(\invsq(-1)^{f(0)}\ket{0} + \invsq(-1)^{f(1)}\ket{1}\Big)
+\]
+
+which can be written as
+
+\[
+  (-1)^{f(0)} \Big(\invsq\ket{0} + \invsq(-1)^{f(0) \oplus f(1)}\ket{1}\Big)
+\]
+
+The final Hadamard gate takes us to 
+
+\[
+  (-1)^{f(0)}\ket{f(0) \oplus f(1)}
+\]
+
+\subsection{Grover's algorithm}
+
+Suppose you have a key hidden among various boxes and you want to find the box with that specific key. Classically, in the worst case, finding this would require you to iterate over every single piece of hay. With quantum mechanics, we can lower that complexity and find it in $O(\sqrt{2^n}$ times.
+
+A more formal way of explaining this is given a function $f: \{0, 1\}^n \mapsto \{0,1\}$ with
+
+\[
+  f(x) = 
+  \begin{cases}
+    0 \ x \ne w \\
+    1 x = w
+  \end{cases}
+\]
+
+for some unknown $w$, find $w$.
+
+
+\subsubsection{Walkthrough}
+
+The function $f: \{0,1\}^n \mapsto \{0,1\}$ is implemented with the unitary transformation
+
+\[
+  U_f \ket{x}\ket{a} = \ket{x}\ket{a \oplus f(x)}
+\]
+
+where $x \in \{0,1\}^n$ and $a \in \{0,1\}$
+
+
+The oracle $U_f$ is turned into a \textit{phase oracle} which is a quantum black-box operation that marks a specific target state by multiplying them by a negative sign or a phase factor $(-1)^{f(x)}$.
+
+\[
+  U_f\ket{x}\ket{-} = (-1)^{f(x)}\ket{x}\ket{-}
+\]
+
+where $(-1)^{f(x)}$ equals 1 if $x \ne w$ and -1 if $x = w$. This is essentially saying that we leave every box alone except for the one we want the sign to flip.
+
+Ignoring the output register we can express $U_w$ as
+
+\[
+  U_w = I - 2 \ket{w}\bra{w}
+\]
+
+Given $n$-qubit state we can express this as
+
+
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
