@@ -534,5 +534,127 @@ Given a certain word, we can formalize this prediction of "given this word, what
   P(w_n | w_{1:n-1})
 \end{equation*}
 
+With the definition of conditional probabilities
+
+\begin{align*}
+  P(B|A) &= \frac{P(A,B)}{P(A)} \\
+  P(A,B) &= P(A)P(B|A)
+\end{align*}
+
+...as well as the \textbf{Chain Rule} we can think of word prediction as a sequence of a joint event
+
+\begin{align*}
+  P(w_{1:n}) &= P(w_1)P(w_2|w_1)P(w_3|w_2,w_1) \dots P(w_n | w_1 \dots w_{1:n-1}) \\
+             &= \prod_{i=1}^n P(w_i | w_{1:i-1})
+\end{align*}
+
+\textbf{Problem}: The Chain Rule can suggest that the probability of a given word consists of the joint probability of multiplying a number of conditional probabilities, but language is creative, and a sentence can really just appear out of nowhere. (There are definitely some sentences that I have had the horror of experiencing that I don't ever want to experience again).
+
+\subsubsection{The Markov assumption}
+
+Ok, so we can't count the probability of \textit{all} the previous words, but what about about narrowing that scope? What about if we predict a word based on the last word? Last two? Three?
+
+\subsubsection*{The bigram model}
+
+The bigram model gives us a probability of the next word given \textbf{just} the previous word $P(w_n|w_{n-1})$.
+
+The assumption that the probability of a word depends just on the previous word is called a \textbf{Markov} assumption.
+
+\subsubsection*{General cases}
+
+Bigram version
+
+\begin{align*}
+  P(w_i|w_{i:1} \approx P(w_i | w_{i:i-1})
+\end{align*}
+
+Trigram version
+
+\begin{align*}
+  P(w_i|w_{i:1}) \approx P(w_i | w_{i-2:i-1})
+\end{align*}
+
+General case
+
+\begin{align*}
+  P(w_i|w_{i:1}) \approx P(w_i | w_{i-(N-1):i-1})
+\end{align*}
+
+Combining this with the Markov assumption and we get
+
+\[
+  P(w_{1:n}) \approx \prod_{i=1}^n P(w_i|w_{i-(N-1):i-1})
+\]
+
+
+\subsection{Smoothing}
+
+Language is such an interesting thing. Because of this, when training a language model, sometimes a probability of two words being together like "sincere politician" may appear in the test set, but not the training set! This would make the probability that bigram 0.
+
+To deal with this we can use \underline{smoothing} which is just -- as Professor Martin put it -- stealing too much from the rich and giving it to the poor.
+
+\subsubsection{Additive smoothing}
+
+Add a little bit to all the counts and the zeroes magically go away!
+
+For unigrams it would look like
+
+\[
+  P_{+1}w = \frac{\text{Count}(w) + 1}{M+V}
+\]
+
+For bigrams
+
+\[
+  P_{+1}(w_n|w_{n-1}) = \frac{\text{Count}(w_{n-1},w_n)+1}{\text{Count}(w_{n-1})+V}
+\]
+
+\subsection{Evaluating Language Models}
+
+Best way to evaluate a model is to embed it into an application and measure its performance. This is called \textbf{extrinsic evaluation}. It's really the only way to know how well a language model will do with a given task.However, this is very expensive. So to cut costs we can do \textbf{intrinsic evaluation} which is testing the language model outside the application.
+
+To do this, we have to have three datasets: \textbf{training set}, \textbf{dev set}, \textbf{test set}.
+
+The \textbf{training set} is the dataset we use to train the model on. Like a study guide for an exam.
+
+The \textbf{test set} is the exam itself. It's what is used to evaluate the model. This dataset is distinct from the training set because we don't want the model to memorize the exam answers. We want it to study, and then test its knowledge with data it's never seen before.
+
+The \textbf{development set} is the interlude test set which we can evaluate the performance of our model before we actually use the test set. It's like a "mock-exam" per se.
+
+\subsection{Log probabilities}
+
+Using raw probabilities are related to the length of sequences and number of sentences in the test set. The more probabilities we multiply together, the smaller the number becomes.
+
+To deal with this, we use the log space to normalize and get results that are not as small. 
+
+\[
+  H(T) = -\frac1N \sum_{i=1}^N \log P(w_i|w_{i:i-1})
+\]
+
+...where $H(T)$ is the entropy.
+
+\subsubsection{Perplexity and entropy}
+
+Perplexity is traditionally THE intrinsic measure used to evaluate large language models (like the AI model Perplexity!), especially with machine translation and speech recognition.
+
+The perplexity of a model is 2 raised to the entropy!
+
+\[
+  PP(T) = 2^{H(T)}
+\]
+
+Perplexity is roughly the average number of choices that a model would have to make in guessing the next item in a sequence.
+
+\begin{itemize}
+  \item if it is 100\% certain then the perplexity is 1 (entropy of 0 since log(1)=0), because there is no choice.
+  \item if it has no information and there are $M$ choices, the perplexity is $M$ which makes sense! it's just guessing randomly.
+\end{itemize}
+
+\section{Logistic Regression and Text Classification}
+
+\subsection{Classification}
+
+
+
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
