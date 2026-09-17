@@ -6,6 +6,10 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 
+% algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
 % lists
 \usepackage{enumitem}
 
@@ -28,6 +32,7 @@
 \cfoot{\thepage}
 
 % line spacing & formatting
+\usepackage{soul}
 \usepackage{parskip}
 
 % ----------- DOCUMENT STARTS HERE ------------
@@ -362,8 +367,8 @@ V = vocabulary = set types ($|V|$ is the size of the vocab)
 Where $k$ and $\beta$ are free variables. Usually $k$ between 10 and 100 and $\beta$ between 0.6 and 0.7.
 
 \begin{itemize}
-  \item Size of the vocabulary grows \underline{somewhat faster} that the square root of the corpus size
-  \item The rate of the vocabulary growth slows as corpus grows, but never \underline{flattens out}.
+  \item Size of the vocabulary grows \ul{somewhat faster} that the square root of the corpus size
+  \item The rate of the vocabulary growth slows as corpus grows, but never \ul{flattens out}.
 \end{itemize}
 
 \subsection{Text Normalization and Tokenization}
@@ -565,7 +570,7 @@ The assumption that the probability of a word depends just on the previous word 
 Bigram version
 
 \begin{align*}
-  P(w_i|w_{i:1} \approx P(w_i | w_{i:i-1})
+  P(w_i|w_{i:1}) \approx P(w_i | w_{i:i-1})
 \end{align*}
 
 Trigram version
@@ -654,6 +659,269 @@ Perplexity is roughly the average number of choices that a model would have to m
 
 \subsection{Classification}
 
+Classification is the core of NLP. It's the task of examining an experience, event, entity and assigning it to a known class or category.
+
+By placing known things into categories, we can make good reasons to what unknown items belong in certain categories based on what we know about current members in a class.
+
+Some machine learning classifiers include:
+
+\begin{itemize}
+  \item Speech recognition
+  \item Image classification
+  \item Intrusion detection
+\end{itemize}
+
+\subsubsection{Text classification}
+
+The task of assigning a label or category to a text/document. Some examples are categorizing reviews, spam detection, authorship, etc.
+
+With language classification, each word can be thought of as a class, so \textbf{predicting the next word} can be thought of as classifying the context-thus-far into a class for each next word!
+
+\subsection{Logistic Regression}
+
+The goal of classification is to take a single input, find some useful features from the input, and then use that to predict an unknown case. 
+
+With logistic regression we are trying to classify inputs into either a positive case or negative case. Logistic regression models estimate the conditional probability of a class assignment given a text.
+
+\[
+  P(c|t)
+\]
+
+\subsubsection{Scoring}
+
+Given features and weights, we can assign a score to each class for a given function.
+
+\[
+  z = b + w_1x_1 + w_2x_2 + \dots + w_nx_n
+\]
+
+Where $b$ is a bias and $w$ are the weights assigned to each class $x$.
+
+We can think of these as vectors if we want to \st{begrudgingly} use linear algebra
+
+\begin{align*}
+  w = 
+  \begin{bmatrix}
+    w_1 \\ w_2 \\ \dots \\ w_n
+  \end{bmatrix} \
+  x =
+  \begin{bmatrix}
+    x_1 \\ x_2 \\ \dots \\ x_n
+  \end{bmatrix} \\
+\end{align*}
+
+\[
+  z = w^\top x + b
+\]
+
+We can eliminate complexity by incorporating the bias as $w_0$ with $x_0 = 1$
+
+\begin{align*}
+  w_0 &= b \\
+  x_0 &= 1 \\
+  z &= w_0x_0 + w_1x_1 + \dots + w_nx_n \\
+  z &= w^\top + x
+\end{align*}
+
+\subsubsection{The sigmoid function}
+
+Logistic regression shines with how we can convert the score we just calculated into a probability. To do this cleanly, we can squash the scores between 0 and 1 using the \ul{logistic sigmoid function}.
+
+\begin{align*}
+  P(y=1|x) &= \sigma(w^\top x) \\
+           &= \frac{1}{1+e^{-w^\top x}} \\
+  P(y=0|x) &= 1-\sigma(w^\top x)
+\end{align*}
+
+
+\subsubsection{From probabilities to odds}
+
+Now that we have probabilities calculated via the sigmoid function $p = \frac{1}{1+e^{-z}}$ let's convert it to odds.
+
+\[
+  \text{odds} = \frac{p}{1-p}
+\]
+
+Probabilities range from 0 to 1, but with odds, they range from 0 to infinity.
+
+\subsubsection{Now from odds to log odds}
+
+Everything is just logs... But they are useful!
+
+\[
+  ln(\frac{p}{1-p})
+\]
+
+By taking the log odds, we can get some nice symmetry with opposing odds
+
+
+\centering
+\begin{tabular}{ccc}
+  0.95 & 19 to 1 & 2.994 \\
+  0.5 & 1 to 19 & -2.994
+\end{tabular}
+
+\raggedright
+\subsubsection*{Logit}
+
+The "log of the odds" is often referred to as the \textbf{logit}
+
+\begin{itemize}
+  \item z scores from $w^\top x$ computation are \ul{logits}
+  \item now how do we take a logit and get a probability?
+\end{itemize}
+
+\begin{align*}
+  z &= ln(\frac{p}{1-p}) \\
+  e^z &= \frac{p}{1-p} \\
+  e^z(1-p) &= p \\
+  e^z - pe^z &= p \\
+  e^z &= p + pe^z \\
+  e^z &= p(1+e^z) \\
+  p &= \frac{1}{1+e^{-z}}
+\end{align*}
+
+
+\subsubsection*{Summary}
+
+\begin{itemize}
+  \item
+    The \ul{logit} is the log of odds of some event. The odds being the ratio of the probability of an event happening or not.
+  \item
+    The raw scores from a linear classifier are the \ul{logits}.
+  \item
+    Now, how do we come up with a learning scheme to acquire the proper weights so that our scores represent logits appropriate for a specific task?
+\end{itemize}
+
+\subsection{Loss functions}
+
+Now that we have the probability of our classifier assigning a specific class for both the binary case and all other non-binary cases (\textit{I did that on purpose}), we want to ask the question: how close are our answers to the correct answers?
+
+That's what \textbf{loss functions} are for!
+
+\subsubsection{Cross-entropy loss}
+
+\[
+  p(y|x) = \hat{y}^y (1-\hat{y})^{1-y}
+\]
+
+where $y$ is the correct answer and $\hat{y}$ is our answer.
+
+With our loss function we want \textbf{bad performance} to have high loss, and \textbf{good performance} to have low loss. So, we take the negative of the log probability assigned to the correct answer as the loss.
+
+\subsubsection*{Log of loss}
+
+Now, what do we do to every formula so far? We take the log of it!
+
+\begin{align*}
+  p(y|x) &= \hat{y}^y (1-\hat{y})^{1-y} \\
+  \log(p(y|x)) &= \log[\hat{y}^y (1-\hat{y})^{1-y}] \\
+               &= y\log\hat{y} + (1-y) \log(1-\hat{y})
+\end{align*}
+
+\begin{equation*}
+  L_{CE}(w,b) = -[y\log\sigma(w \cdot x + b) + (1-y) \log(1-\sigma(w \cdot x + b))]
+\end{equation*}
+
+Taking the log of the loss will take the range from 0 to 1 and make the range from -infinity to 0.
+
+Now taking the negative of that will take the range from -infinity to 0 and make the range 0 to infinity.
+
+So with a low probability we get a high value, and a high probability a low value. This satisfies our requirement for bad performance = high loss, good performance = low loss.
+
+\subsection{Gradient descent}
+
+Now that we can find how much loss there is, we need a way to minimize the loss by updating the weights.
+
+\begin{align*}
+  Cost(w,b) &= \frac1m \sum_{i=1}^m L_{CE}(\hat{y}^i, y^i) \\
+            &= -\frac1m \sum_{i=1}^m y^i \log\sigma(w \cdot x^i + b) + (1-y^i)\log(1-\sigma(w \cdot x^i + b))
+\end{align*}
+
+Gradient descent works by figuring out in which direction the function's slope is rising steeply, and moving it in the opposite direction. A good example that the textbook gives is if you're hiking down a canyon, you would first look around to find which direction the ground is sloping the steepest and move opposite that direction.
+
+The magnitude and direction of change that we should make to each of the weights is dictated by the \ul{derivative of the loss function}. A higher (faster) learning rate means that we should move the weight more on each step.
+
+\[
+  w_{t+1} = w_t - \mu\Delta
+\]
+
+This is just for one weight. In actual application, we have multiple weights for multiple classes. To make this happen we use the partial derivatives of the loss with respect to (wrt) the weights. This is called the \ul{gradient}.
+
+\[
+  \frac{\partial L_{CE}(w,b)}{\partial w_j} = [\sigma(w \cdots x + b)-y]x_j
+\]
+
+Essentially what this is doing is taking the difference of the computed answer $(w \cdots x + b)$ and the right answer $y$  and multiplying it by the value of the input feature for the weight being adjusted $x_j$.
+
+This can also be written as
+
+\[
+  (\hat{y}-y)x_j
+\]
+
+or
+
+\[
+  -(y-\hat{y})x_j
+\]
+
+\subsubsection{Stochastic Gradient Descent}
+
+The Stochastic Gradient Descent minimizes the loss function by computing the gradient after each training example, nudging $\theta$ in the right direction (the opposite direction of the gradient). It's called \textbf{stochastic} because it chooses a single random example at a time (which I didn't know that "stochastic" meant random, so I learned something new today!)
+
+
+\subsection{Batch training}
+
+Computing the gradient over the entire dataset. This offers a really good estimate of which direction to move the weights with the cost of not spending a lot of time on individual examples in the data.
+
+\textbf{Mini-batch} training is instead of computing the gradient over the entire dataset, we compute the gradient over an $m$ sized batch in the dataset. It's a good compromise from only one gradient update and updating the gradient after \textit{every} single iteration.
+
+\subsection{Ok, now apply it to the multinomial case}
+
+In most cases, we want to evaluate between more than just the binary cases. The easiest way to do this is assign each class it's own set of feature weights to assess the score for each class. The resulting score can be \ul{normalized} to produce a probability distribution over all the classes.
+
+\subsubsection{Softmax}
+
+To extend our current logistic classifier to the multinomial sense, we need a generalized version of the sigmoid called the \ul{softmax} function to compute $p(y_k=1|x)$.
+
+The softmax takes a vector of arbitrary attributes and maps them to a probability distribution with each value in the range of [$0, 1$] and all the values summing to 1.
+
+\[
+  P(y=c|x;w) = \frac{e^z_c}{\sum_{j=1}^k e^z_j}
+\]
+
+$e^z_c$ is the raw score of a single class $c$ which can be expanded to $z = \sigma(w_c \cdot x + b_c)$
+
+
+\[
+  p(y=c|x) = \frac{e^{w_c \cdot x + b_c}}{\sum_{j=1}^k e^{w_j \cdot x + b_j}}
+\]
+
+Given object $x$ the softmax function gives us the probability distribution over the classes.
+
+\subsubsection{Cross entropy loss in the multinomial sense}
+
+We can take the formula we used before for the binomial case and apply it for $k$ amount of classes
+
+\begin{align*}
+  L_{CE}(\hat{y}, y) &= -\sum_k=1^K y_k\log(\hat{y}_k) \\
+                     &= -log(\hat{y}_c) \\
+                     &= -\log\hat{p}(y_c=1|x) \\
+                     &= -\log \frac{exp(w_c \cdot x + b_c)}{\sum_{j=1}^K exp(w_j \cdot x + b_j)}
+\end{align*}
+
+\subsubsection{Gradient descent}
+
+For the gradient descent of a multinomial case the partial derivative turns out to just be the difference between the true value for the class $k$ (either a 1 or 0) and the probability the classifier outputs for class $k$ weighted by the value of the input $x_i$ for the $i$th element
+
+\begin{align*}
+  \partial L_{CE} &= -(y_k - \hat{y}_k)x_i \\
+                  &= -(y_k p(y_k=1|x))x_i \\
+                  &= - \Big(y_k \frac{exp(w_k \cdot x + b_k)}{\sum_{j=1}^K exp(w_j \cdot x + b_j)}\Big)x_i
+\end{align*}
+
+This is just saying if we have $k$ weights we will end up with $k$ derivatives as a vector which is the gradient.
 
 
 % ----------- NOTHING AFTER THIS LINE ------------
