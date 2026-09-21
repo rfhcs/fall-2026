@@ -1,0 +1,216 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% quantum packages
+\usepackage{braket}
+\usepackage{quantikz}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% line spacing & formatting
+\usepackage{parskip}
+\usepackage{soul}
+
+% custom commands
+\newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% title stuff
+\title{CSCI 5244: Homework Set 2}
+\date{}
+\author{Rey Stone}
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+	\item Recall Pauli X,Y,Z matrices:
+	      $\sigma_1 =
+		      \begin{pmatrix}
+			      0 & 1 \\ 1 & 0
+		      \end{pmatrix},
+		      \sigma_2 =
+		      \begin{pmatrix}
+			      0 & -i \\ i & 0
+		      \end{pmatrix},
+		      \sigma_3 =
+		      \begin{pmatrix}
+			      1 & 0 \\ 0 & -1
+		      \end{pmatrix}
+	      $
+
+	      \begin{enumerate}
+		      \item Show that for any $j \in {\{1,2,3\}}$
+		            \begin{equation*}
+			            e^{-i \theta \sigma_j} = I \cos(\theta)-i \sigma_j \sin(\theta)
+		            \end{equation*}
+
+		            It is known that ${e}^x$ can expand into the Taylor series
+		            \begin{equation*}
+			            e^x = \sum_{n=0}^{\infty} \frac{{(-x)}^k}{k!}=  1 - x + \frac{x^2}{2!} - \frac{x^3}{3} + \cdots
+		            \end{equation*}
+
+		            For Pauli matrices X, Y, Z, when powers are even they all become the identity matrix $I$:
+
+		            \begin{align*}
+			            X^2 =
+			            \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+			            \cdot
+			            \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            = I
+		            \end{align*}
+
+		            \begin{align*}
+			            Y^2 =
+			            \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+			            \cdot
+			            \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            = I
+		            \end{align*}
+
+		            \begin{align*}
+			            Z^2 =
+			            \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+			            \cdot
+			            \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            = I
+		            \end{align*}
+
+		            If we take the cubic power fo these matricse they will all turn back into themselves:
+
+		            \begin{align*}
+			             & X^2 =
+			            \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+			            \cdot
+			            \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            = I \cdot
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}  \\
+			             & Y^2 =
+			            \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+			            \cdot
+			            \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            = I \cdot
+			            \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix} \\
+			             & Z^2 =
+			            \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+			            \cdot
+			            \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+			            = I \cdot
+			            \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+			            =
+			            \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}
+		            \end{align*}
+
+		            So putting in $x = i \theta \sigma_j$ we have
+
+		            \begin{align*}
+			            e^{-i \theta \sigma_j} & = 1 - i\theta\sigma_j + \frac{{(i \theta \sigma_j)}^2}{2!} - \frac{{(i \theta \sigma_j)}^3}{3!} + \frac{{(i \theta \sigma_j)}^4}{4!} \\
+			                                   & = 1 - i\theta\sigma_j - I\frac{\theta^2}{2!} + i\sigma_j \frac{\theta^3}{3!} + I\frac{\theta^4}{4!} \cdots
+		            \end{align*}
+
+		            using how the $X^2,Y^2,Z^2 = I$ and $i^2 = -1, i^3 = -i, i^4 = 1$, etc.
+
+		            Recall that $i^2 = -1, i^3 = -i, i^4 = 1$. The Taylor series expansion of sin and cos are
+
+		            \begin{equation*}
+			            \sin x = x - \frac{x^3}{3!} + \frac{x^5}{5!} + \cdots \ \text{and} \ \cos x = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} + \cdots
+		            \end{equation*}
+
+		            So
+
+		            \begin{align*}
+			            e^{-i\theta\sigma_j} & = \Big(1 - I\frac{\theta^2}{2!} + I\frac{\theta^4}{4} \cdots \Big) - i \Big(\theta - \sigma_j\frac{\theta^3}{3!} + \sigma_j\frac{\theta^5}{5!} \cdots \Big) \\
+			                                 & = I \cos \theta - i \sigma_j \sin \theta
+		            \end{align*}
+
+		      \item Consider a system of two qubits. Denote $Z_0$ and $Z_1$ the Pauli Z matrices on qubits 0 and 1, respectively. Show that the unitary transformation $U(\theta) = e^{-i\theta Z_0 Z_1}$ can be implemented by the following circuit with $R_z(\theta) = e^{-i\theta\sigma_3}$
+
+		            \centering
+		            \begin{quantikz}
+			            \lstick{$0$} && \ctrl{1} && \ctrl{1} && \\
+			            \lstick{$1$} && \targ{} & \gate{R_z(\theta)} & \targ{} &&
+		            \end{quantikz}
+
+		            \raggedright
+		            We want to show that this circuit implements the unitary transformation $U(\theta) = e^{-i \theta Z_0 Z_1}$.
+
+		            Since $Z\ket{0} = \ket{0}$ and $Z\ket{1} = -\ket{1}$ for any basis state $\ket{x_0 x_1}$
+
+		            \begin{equation*}
+			            Z_0 Z_1 \ket{x_0 x_1} = {(-1)}^{x_0 \otimes x_1} \ket{x_0 x_1}
+		            \end{equation*}
+
+		            Using $R_z(\theta) = I \cos(\theta) - i \sigma_3 \sin(\theta)$ from part (a), we get $R_z(\theta)\ket{0} = e^{-i \theta}$ and $R_z(\theta)\ket{1} = e^{i\theta}\ket{1}$. Below is the trace of the basis state through each gate:
+
+		            \centering
+		            \begin{tabular}{l c c r}
+			            Input      & After CNOT & After $R_z(\theta)$     & After CNOT              \\
+			            \hline
+			            $\ket{00}$ & $\ket{00}$ & $e^{-i \theta}\ket{00}$ & $e^{-i \theta}\ket{00}$ \\
+			            $\ket{01}$ & $\ket{01}$ & $e^{i \theta}\ket{01}$  & $e^{i \theta}\ket{00}$  \\
+			            $\ket{10}$ & $\ket{11}$ & $e^{i \theta}\ket{11}$  & $e^{i \theta}\ket{10}$  \\
+			            $\ket{11}$ & $\ket{10}$ & $e^{-i \theta}\ket{10}$ & $e^{-i \theta}\ket{11}$ \\
+		            \end{tabular}
+
+		            In every case the circuit output matches $e^{-i \theta Z_0 Z_1}$ exactly, thus this circuit implements the unitary transformation $U(\theta) = e^{-i \theta Z_0 Z_1}$.
+
+	      \end{enumerate}
+
+	\item \textbf{Amplitude Amplification} Given a unitary operator $U$ on a system of $n$ qubits:
+
+	      \begin{align*}
+		      U\ket{o^{\otimes n}} = \cos 2\theta \ket{\Psi_1} - \sin 2\theta \ket{\Psi_0}
+	      \end{align*}
+
+	      where $\braket{\Psi_0 | \Psi_0} = \braket{\Psi_1 | \Psi_1} = 1$ and $\braket{\Psi_0 | \Psi_1} = 0$. Define $S_1 = I - 2 \ket{\Psi_1} \bra{\Psi_1}$, and $S_i = I - 2 \ket{0^{\otimes n}} \bra{0^{\otimes n}}$, and $Q = -US_i U^{-1}S_1$.
+
+	      \begin{enumerate}
+		      \item Show that
+		            \begin{align*}
+			            Q\ket{\Psi_1} & = \cos 2\theta\ket{\Psi_1} - \sin 2\theta\ket{\Psi_0} \\
+			            Q\ket{\Psi_0} & = \sin 2\theta\ket{\Psi_1} + \cos 2\theta\ket{\Psi_0} \\
+		            \end{align*}
+
+		            Implies the two-dimensional space spanned by $\ket{\Psi_0}$ and $\ket{\Psi_1}$ is invariant under operator $Q$.
+
+		      \item Show that
+
+		            \begin{equation*}
+			            Q^k U\ket{O^{\otimes n}} = \cos(2k + 1)\theta \ket{\Psi_0} + \sin(2k+1)\theta\ket{\Psi_1}, k \in \mathbb{Z}_+
+		            \end{equation*}
+
+	      \end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}

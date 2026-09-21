@@ -42,38 +42,38 @@
 % ----------- TITLE ------------
 
 \begin{titlepage}
-\centering
-\vspace*{\fill}
+	\centering
+	\vspace*{\fill}
 
-{\huge Natural Language Processing \par}
+	{\huge Natural Language Processing \par}
 
-\vspace{20pt}
+	\vspace{20pt}
 
-% ----------- COURSE DESCRIPTION ------------
+	% ----------- COURSE DESCRIPTION ------------
 
-\begin{center}
-\begin{minipage}{0.85\textwidth}
-Lecture notes from my graduate level Quantum Computing class taught by professor James H. Martin at the University of Colorado Boulder. This course covers a range of topics in natural language processing including, but not limited to: probabilistic language modeling, text classification, vector semantics, neural networks, large language models, and transformer architecture. The textbook used is the 3rd Edition of \textit{Speech and Language Processing} by Dan Jurafsky and James H. Martin. The draft of the 3rd edition can be found here: \url{https://web.stanford.edu/~jurafsky/slp3/}
+	\begin{center}
+		\begin{minipage}{0.85\textwidth}
+			Lecture notes from my graduate level Quantum Computing class taught by professor James H. Martin at the University of Colorado Boulder. This course covers a range of topics in natural language processing including, but not limited to: probabilistic language modeling, text classification, vector semantics, neural networks, large language models, and transformer architecture. The textbook used is the 3rd Edition of \textit{Speech and Language Processing} by Dan Jurafsky and James H. Martin. The draft of the 3rd edition can be found here: \url{https://web.stanford.edu/~jurafsky/slp3/}
 
-\vspace{20pt}
+			\vspace{20pt}
 
-\textit{Disclaimer}: This document are notes taken by the author (me) a student in graduate school as way to internalize the material I am learning in this class. As such, these notes will inevitably contain mistakes such as errors, typos, etc. as well as personal anecdotes, quips, opinions, and biases. Do what you will with that information, and as a professor once said to me "It's better not to think about it too much."
-\end{minipage}
-\end{center}
+			\textit{Disclaimer}: This document are notes taken by the author (me) a student in graduate school as way to internalize the material I am learning in this class. As such, these notes will inevitably contain mistakes such as errors, typos, etc., as well as personal anecdotes, quips, opinions, and biases. Do what you will with that information, and as a professor once said to me ``It's better not to think about it too much''.
+		\end{minipage}
+	\end{center}
 
-\vspace*{\fill}
+	\vspace*{\fill}
 
-\noindent\rule{10cm}{0.4pt}
+	\noindent\rule{10cm}{0.4pt}
 
-Fall Semester 2026
+	Fall Semester 2026
 
-University of Colorado Boulder
+	University of Colorado Boulder
 \end{titlepage}
 
 % ----------- TABLE OF CONTENTS ------------
 
 \newpage
-\pagenumbering{gobble} 
+\pagenumbering{gobble}
 \tableofcontents
 \newpage
 
@@ -86,7 +86,7 @@ University of Colorado Boulder
 
 A large language model is a computational system that can predict the next word from previous words. Given a context of previous words a language model assigns probabilities what the next word will be.
 
-For example, when given the sentence "so long and thanks for...", the next word that comes after that is most likely to be guess "all" or "the" (my mind immediately went to Fall Out Boy's song \textit{Thnks fr th Mmrs}, "thanks for the memories"). Unlikely words would probably be "diagonalize" or "bipartite".
+For example, when given the sentence ``so long and thanks for \ldots'', the next word that comes after that is most likely to be guess ``all'' or ``the'' (my mind immediately went to Fall Out Boy's song \textit{Thnks fr th Mmrs}, ``thanks for the memories''). Unlikely words would probably be ``diagonalize'' or ``bipartite''.
 
 The language model is a large neural network that takes in context and returns a probability of the next word. We can also use this prediction to \textbf{generate} text by sampling from a distribution (we just generate a random number and choose a word based on the probability assigned to it).
 
@@ -95,27 +95,27 @@ The language model is a large neural network that takes in context and returns a
 Any language tech involved with generating, manipulating, etc. of text.
 
 \begin{itemize}
-    \item
-      e.g. spellcheck, dictation, translation, text-to-speech
+	\item
+	      e.g., spellcheck, dictation, translation, text-to-speech
 
 \end{itemize}
 
 \textbf{Computational Linguistics}: Modeling human language using computers so we can understand how languages work
 
 \begin{itemize}
-  \item
-    linked to psychology, philosophy, and cognitive science.
+	\item
+	      linked to psychology, philosophy, and cognitive science.
 \end{itemize}
 
 \subsection{The Three Pillars of Modern NLP}
 
 \begin{enumerate}
-  \item
-    \textbf{Probabilistic Language Models}: systems that assign probability distributions over possible next words.
-  \item
-    \textbf{Neural Networks}: the fundamental computational mechanism. Modeled after human brain neurons turning into deep architectures optimized via gradient descent.
-  \item
-    \textbf{Embeddings}: vector-based representations where meaning is mapped as a point in high-dimensional continuous space.
+	\item
+	      \textbf{Probabilistic Language Models}: systems that assign probability distributions over possible next words.
+	\item
+	      \textbf{Neural Networks}: the fundamental computational mechanism. Modeled after human brain neurons turning into deep architectures optimized via gradient descent.
+	\item
+	      \textbf{Embeddings}: vector-based representations where meaning is mapped as a point in high-dimensional continuous space.
 \end{enumerate}
 
 \subsection{The entire brief history of speech and language processing (I guess)}
@@ -125,20 +125,20 @@ The central ideas of NLP lie way back in the 1940s to the early 60s.
 \subsubsection{Foundations of NLP}
 
 \begin{itemize}
-  \item Shannon (1951) developed ideas about word prediction
-  \item Labs at Cornell and Stanford were applying small NNs to computational tasks.
-  \item In 1957 psychologist Osgood proposed that a meaning of a word could be modeled by a point in space
-    \begin{itemize}
-      \item Linguists proposed that a word's meaning is related to its context.
-    \end{itemize}
+	\item Shannon (1951) developed ideas about word prediction
+	\item Labs at Cornell and Stanford were applying small NNs to computational tasks.
+	\item In 1957 psychologist Osgood proposed that a meaning of a word could be modeled by a point in space
+	      \begin{itemize}
+		      \item Linguists proposed that a word's meaning is related to its context.
+	      \end{itemize}
 \end{itemize}
 
 \subsubsection{The Symbolic Turn}
 
 \begin{itemize}
-  \item Modeling language in terms of structure appeared.
-  \item Chomsky argued against statistical modeling and neural models of a language which led to a shift in  computer science, AI, and linguistic and cognitive sciences.
-  \item Symbolic approaches become more popular.
+	\item Modeling language in terms of structure appeared.
+	\item Chomsky argued against statistical modeling and neural models of a language which led to a shift in  computer science, AI, and linguistic and cognitive sciences.
+	\item Symbolic approaches become more popular.
 \end{itemize}
 
 \subsubsection{Oh my gosh! Empiricism is back!}
@@ -147,21 +147,21 @@ The central ideas of NLP lie way back in the 1940s to the early 60s.
 The field moved back to statistical and neural models (thanks, Chomsky) lasting from 1975 and 1988 to 2017.
 
 \begin{itemize}
-  \item Speech recognition from IBM became a thing.
-    \begin{itemize}
-      \item N-gram models and algorithms were developed for this purpose
-    \end{itemize}
-  \item Improved algorithms for NN training based on error backpropagation became popular.
-    \begin{itemize}
-      \item Led to connectionist/parallel distributed processing
-    \end{itemize}
-  \item First neural language models was proposed in 2003.
-  \item Transformer architecture becomes popular for general-purpose neural architecture for various tasks
+	\item Speech recognition from IBM became a thing.
+	      \begin{itemize}
+		      \item N-gram models and algorithms were developed for this purpose
+	      \end{itemize}
+	\item Improved algorithms for NN training based on error backpropagation became popular.
+	      \begin{itemize}
+		      \item Led to connectionist/parallel distributed processing
+	      \end{itemize}
+	\item First neural language models was proposed in 2003.
+	\item Transformer architecture becomes popular for general-purpose neural architecture for various tasks
 \end{itemize}
 
 \subsubsection{Just Chat it.}
 
-Before prompting, you had to label training data to train a classifier to assign a label to data. Now you can just prmopt! What is prompting? Given an algorithm that can predict words, just type in a question and append something like "the answer is" and it would predict the answer!
+Before prompting, you had to label training data to train a classifier to assign a label to data. Now you can just prmopt! What is prompting? Given an algorithm that can predict words, just type in a question and append something like ``the answer is'' and it would predict the answer!
 
 After this, NLP became about generation rather than algorithms that can parse/interpret text. This paved the way for \textbf{generative AI} which focuses on generation of text, images, video, speech, etc.
 
@@ -187,60 +187,60 @@ When a text talks about a person, it can refer to them in many ways.
 \textit{Victoria, the CFO of J.P Morgan, saw her pay jump from \$2.4 million, as the 32-year old became the company's president}
 
 \raggedright
-"Victoria" is the "CFO" and the "32-year old". They refer to the same entity "Victoria", just with different ways of saying it.
+``Victoria'' is the ``CFO'' and the ``32-year old''. They refer to the same entity ``Victoria'', just with different ways of saying it.
 
 
 \section{Words and Tokens}
 
 \begin{itemize}
-  \item
-    drives LLMS these days
+	\item
+	      drives LLMS these days
 
-  \item
-    fundamental bridge from linguistic forms to underlying conceptual representations
+	\item
+	      fundamental bridge from linguistic forms to underlying conceptual representations
 
-  \item
-    \textbf{type}: entries in vocab/lexicon
+	\item
+	      \textbf{type}: entries in vocab/lexicon
 
-  \item
-    how do we manage words/tokens?
+	\item
+	      how do we manage words/tokens?
 \end{itemize}
 
 \subsection{Morphology}
 
 \begin{itemize}
-  \item
-    the study of the ways words are built up from smaller units called morphemes.
+	\item
+	      the study of the ways words are built up from smaller units called morphemes.
 
-  \item
-    \textbf{Two classes of morphemes}:
-    \begin{itemize}
-      \item
-        \textbf{stems}: the core meaning-bearing unit
-      \item
-        \textbf{affixes}: bits and pieces that attach to stems but do not change the core meaning of the word
-        example: "star\_s" with the core being "star" and the "-s" being the plural affix we attach.
-    \end{itemize}
+	\item
+	      \textbf{Two classes of morphemes}:
+	      \begin{itemize}
+		      \item
+		            \textbf{stems}: the core meaning-bearing unit
+		      \item
+		            \textbf{affixes}: bits and pieces that attach to stems but do not change the core meaning of the word
+		            example: ``star\_s'' with the core being ``star'' and the ``-s'' being the plural affix we attach.
+	      \end{itemize}
 \end{itemize}
 
 \subsubsection*{Inflectional morphology}
 
-The combination of stems and affixes where the resulting word...
+The combination of stems and affixes where the resulting word \ldots
 
 \begin{itemize}
-  \item
-    has the same word class
-  \item serves a grammatical purpose that is
-    \begin{itemize}
-      \item
-        different from the original
-      \item
-        transparently related to the original
-        \begin{itemize}
-          \item "walk" + "ing" = walking
-          \item "cat" + "s" = cats
-        \end{itemize}
-    \end{itemize}
+	\item
+	      has the same word class
+	\item serves a grammatical purpose that is
+	      \begin{itemize}
+		      \item
+		            different from the original
+		      \item
+		            transparently related to the original
+		            \begin{itemize}
+			            \item "walk" + "ing" = walking
+			            \item "cat" + "s" = cats
+		            \end{itemize}
+	      \end{itemize}
 \end{itemize}
 
 \subsubsection*{Derivational morphology}
@@ -248,34 +248,34 @@ The combination of stems and affixes where the resulting word...
 Messy stuff that nobody ever "taught" when learning English
 
 \begin{itemize}
-  \item
-    wide variety of affixes
-    \begin{itemize}
-      \item
-        -al, -tion, -ee, -er, -ant, -ness
-      \item
-        anti-, un-, non-
-    \end{itemize}
+	\item
+	      wide variety of affixes
+	      \begin{itemize}
+		      \item
+		            -al, -tion, -ee, -er, -ant, -ness
+		      \item
+		            anti-, un-, non-
+	      \end{itemize}
 
-    \item
-      quasi-systematic rules
+	\item
+	      quasi-systematic rules
 
-    \item 
-      irregular meaning change
-      
-    \item
-      changes of word class
+	\item
+	      irregular meaning change
+
+	\item
+	      changes of word class
 \end{itemize}
 
 \subsubsection{Language classification}
 
 \begin{itemize}
-  \item
-    \textbf{Genetically}: groups based on family history
-  \item
-    \textbf{Areal}: geographical occurences
-  \item
-    \textbf{Typological}: shares grammar, morphology, phonology, syntax, etc.
+	\item
+	      \textbf{Genetically}: groups based on family history
+	\item
+	      \textbf{Areal}: geographical occurences
+	\item
+	      \textbf{Typological}: shares grammar, morphology, phonology, syntax, etc.
 \end{itemize}
 
 \subsubsection{Morphological Typology}
@@ -285,19 +285,19 @@ Groups languages based on aspects of morphology
 \subsubsection*{Isolating vs Synthetic}
 
 \begin{itemize}
-  \item
-    \textbf{Isolating}: one morpheme per word
-  \item
-    \textbf{Synthetic}: lots of morphemes per word
+	\item
+	      \textbf{Isolating}: one morpheme per word
+	\item
+	      \textbf{Synthetic}: lots of morphemes per word
 \end{itemize}
 
 \subsubsection*{Agglutinating vs fusional}
 
 \begin{itemize}
-  \item
-    \textbf{Agglutinating}: form words by concatenating stems with affixes to form words (with prefixes, suffixes, infixes)
-  \item
-    \textbf{Fusional}: allow morphemes to change form upon inflection; harder to isolate them
+	\item
+	      \textbf{Agglutinating}: form words by concatenating stems with affixes to form words (with prefixes, suffixes, infixes)
+	\item
+	      \textbf{Fusional}: allow morphemes to change form upon inflection; harder to isolate them
 \end{itemize}
 
 \subsubsection*{Computational morphology}
@@ -309,18 +309,18 @@ Morphological analysis takes surface form and returns the stem with a set of mor
 \subsubsection{Vocabulary}
 
 \begin{itemize}
-  \item
-    a vocabulary is the set of words a system has access to
-  \item
-    the minimal units of processing in an input that has some semblance of meaning attached to it.
+	\item
+	      a vocabulary is the set of words a system has access to
+	\item
+	      the minimal units of processing in an input that has some semblance of meaning attached to it.
 \end{itemize}
 
 \subsubsection*{What should such a vocabulary (or lexicon) consist of?}
 
 \begin{itemize}
-  \item all the words in a language?
-  \item all the words in some comprehensive dictionary?
-  \item some subset?
+	\item all the words in a language?
+	\item all the words in some comprehensive dictionary?
+	\item some subset?
 \end{itemize}
 
 \subsubsection{Corpora}
@@ -328,29 +328,29 @@ Morphological analysis takes surface form and returns the stem with a set of mor
 Words don't just appear out of nowhere. Corpora are the representative texts that are used either generically for diverse applications or designed for a specific domain or application.
 
 \begin{enumerate}
-  \item
-    Collect a big bunch of text.
-  \item
-    Figure out the words that appear in it.
-  \item
-    That's your vocabulary
+	\item
+	      Collect a big bunch of text.
+	\item
+	      Figure out the words that appear in it.
+	\item
+	      That's your vocabulary
 \end{enumerate}
 
 \subsubsection*{Dimensions}
 
 \begin{itemize}
-  \item
-    \textbf{Language}: dialects, creoles, pidgins, etc.
-  \item
-    \textbf{Provenance}: how was it obtained? Consent? Legal?
-  \item
-    \textbf{Genre}: Newswire, fiction, non-fiction, scientific articles, Wikipedia
-  \item
-    \textbf{Demographics}: Writer's age, gender, race, socioeconomic status, etc.
-  \item
-    \textbf{Medium}: Spoken, written, captioned, video
-  \item
-    \textbf{Writing system}: Over 350 systems in use
+	\item
+	      \textbf{Language}: dialects, creoles, pidgins, etc.
+	\item
+	      \textbf{Provenance}: how was it obtained? Consent? Legal?
+	\item
+	      \textbf{Genre}: Newswire, fiction, non-fiction, scientific articles, Wikipedia
+	\item
+	      \textbf{Demographics}: Writer's age, gender, race, socioeconomic status, etc.
+	\item
+	      \textbf{Medium}: Spoken, written, captioned, video
+	\item
+	      \textbf{Writing system}: Over 350 systems in use
 \end{itemize}
 
 \subsubsection*{How many words are there?}
@@ -361,14 +361,14 @@ V = vocabulary = set types ($|V|$ is the size of the vocab)
 \subsection{Heap's Law}
 
 \[
-  |V| = kN^{\beta}
+	|V| = kN^{\beta}
 \]
 
 Where $k$ and $\beta$ are free variables. Usually $k$ between 10 and 100 and $\beta$ between 0.6 and 0.7.
 
 \begin{itemize}
-  \item Size of the vocabulary grows \ul{somewhat faster} that the square root of the corpus size
-  \item The rate of the vocabulary growth slows as corpus grows, but never \ul{flattens out}.
+	\item Size of the vocabulary grows \ul{somewhat faster} that the square root of the corpus size
+	\item The rate of the vocabulary growth slows as corpus grows, but never \ul{flattens out}.
 \end{itemize}
 
 \subsection{Text Normalization and Tokenization}
@@ -378,18 +378,18 @@ This is essentially the question of "how do we process a corpora and take it fro
 Normalizing text can look like
 
 \begin{itemize}
-  \item Segmenting running text into sentences
-  \item Tokenizing sentences into words
-  \item Normalizing word formats
-  \item Recognizing different scripts/languages
+	\item Segmenting running text into sentences
+	\item Tokenizing sentences into words
+	\item Normalizing word formats
+	\item Recognizing different scripts/languages
 \end{itemize}
 
 \subsubsection{Issues in Normalizationn}
 
 \begin{itemize}
-  \item Hong Kong $\rightarrow$ one word? two?
-  \item m.p.g $\rightarrow$ is this even a word?
-  \item IRA, I.R.A $\rightarrow$ expand? keep out?
+	\item Hong Kong $\rightarrow$ one word? two?
+	\item m.p.g $\rightarrow$ is this even a word?
+	\item IRA, I.R.A $\rightarrow$ expand? keep out?
 \end{itemize}
 
 \subsubsection{Sentence Segmentation}
@@ -397,13 +397,13 @@ Normalizing text can look like
 Tokenization, morphology, and further syntactic processing first requires sentence segmentation
 
 \begin{itemize}
-  \item
-    Easy in English. Punctuation is used to mark sentence boundaries.
+	\item
+	      Easy in English. Punctuation is used to mark sentence boundaries.
 
-    \begin{itemize}
-      \item "!", "?" are relatively unambiguous.
-      \item Periods can be. Like "Dr.", "I.R.A", etc.
-    \end{itemize}
+	      \begin{itemize}
+		      \item "!", "?" are relatively unambiguous.
+		      \item Periods can be. Like "Dr.", "I.R.A", etc.
+	      \end{itemize}
 \end{itemize}
 
 \subsubsection{Multilingual issues in Normalization}
@@ -411,10 +411,10 @@ Tokenization, morphology, and further syntactic processing first requires senten
 English is not the only language out there, and there are several problems that need to be faced.
 
 \begin{itemize}
-  \item Code switching -- "Chinglish", "Spanglish", etc.
-  \item Writing systems -- Latin, Chinese, Arabic
-  \item Complex morphology -- words built with two or more morphemes
-  \item Sentence segmentation -- Chinese, Thai, Japanese do not use spaces to separate words
+	\item Code switching --- "Chinglish", "Spanglish", etc.
+	\item Writing systems --- Latin, Chinese, Arabic
+	\item Complex morphology --- words built with two or more morphemes
+	\item Sentence segmentation --- Chinese, Thai, Japanese do not use spaces to separate words
 \end{itemize}
 
 \subsubsection{Tokenization}
@@ -428,8 +428,8 @@ Tokens are essentially a (crude) approximation to morphemes. They are minimal un
 For tokenization to work you need two things:
 
 \begin{itemize}
-  \item A learner that takes the raw training corpus and makes a vocabulary of a specific size
-  \item A tokenizer (encoder) that takes input text and tokenizes it according to the vocabulary
+	\item A learner that takes the raw training corpus and makes a vocabulary of a specific size
+	\item A tokenizer (encoder) that takes input text and tokenizes it according to the vocabulary
 \end{itemize}
 
 \subsection{Byte-Pair Encoding (BPE)}
@@ -439,11 +439,11 @@ Byte Pair Encoding works by merging neighboring tokens $k$ times to create longe
 The core of the algorithm is
 
 \begin{itemize}
-  \item Choose the most frequently occurring adjacent pair of vocabulary items in the training corpus
-  \item Add the newly merged symbol to the vocabulary
-  \item Replace every occurrence of the adjacent pair with said merged symbol
-  \item Redo the counts
-  \item Repeat $k$ times
+	\item Choose the most frequently occurring adjacent pair of vocabulary items in the training corpus
+	\item Add the newly merged symbol to the vocabulary
+	\item Replace every occurrence of the adjacent pair with said merged symbol
+	\item Redo the counts
+	\item Repeat $k$ times
 \end{itemize}
 
 \subsubsection*{BPE Example}
@@ -457,61 +457,61 @@ Let's see how BPE really works with this sentence that will never exist beyond t
 First, we can break up the corpus into words, with their counts (including whitespace!).
 
 \begin{center}
-\begin{tabular}{ll}
-  \textbf{corpus} & \textbf{vocabulary} \\
-  2 \ \texttt{\_ n e w} & \texttt{\_, e, n, r, s, t, w} \\
-  2 \ \texttt{\_ r e n e w} & \\
-  1 \ \texttt{s e t} & \\
-  1 \ \texttt{\_ r e s e t} 
-\end{tabular}
+	\begin{tabular}{ll}
+		\textbf{corpus}           & \textbf{vocabulary}           \\
+		2 \ \texttt{\_ n e w}     & \texttt{\_, e, n, r, s, t, w} \\
+		2 \ \texttt{\_ r e n e w} &                               \\
+		1 \ \texttt{s e t}        &                               \\
+		1 \ \texttt{\_ r e s e t}
+	\end{tabular}
 \end{center}
 
 The BPE will iterate and counts all pairs of adjacent symbols. The most frequent in this corpus is \texttt{ne} which occurs in "new" and "renew". We merge those symbols and recount
 
 \begin{center}
-\begin{tabular}{ll}
-  \textbf{corpus} & \textbf{vocabulary} \\
-  2 \ \texttt{\_ne w} & \texttt{\_, e, n, r, s, t, w, ne} \\
-  2 \ \texttt{\_r e ne w} & \\
-  1 \ \texttt{s e t} & \\
-  1 \ \texttt{\_ r e s e t} 
-\end{tabular}
+	\begin{tabular}{ll}
+		\textbf{corpus}         & \textbf{vocabulary}               \\
+		2 \ \texttt{\_ne w}     & \texttt{\_, e, n, r, s, t, w, ne} \\
+		2 \ \texttt{\_r e ne w} &                                   \\
+		1 \ \texttt{s e t}      &                                   \\
+		1 \ \texttt{\_ r e s e t}
+	\end{tabular}
 \end{center}
 
 Now the most frequent pair is \texttt{ne} + \texttt{w}. So we merge and recount
 
 \begin{center}
-\begin{tabular}{ll}
-  \textbf{corpus} & \textbf{vocabulary} \\
-  2 \ \texttt{\_new} & \texttt{\_, e, n, r, s, t, w, ne, new} \\
-  2 \ \texttt{\_r e new} & \\
-  1 \ \texttt{s e t} & \\
-  1 \ \texttt{\_ r e s e t} 
-\end{tabular}
+	\begin{tabular}{ll}
+		\textbf{corpus}        & \textbf{vocabulary}                    \\
+		2 \ \texttt{\_new}     & \texttt{\_, e, n, r, s, t, w, ne, new} \\
+		2 \ \texttt{\_r e new} &                                        \\
+		1 \ \texttt{s e t}     &                                        \\
+		1 \ \texttt{\_ r e s e t}
+	\end{tabular}
 \end{center}
 
 Merge 3 \& 4 are \texttt{\_r} merge and \texttt{\_re} merge respectively.
 
 \begin{center}
-\begin{tabular}{ll}
-  \textbf{corpus} & \textbf{vocabulary} \\
-  2 \ \texttt{\_new} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re} \\
-  2 \ \texttt{\_re new} & \\
-  1 \ \texttt{s e t} & \\
-  1 \ \texttt{\_re s e t} 
-\end{tabular}
+	\begin{tabular}{ll}
+		\textbf{corpus}       & \textbf{vocabulary}                               \\
+		2 \ \texttt{\_new}    & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re} \\
+		2 \ \texttt{\_re new} &                                                   \\
+		1 \ \texttt{s e t}    &                                                   \\
+		1 \ \texttt{\_re s e t}
+	\end{tabular}
 \end{center}
 
-If we do that enough times merges 5-8 look like this
+If we do that enough times merges 5--8 look like this
 
 \begin{center}
-\begin{tabular}{ll}
-  \textbf{merge} & \textbf{vocabulary} \\
-  \texttt{(\_, new)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new} \\
-  \texttt{(\_re, new)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew} \\
-  \texttt{(s, e)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew, se} \\
-  \texttt{(se, t)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew, se, set} \\
-\end{tabular}
+	\begin{tabular}{ll}
+		\textbf{merge}       & \textbf{vocabulary}                                                        \\
+		\texttt{(\_, new)}   & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new}                   \\
+		\texttt{(\_re, new)} & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew}          \\
+		\texttt{(s, e)}      & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew, se}      \\
+		\texttt{(se, t)}     & \texttt{\_, e, n, r, s, t, w, ne, new, \_r, \_re, \_new, \_renew, se, set} \\
+	\end{tabular}
 \end{center}
 
 
@@ -519,7 +519,7 @@ If we do that enough times merges 5-8 look like this
 
 \subsubsection{Multilingual issues with Tokenization}
 
-Most models are assumed to be monolingual. Multilingual models were built for the use of translation, retrieval, etc. While most frontier models have "multilingual" capabilities, they weren't built that way. It just so happens that when you treat the Internet akin to a kid in a candy store, the models "learn" other languages just by happenstance.
+Most models are assumed to be monolingual. Multilingual models were built for the use of translation, retrieval, etc. While most frontier models have ``multilingual'' capabilities, they weren't built that way. It just so happens that when you treat the Internet akin to a kid in a candy store, the models ``learn'' other languages just by happenstance.
 
 \subsubsection{Does vocab size matter?}
 
@@ -533,31 +533,31 @@ A language model is a machine learning model that predicts words. More elegantly
 
 \subsubsection{Word Prediction}
 
-Given a certain word, we can formalize this prediction of "given this word, what is the probability of this word occurring next?" as
+Given a certain word, we can formalize this prediction of ``given this word, what is the probability of this word occurring next?'' as
 
 \begin{equation*}
-  P(w_n | w_{1:n-1})
+	P(w_n | w_{1:n-1})
 \end{equation*}
 
 With the definition of conditional probabilities
 
 \begin{align*}
-  P(B|A) &= \frac{P(A,B)}{P(A)} \\
-  P(A,B) &= P(A)P(B|A)
+	P(B|A) & = \frac{P(A,B)}{P(A)} \\
+	P(A,B) & = P(A)P(B|A)
 \end{align*}
 
-...as well as the \textbf{Chain Rule} we can think of word prediction as a sequence of a joint event
+\ldots as well as the \textbf{Chain Rule} we can think of word prediction as a sequence of a joint event
 
 \begin{align*}
-  P(w_{1:n}) &= P(w_1)P(w_2|w_1)P(w_3|w_2,w_1) \dots P(w_n | w_1 \dots w_{1:n-1}) \\
-             &= \prod_{i=1}^n P(w_i | w_{1:i-1})
+	P(w_{1:n}) & = P(w_1)P(w_2|w_1)P(w_3|w_2,w_1) \dots P(w_n | w_1 \dots w_{1:n-1}) \\
+	           & = \prod_{i=1}^n P(w_i | w_{1:i-1})
 \end{align*}
 
 \textbf{Problem}: The Chain Rule can suggest that the probability of a given word consists of the joint probability of multiplying a number of conditional probabilities, but language is creative, and a sentence can really just appear out of nowhere. (There are definitely some sentences that I have had the horror of experiencing that I don't ever want to experience again).
 
 \subsubsection{The Markov assumption}
 
-Ok, so we can't count the probability of \textit{all} the previous words, but what about about narrowing that scope? What about if we predict a word based on the last word? Last two? Three?
+Ok, so we can't count the probability of \textit{all} the previous words, but what about narrowing that scope? What about if we predict a word based on the last word? Last two? Three?
 
 \subsubsection*{The bigram model}
 
@@ -570,33 +570,33 @@ The assumption that the probability of a word depends just on the previous word 
 Bigram version
 
 \begin{align*}
-  P(w_i|w_{i:1}) \approx P(w_i | w_{i:i-1})
+	P(w_i|w_{i:1}) \approx P(w_i | w_{i:i-1})
 \end{align*}
 
 Trigram version
 
 \begin{align*}
-  P(w_i|w_{i:1}) \approx P(w_i | w_{i-2:i-1})
+	P(w_i|w_{i:1}) \approx P(w_i | w_{i-2:i-1})
 \end{align*}
 
 General case
 
 \begin{align*}
-  P(w_i|w_{i:1}) \approx P(w_i | w_{i-(N-1):i-1})
+	P(w_i|w_{i:1}) \approx P(w_i | w_{i-(N-1):i-1})
 \end{align*}
 
 Combining this with the Markov assumption and we get
 
 \[
-  P(w_{1:n}) \approx \prod_{i=1}^n P(w_i|w_{i-(N-1):i-1})
+	P(w_{1:n}) \approx \prod_{i=1}^n P(w_i|w_{i-(N-1):i-1})
 \]
 
 
 \subsection{Smoothing}
 
-Language is such an interesting thing. Because of this, when training a language model, sometimes a probability of two words being together like "sincere politician" may appear in the test set, but not the training set! This would make the probability that bigram 0.
+Language is such an interesting thing. Because of this, when training a language model, sometimes a probability of two words being together like ``sincere politician'' may appear in the test set, but not the training set! This would make the probability that bigram 0.
 
-To deal with this we can use \underline{smoothing} which is just -- as Professor Martin put it -- stealing too much from the rich and giving it to the poor.
+To deal with this we can use \underline{smoothing} which is just --- as Professor Martin put it --- stealing too much from the rich and giving it to the poor.
 
 \subsubsection{Additive smoothing}
 
@@ -605,13 +605,13 @@ Add a little bit to all the counts and the zeroes magically go away!
 For unigrams it would look like
 
 \[
-  P_{+1}w = \frac{\text{Count}(w) + 1}{M+V}
+	P_{+1}w = \frac{\text{Count}(w) + 1}{M+V}
 \]
 
 For bigrams
 
 \[
-  P_{+1}(w_n|w_{n-1}) = \frac{\text{Count}(w_{n-1},w_n)+1}{\text{Count}(w_{n-1})+V}
+	P_{+1}(w_n|w_{n-1}) = \frac{\text{Count}(w_{n-1},w_n)+1}{\text{Count}(w_{n-1})+V}
 \]
 
 \subsection{Evaluating Language Models}
@@ -630,10 +630,10 @@ The \textbf{development set} is the interlude test set which we can evaluate the
 
 Using raw probabilities are related to the length of sequences and number of sentences in the test set. The more probabilities we multiply together, the smaller the number becomes.
 
-To deal with this, we use the log space to normalize and get results that are not as small. 
+To deal with this, we use the log space to normalize and get results that are not as small.
 
 \[
-  H(T) = -\frac1N \sum_{i=1}^N \log P(w_i|w_{i:i-1})
+	H(T) = -\frac1N \sum_{i=1}^N \log P(w_i|w_{i:i-1})
 \]
 
 ...where $H(T)$ is the entropy.
@@ -645,14 +645,14 @@ Perplexity is traditionally THE intrinsic measure used to evaluate large languag
 The perplexity of a model is 2 raised to the entropy!
 
 \[
-  PP(T) = 2^{H(T)}
+	PP(T) = 2^{H(T)}
 \]
 
 Perplexity is roughly the average number of choices that a model would have to make in guessing the next item in a sequence.
 
 \begin{itemize}
-  \item if it is 100\% certain then the perplexity is 1 (entropy of 0 since log(1)=0), because there is no choice.
-  \item if it has no information and there are $M$ choices, the perplexity is $M$ which makes sense! it's just guessing randomly.
+	\item if it is 100\% certain then the perplexity is 1 (entropy of 0 since log(1)=0), because there is no choice.
+	\item if it has no information and there are $M$ choices, the perplexity is $M$ which makes sense! it's just guessing randomly.
 \end{itemize}
 
 \section{Logistic Regression and Text Classification}
@@ -666,9 +666,9 @@ By placing known things into categories, we can make good reasons to what unknow
 Some machine learning classifiers include:
 
 \begin{itemize}
-  \item Speech recognition
-  \item Image classification
-  \item Intrusion detection
+	\item Speech recognition
+	\item Image classification
+	\item Intrusion detection
 \end{itemize}
 
 \subsubsection{Text classification}
@@ -679,12 +679,12 @@ With language classification, each word can be thought of as a class, so \textbf
 
 \subsection{Logistic Regression}
 
-The goal of classification is to take a single input, find some useful features from the input, and then use that to predict an unknown case. 
+The goal of classification is to take a single input, find some useful features from the input, and then use that to predict an unknown case.
 
 With logistic regression we are trying to classify inputs into either a positive case or negative case. Logistic regression models estimate the conditional probability of a class assignment given a text.
 
 \[
-  P(c|t)
+	P(c|t)
 \]
 
 \subsubsection{Scoring}
@@ -692,7 +692,7 @@ With logistic regression we are trying to classify inputs into either a positive
 Given features and weights, we can assign a score to each class for a given function.
 
 \[
-  z = b + w_1x_1 + w_2x_2 + \dots + w_nx_n
+	z = b + w_1x_1 + w_2x_2 + \cdots + w_n x_n
 \]
 
 Where $b$ is a bias and $w$ are the weights assigned to each class $x$.
@@ -700,27 +700,27 @@ Where $b$ is a bias and $w$ are the weights assigned to each class $x$.
 We can think of these as vectors if we want to \st{begrudgingly} use linear algebra
 
 \begin{align*}
-  w = 
-  \begin{bmatrix}
-    w_1 \\ w_2 \\ \dots \\ w_n
-  \end{bmatrix} \
-  x =
-  \begin{bmatrix}
-    x_1 \\ x_2 \\ \dots \\ x_n
-  \end{bmatrix} \\
+	w =
+	\begin{bmatrix}
+		w_1 \\ w_2 \\ \dots \\ w_n
+	\end{bmatrix} \
+	x =
+	\begin{bmatrix}
+		x_1 \\ x_2 \\ \dots \\ x_n
+	\end{bmatrix} \\
 \end{align*}
 
 \[
-  z = w^\top x + b
+	z = w^\top x + b
 \]
 
 We can eliminate complexity by incorporating the bias as $w_0$ with $x_0 = 1$
 
 \begin{align*}
-  w_0 &= b \\
-  x_0 &= 1 \\
-  z &= w_0x_0 + w_1x_1 + \dots + w_nx_n \\
-  z &= w^\top + x
+	w_0 & = b                                  \\
+	x_0 & = 1                                  \\
+	z   & = w_0x_0 + w_1x_1 + \cdots + w_n x_n \\
+	z   & = w^\top + x
 \end{align*}
 
 \subsubsection{The sigmoid function}
@@ -728,9 +728,9 @@ We can eliminate complexity by incorporating the bias as $w_0$ with $x_0 = 1$
 Logistic regression shines with how we can convert the score we just calculated into a probability. To do this cleanly, we can squash the scores between 0 and 1 using the \ul{logistic sigmoid function}.
 
 \begin{align*}
-  P(y=1|x) &= \sigma(w^\top x) \\
-           &= \frac{1}{1+e^{-w^\top x}} \\
-  P(y=0|x) &= 1-\sigma(w^\top x)
+	P(y=1|x) & = \sigma(w^\top x)          \\
+	         & = \frac{1}{1+e^{-w^\top x}} \\
+	P(y=0|x) & = 1-\sigma(w^\top x)
 \end{align*}
 
 
@@ -739,17 +739,17 @@ Logistic regression shines with how we can convert the score we just calculated 
 Now that we have probabilities calculated via the sigmoid function $p = \frac{1}{1+e^{-z}}$ let's convert it to odds.
 
 \[
-  \text{odds} = \frac{p}{1-p}
+	\text{odds} = \frac{p}{1-p}
 \]
 
 Probabilities range from 0 to 1, but with odds, they range from 0 to infinity.
 
 \subsubsection{Now from odds to log odds}
 
-Everything is just logs... But they are useful!
+Everything is just logs \ldots But they are useful!
 
 \[
-  ln(\frac{p}{1-p})
+	ln(\frac{p}{1-p})
 \]
 
 By taking the log odds, we can get some nice symmetry with opposing odds
@@ -757,8 +757,8 @@ By taking the log odds, we can get some nice symmetry with opposing odds
 
 \centering
 \begin{tabular}{ccc}
-  0.95 & 19 to 1 & 2.994 \\
-  0.5 & 1 to 19 & -2.994
+	0.95 & 19 to 1 & 2.994  \\
+	0.5  & 1 to 19 & -2.994
 \end{tabular}
 
 \raggedright
@@ -767,30 +767,30 @@ By taking the log odds, we can get some nice symmetry with opposing odds
 The "log of the odds" is often referred to as the \textbf{logit}
 
 \begin{itemize}
-  \item z scores from $w^\top x$ computation are \ul{logits}
-  \item now how do we take a logit and get a probability?
+	\item z scores from $w^\top x$ computation are \ul{logits}
+	\item now how do we take a logit and get a probability?
 \end{itemize}
 
 \begin{align*}
-  z &= ln(\frac{p}{1-p}) \\
-  e^z &= \frac{p}{1-p} \\
-  e^z(1-p) &= p \\
-  e^z - pe^z &= p \\
-  e^z &= p + pe^z \\
-  e^z &= p(1+e^z) \\
-  p &= \frac{1}{1+e^{-z}}
+	z          & = ln(\frac{p}{1-p})  \\
+	e^z        & = \frac{p}{1-p}      \\
+	e^z(1-p)   & = p                  \\
+	e^z - pe^z & = p                  \\
+	e^z        & = p + pe^z           \\
+	e^z        & = p(1+e^z)           \\
+	p          & = \frac{1}{1+e^{-z}}
 \end{align*}
 
 
 \subsubsection*{Summary}
 
 \begin{itemize}
-  \item
-    The \ul{logit} is the log of odds of some event. The odds being the ratio of the probability of an event happening or not.
-  \item
-    The raw scores from a linear classifier are the \ul{logits}.
-  \item
-    Now, how do we come up with a learning scheme to acquire the proper weights so that our scores represent logits appropriate for a specific task?
+	\item
+	      The \ul{logit} is the log of odds of some event. The odds being the ratio of the probability of an event happening or not.
+	\item
+	      The raw scores from a linear classifier are the \ul{logits}.
+	\item
+	      Now, how do we come up with a learning scheme to acquire the proper weights so that our scores represent logits appropriate for a specific task?
 \end{itemize}
 
 \subsection{Loss functions}
@@ -802,7 +802,7 @@ That's what \textbf{loss functions} are for!
 \subsubsection{Cross-entropy loss}
 
 \[
-  p(y|x) = \hat{y}^y (1-\hat{y})^{1-y}
+	p(y|x) = \hat{y}^y (1-\hat{y})^{1-y}
 \]
 
 where $y$ is the correct answer and $\hat{y}$ is our answer.
@@ -814,13 +814,13 @@ With our loss function we want \textbf{bad performance} to have high loss, and \
 Now, what do we do to every formula so far? We take the log of it!
 
 \begin{align*}
-  p(y|x) &= \hat{y}^y (1-\hat{y})^{1-y} \\
-  \log(p(y|x)) &= \log[\hat{y}^y (1-\hat{y})^{1-y}] \\
-               &= y\log\hat{y} + (1-y) \log(1-\hat{y})
+	p(y|x)       & = \hat{y}^y (1-\hat{y})^{1-y}          \\
+	\log(p(y|x)) & = \log[\hat{y}^y (1-\hat{y})^{1-y}]    \\
+	             & = y\log\hat{y} + (1-y) \log(1-\hat{y})
 \end{align*}
 
 \begin{equation*}
-  L_{CE}(w,b) = -[y\log\sigma(w \cdot x + b) + (1-y) \log(1-\sigma(w \cdot x + b))]
+	L_{CE}(w,b) = -[y\log\sigma(w \cdot x + b) + (1-y) \log(1-\sigma(w \cdot x + b))]
 \end{equation*}
 
 Taking the log of the loss will take the range from 0 to 1 and make the range from -infinity to 0.
@@ -834,8 +834,8 @@ So with a low probability we get a high value, and a high probability a low valu
 Now that we can find how much loss there is, we need a way to minimize the loss by updating the weights.
 
 \begin{align*}
-  Cost(w,b) &= \frac1m \sum_{i=1}^m L_{CE}(\hat{y}^i, y^i) \\
-            &= -\frac1m \sum_{i=1}^m y^i \log\sigma(w \cdot x^i + b) + (1-y^i)\log(1-\sigma(w \cdot x^i + b))
+	Cost(w,b) & = \frac1m \sum_{i=1}^m L_{CE}(\hat{y}^i, y^i)                                                    \\
+	          & = -\frac1m \sum_{i=1}^m y^i \log\sigma(w \cdot x^i + b) + (1-y^i)\log(1-\sigma(w \cdot x^i + b))
 \end{align*}
 
 Gradient descent works by figuring out in which direction the function's slope is rising steeply, and moving it in the opposite direction. A good example that the textbook gives is if you're hiking down a canyon, you would first look around to find which direction the ground is sloping the steepest and move opposite that direction.
@@ -843,27 +843,27 @@ Gradient descent works by figuring out in which direction the function's slope i
 The magnitude and direction of change that we should make to each of the weights is dictated by the \ul{derivative of the loss function}. A higher (faster) learning rate means that we should move the weight more on each step.
 
 \[
-  w_{t+1} = w_t - \mu\Delta
+	w_{t+1} = w_t - \mu\Delta
 \]
 
 This is just for one weight. In actual application, we have multiple weights for multiple classes. To make this happen we use the partial derivatives of the loss with respect to (wrt) the weights. This is called the \ul{gradient}.
 
 \[
-  \frac{\partial L_{CE}(w,b)}{\partial w_j} = [\sigma(w \cdots x + b)-y]x_j
+	\frac{\partial L_{CE}(w,b)}{\partial w_j} = [\sigma(w \cdot x + b)-y]x_j
 \]
 
-Essentially what this is doing is taking the difference of the computed answer $(w \cdots x + b)$ and the right answer $y$  and multiplying it by the value of the input feature for the weight being adjusted $x_j$.
+Essentially what this is doing is taking the difference of the computed answer $(w \cdot x + b)$ and the right answer $y$  and multiplying it by the value of the input feature for the weight being adjusted $x_j$.
 
 This can also be written as
 
 \[
-  (\hat{y}-y)x_j
+	(\hat{y}-y)x_j
 \]
 
 or
 
 \[
-  -(y-\hat{y})x_j
+	-(y-\hat{y})x_j
 \]
 
 \subsubsection{Stochastic Gradient Descent}
@@ -877,7 +877,7 @@ Computing the gradient over the entire dataset. This offers a really good estima
 
 \textbf{Mini-batch} training is instead of computing the gradient over the entire dataset, we compute the gradient over an $m$ sized batch in the dataset. It's a good compromise from only one gradient update and updating the gradient after \textit{every} single iteration.
 
-\subsection{Ok, now apply it to the multinomial case}
+\subsection{Okay, now apply it to the multinomial case}
 
 In most cases, we want to evaluate between more than just the binary cases. The easiest way to do this is assign each class it's own set of feature weights to assess the score for each class. The resulting score can be \ul{normalized} to produce a probability distribution over all the classes.
 
@@ -888,14 +888,14 @@ To extend our current logistic classifier to the multinomial sense, we need a ge
 The softmax takes a vector of arbitrary attributes and maps them to a probability distribution with each value in the range of [$0, 1$] and all the values summing to 1.
 
 \[
-  P(y=c|x;w) = \frac{e^z_c}{\sum_{j=1}^k e^z_j}
+	P(y=c|x;w) = \frac{e^z_c}{\sum_{j=1}^k e^z_j}
 \]
 
-$e^z_c$ is the raw score of a single class $c$ which can be expanded to $z = \sigma(w_c \cdot x + b_c)$
+$e^z_c$ is the raw score of a single class $c$ which exapnds to $z = \sigma(w_c \cdot x + b_c)$
 
 
 \[
-  p(y=c|x) = \frac{e^{w_c \cdot x + b_c}}{\sum_{j=1}^k e^{w_j \cdot x + b_j}}
+	p(y=c|x) = \frac{e^{w_c \cdot x + b_c}}{\sum_{j=1}^k e^{w_j \cdot x + b_j}}
 \]
 
 Given object $x$ the softmax function gives us the probability distribution over the classes.
@@ -905,10 +905,10 @@ Given object $x$ the softmax function gives us the probability distribution over
 We can take the formula we used before for the binomial case and apply it for $k$ amount of classes
 
 \begin{align*}
-  L_{CE}(\hat{y}, y) &= -\sum_k=1^K y_k\log(\hat{y}_k) \\
-                     &= -log(\hat{y}_c) \\
-                     &= -\log\hat{p}(y_c=1|x) \\
-                     &= -\log \frac{exp(w_c \cdot x + b_c)}{\sum_{j=1}^K exp(w_j \cdot x + b_j)}
+	L_{CE}(\hat{y}, y) & = -\sum_k=1^K y_k\log(\hat{y}_k)                                             \\
+	                   & = -\log(\hat{y}_c)                                                           \\
+	                   & = -\log\hat{p}(y_c=1|x)                                                      \\
+	                   & = -\log \frac{\exp(w_c \cdot x + b_c)}{\sum_{j=1}^K \exp(w_j \cdot x + b_j)}
 \end{align*}
 
 \subsubsection{Gradient descent}
@@ -916,9 +916,9 @@ We can take the formula we used before for the binomial case and apply it for $k
 For the gradient descent of a multinomial case the partial derivative turns out to just be the difference between the true value for the class $k$ (either a 1 or 0) and the probability the classifier outputs for class $k$ weighted by the value of the input $x_i$ for the $i$th element
 
 \begin{align*}
-  \partial L_{CE} &= -(y_k - \hat{y}_k)x_i \\
-                  &= -(y_k p(y_k=1|x))x_i \\
-                  &= - \Big(y_k \frac{exp(w_k \cdot x + b_k)}{\sum_{j=1}^K exp(w_j \cdot x + b_j)}\Big)x_i
+	\partial L_{CE} & = -(y_k - \hat{y}_k)x_i                                                                   \\
+	                & = -(y_k p(y_k=1|x))x_i                                                                    \\
+	                & = - \Big(y_k \frac{\exp(w_k \cdot x + b_k)}{\sum_{j=1}^K \exp(w_j \cdot x + b_j)}\Big)x_i
 \end{align*}
 
 This is just saying if we have $k$ weights we will end up with $k$ derivatives as a vector which is the gradient.

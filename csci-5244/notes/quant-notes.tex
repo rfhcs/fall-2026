@@ -7,7 +7,8 @@
 \usepackage{amsthm}
 \usepackage{mathtools}
 
-% quantum circuits package
+% quantum packages
+\usepackage{braket}
 \usepackage{quantikz}
 
 % lists
@@ -46,39 +47,39 @@
 % ----------- TITLE ------------
 
 \begin{titlepage}
-\centering
-\vspace*{\fill}
+	\centering
+	\vspace*{\fill}
 
-{\huge Quantum Computing \par}
+	{\huge Quantum Computing \par}
 
-\vspace{20pt}
+	\vspace{20pt}
 
-% ----------- COURSE DESCRIPTION ------------
+	% ----------- COURSE DESCRIPTION ------------
 
-\begin{center}
-\begin{minipage}{0.85\textwidth}
-Lecture notes from my graduate level Quantum Computing class taught by professor Lijun Chen at the University of Colorado Boulder. This course covers a range of foundational topics in quantum computation and information including: basics to quantum mechanics, entanglement, quantum optimization and machine learning, reliable and scalable quantum computing, and quantum communication and networking. There is no official textbook we are using, but rather a bunch of lecture slides and notes from various undergrad and grad courses.
+	\begin{center}
+		\begin{minipage}{0.85\textwidth}
+			Lecture notes from my graduate level Quantum Computing class taught by professor Lijun Chen at the University of Colorado Boulder. This course covers a range of foundational topics in quantum computation and information including: basics to quantum mechanics, entanglement, quantum optimization and machine learning, reliable and scalable quantum computing, and quantum communication and networking. There is no official textbook we are using, but rather a bunch of lecture slides and notes from undergrad and grad courses.
 
-\vspace{20pt}
+			\vspace{20pt}
 
-\textit{Disclaimer}: This document are notes taken by the author (me) a student in graduate school as way to internalize the material I am learning in this class. As such, these notes will inevitably contain mistakes such as errors, typos, etc. as well as personal anecdotes, quips, opinions, and biases. Do what you will with that information, and as a professor once said to me "It's better not to think about it too much."
-\end{minipage}
-\end{center}
+			\textit{Disclaimer}: This document are notes taken by the author (me) a student in graduate school as way to internalize the material I am learning in this class. As such, these notes will inevitably contain mistakes such as errors, typos, etc., personal anecdotes, quips, opinions, and biases. Do what you will with that information, and as a professor once said to me ``It's better not to think about it too much''.
+		\end{minipage}
+	\end{center}
 
-\vspace*{\fill}
+	\vspace*{\fill}
 
-\noindent\rule{10cm}{0.4pt}
+	\noindent\rule{10cm}{0.4pt}
 
-Fall Semester 2026
+	Fall Semester 2026
 
-University of Colorado Boulder
+	University of Colorado Boulder
 
 \end{titlepage}
 
 % ----------- TABLE OF CONTENTS ------------
 
 \newpage
-\pagenumbering{gobble} 
+\pagenumbering{gobble}
 \tableofcontents
 \newpage
 
@@ -96,78 +97,78 @@ A bit is the basic unit of computation that takes a value of a 0 or a 1. Think o
 The quantum bit (qubit) is a basic unit of information that takes in two-dimensional complex vector space.
 
 \begin{equation*}
-  \ket{\psi} = a\ket{0} + b\ket{1}, \abs{a}^2 + \abs{b}^2 = 1
+	\ket{\psi} = a\ket{0} + b\ket{1}, \abs{a}^2 + \abs{b}^2 = 1
 \end{equation*}
 
 \begin{itemize}
-  \item $\ket{0}$ and $\ket{1}$: elements of an orthonormal basis
-  \item $a, b \in \mathbb{C}$ are the probability amplitudes which must satisfy $\sum_i \abs{a}^2 = 1$
-  \item if measured onto the basis, $\ket{0}$ is obtained with a probability $\abs{a}^2$ and $\ket{1}$ with probability $\abs{b}^2$
+	\item $\ket{0}$ and $\ket{1}$: elements of an orthonormal basis
+	\item $a, b \in \mathbb{C}$ are the probability amplitudes which must satisfy $\sum_i \abs{a}^2 = 1$
+	\item if measured onto the basis, $\ket{0}$ is obtained with a probability $\abs{a}^2$ and $\ket{1}$ with probability $\abs{b}^2$
 \end{itemize}
 
 \subsection{Basics of Quantum Mechanics}
 
 \begin{itemize}
-  \item how do we represent a quantum state?
-  \item how to represent an observable?
-  \item how does a quantum system evolve over time?
-  \item what operations can we do on a quantum system?
-  \item how do we combine quantum systems?
+	\item how do we represent a quantum state?
+	\item how to represent an observable?
+	\item how does a quantum system evolve over time?
+	\item what operations can we do on a quantum system?
+	\item how do we combine quantum systems?
 \end{itemize}
 
 \subsubsection{States}
 A state is a complete description of a physical system. A state in quantum mechanics is defined as a unit vector in Hibert space, denoted by $\ket{\psi}$ (Dirac's ket notation).
 
 \begin{itemize}
-  \item a vector space over complex numbers $\mathbb{C}$
-  \item \textbf{Inner Product}: $\braket{\psi}{\phi}$ that maps an ordered pair of vectors to $\mathbb{C}$ and that has these properties:
-    \begin{itemize}
-      \item Positivity: $\braket{\psi}{\psi} > 0$ for $\ket{\psi} \ne 0$
-      \item Skew symmetry: $\braket{\psi}{\phi} = \braket{\phi}{\psi}$
-    \end{itemize}
-  \item \textbf{Normalization}: $||\ket{psi}|| = \sqrt{\braket{\psi}{\psi}}$ 
-  \item \textbf{Global phase}: $\ket{\psi}$ and $e^{ia}\ket{\psi}, a \in \mathbb{R}$ are indistinguishable
+	\item a vector space over complex numbers $\mathbb{C}$
+	\item \textbf{Inner Product}: $\braket{\psi|\phi}$ that maps an ordered pair of vectors to $\mathbb{C}$ and that has these properties:
+	      \begin{itemize}
+		      \item Positivity: $\braket{\psi|\psi} > 0$ for $\ket{\psi} \ne 0$
+		      \item Skew symmetry: $\braket{\psi|\phi} = \braket{\phi|\psi}$
+	      \end{itemize}
+	\item \textbf{Normalization}: $||\ket{psi}|| = \sqrt{\braket{\psi|\psi}}$
+	\item \textbf{Global phase}: $\ket{\psi}$ and $e^{ia}\ket{\psi}, a \in \mathbb{R}$ are indistinguishable
 \end{itemize}
 
 Suppose there are $N$ distinguishable states. A quantum state $\ket{\psi}$ is a \textit{superposition} of these $N$ states:
 
 \begin{equation*}
-  \ket{\psi} = a_1 \ket{1} + a_2 \ket{2} \cdots + a_n \ket{N}
+	\ket{\psi} = a_1 \ket{1} + a_2 \ket{2} \cdots + a_n \ket{N}
 \end{equation*}
 
 We can think of $\ket{\psi}$ as the unit vector:
 
 \[
-\begin{bmatrix}
-  a_1 \\
-  a_2 \\
-  \cdots \\
-  a_N
-\end{bmatrix}
+	\begin{bmatrix}
+		a_1    \\
+		a_2    \\
+		\cdots \\
+		a_N
+	\end{bmatrix}
 \]
 
 With the conjugate transpose:
 
 \[
-  \bra{\psi} = (a_0^*, a_1^*, \cdots, a_n^*)
+	\bra{\psi} = (a_0^*, a_1^*, \ldots, a_n^*)
 \]
 
 So, for the two states $\ket{\psi} = a_n \ket{N}$ and $\ket{\phi} = b_n \ket{B_N}$, their \textit{inner product} is:
 
 \begin{equation*}
-  \braket{\psi}{\phi} = a_1^*b_1 + \cdots + a_n^*b_n
+	\braket{\psi}{\phi} = a_1^*b_1 + \cdots + a_n^*b_n
 \end{equation*}
 
-The \textit{outer product} (projection to $\ket{\psi}$ corresponds to:
+The \textit{outer product} projection to $\ket{\psi}$ corresponds to:
 
 \[
-  \begin{bmatrix}
-    a_1 \\
-    a_2 \\
-    \cdots \\
-    a_n
-  \end{bmatrix}
-  [b_1^*, b_2^*, \cdots, b_n^*]
+	\begin{bmatrix}
+		a_1    \\
+		a_2    \\
+		\cdots \\
+		a_n
+	\end{bmatrix}
+	[b_1^*, b_2^*, \ldots, b_n^*]
 \]
 
 \subsubsection{Observable}
@@ -175,26 +176,26 @@ The \textit{outer product} (projection to $\ket{\psi}$ corresponds to:
 A property of a physical system that can be measured. It's defined mathematically as a self-adjoint operator on Hilbert space
 
 \begin{equation*}
-  A = A^{\dagger}
+	A = A^{\dagger}
 \end{equation*}
 
 \begin{itemize}
-  \item can be diagonalized:
-    \begin{equation*}
-      A = \sum_n a_n E_n
-    \end{equation*}
-    with $a_n$ being eigenvalues of $A$, and $E_n$ is the corresponding orthogonal projection onto the space of eigenvectors with eigenvalues $a_n$.
+	\item can be diagonalized:
+	      \begin{equation*}
+		      A = \sum_n a_n E_n
+	      \end{equation*}
+	      with $a_n$ being eigenvalues of $A$, and $E_n$ is the corresponding orthogonal projection onto the space of eigenvectors with eigenvalues $a_n$.
 
-  \item self-adjoint guarantees these eigenvalues $a_n$ are \textit{real} because the measurements represent actual outcomes (not fake ones)
+	\item self-adjoint guarantees these eigenvalues $a_n$ are \textit{real} because the measurements represent actual outcomes (not fake ones)
 
-  \item the projections satisfy: $E_n = E^{\dagger}_n$ and $E_n E_m = \delta_{n,m} E_n$ \\
-    What this means is:
-    \begin{itemize}
-      \item Hermitian (self-adjoint)
-      \item $\delta_{n,m}$ is the \textbf{Kronecker delta} which equals 1 if $n = m$ and - if $n \ne m$.\\
-    \end{itemize}
-    For case $n=m$ (idempotent) applying the same projection twice does nothing.\\
-    For case $n\ne m$ $E_nE_m = 0$. Projecting onto space $m$ and then a different space gives you nothing because the two spaces don't overlap at all. The eigenspaces are mutually perpendicular.
+	\item the projections satisfy: $E_n = E^{\dagger}_n$ and $E_n E_m = \delta_{n,m} E_n$ \\
+	      What this means is:
+	      \begin{itemize}
+		      \item Hermitian (self-adjoint)
+		      \item $\delta_{n,m}$ is the \textbf{Kronecker delta} which equals 1 if $n = m$ and - if $n \ne m$.\\
+	      \end{itemize}
+	      For case $n=m$ (idempotent) applying the same projection twice does nothing.\\
+	      For case $n\ne m$ $E_nE_m = 0$. Projecting onto space $m$ and then a different space gives you nothing because the two spaces don't overlap at all. The eigenspaces are mutually perpendicular.
 \end{itemize}
 
 \subsubsection{Measurement}
@@ -202,20 +203,20 @@ A property of a physical system that can be measured. It's defined mathematicall
 The measurement of an observable $A$ prepares an eigenstate $\ket{n}$ of $A$ (state collapse):
 
 \begin{itemize}
-  \item Probability of outcome $a_n$:
-    \[
-      Prob(a_n) = ||E\ket{\psi}||^2 = \bra{\psi}E\ket{\psi}
-    \]
-  \item Post-measurement state:
-    \[
-      \frac{E_n \ket{\psi}}{||E_n\ket{\psi}||} \text{(state collapse)}
-    \]
-    Note: when measured again, the outcome remains the same.
+	\item Probability of outcome $a_n$:
+	      \[
+		      Prob(a_n) = ||E\ket{\psi}||^2 = \bra{\psi}E\ket{\psi}
+	      \]
+	\item Post-measurement state:
+	      \[
+		      \frac{E_n \ket{\psi}}{||E_n\ket{\psi}||} \text{(state collapse)}
+	      \]
+	      Note: when measured again, the outcome remains the same.
 
-  \item Expected value over many trials: $\sum_n a_n \text{Prob}(a_n) = \bra{\psi}A\ket{\psi}$
+	\item Expected value over many trials: $\sum_n a_n \text{Prob}(a_n) = \bra{\psi}A\ket{\psi}$
 \end{itemize}
 
-Measuring is literally projecting the state vector onto an eigenspace and normalizing.
+Measuring is projecting the state vector onto an eigenspace and normalizing.
 
 \subsubsection{Dynamics}
 
@@ -224,19 +225,19 @@ Dynamics describe how a state evolves over time. The time evolution of a closed 
 If the initial state at time $t$ is $\ket{\psi}t$, then the final state $\ket{\psi}t'$ at time $t'$ can be expressed as
 
 \begin{equation*}
-  \ket{\psi(t')} = U(t', t)\ket{\psi(t)}\ket{\psi(t)}
+	\ket{\psi(t')} = U(t', t)\ket{\psi(t)}\ket{\psi(t)}
 \end{equation*}
 
 with unitary operator satisfying
 
 \begin{equation*}
-  U^{\dagger}U = UU^{\dagger} = I
+	U^{\dagger}U = UU^{\dagger} = I
 \end{equation*}
 
-Since the unitary operator preserves inner products: $\ket{\psi'} = U\ket{\psi}$ and $\ket{\phi'} = U\ket{\phi}$, then 
+Since the unitary operator preserves inner products: $\ket{\psi'} = U\ket{\psi}$ and $\ket{\phi'} = U\ket{\phi}$, then
 
 \begin{equation*}
-  \braket{\psi'}{\phi'} = \bra{\psi}U^{\dagger}U\ket{\phi} = \braket{\psi}{\phi}
+	\braket{\psi'|\phi'} = \bra{\psi}U^{\dagger}U\ket{\phi} = \braket{\psi|\phi}
 \end{equation*}
 
 
@@ -245,11 +246,11 @@ Since the unitary operator preserves inner products: $\ket{\psi'} = U\ket{\psi}$
 If the Hilbert space of system $\mathcal{A}$ is $\mathcal{H}$ and $\mathcal{B}$ with $\mathcal{H}_{\mathcal{B}}$, then the Hilbert space of the composite systems $AB$ is the \textit{tensor product} $\mathcal{H}_{\mathcal{A}} \otimes \mathcal{H}_{\mathcal{B}}$
 
 \begin{equation*}
-  \mathcal{H}_{\mathcal{A}\mathcal{B}} = \mathcal{H}_{\mathcal{A}} \otimes \mathcal{H}_{\mathcal{B}}
+	\mathcal{H}_{\mathcal{A}\mathcal{B}} = \mathcal{H}_{\mathcal{A}} \otimes \mathcal{H}_{\mathcal{B}}
 \end{equation*}
 
 \begin{itemize}
-  \item with dimension $d_{\mathcal{A}}d_{\mathcal{B}}$ and orthonormal basis $\{\ket{i}_{\mathcal{A}} \otimes \ket{j}_{\mathcal{B}}\}$
+	\item with dimension $d_{\mathcal{A}}d_{\mathcal{B}}$ and orthonormal basis $\{\ket{i}_{\mathcal{A}} \otimes \ket{j}_{\mathcal{B}}\}$
 \end{itemize}
 
 \subsubsection{Entanglement}
@@ -261,11 +262,11 @@ A state like the Bell state $\frac{1}{\sqrt2}(\ket{00} + \ket{11})$ cannot be fa
 Density matrices have the following properties:
 
 \begin{itemize}
-  \item $\rho$ is self-adjoint $\rho = \rho^{\dagger}$
-  \item $\rho$ is positive i.e. $\bra{\psi}\rho\ket{\psi} \ge 0$ for any $\ket{\psi}$
-  \item $tr \rho = 1$
-  \item pure state if rank($\rho$) = 1 and mixed state otherwise
-  \item pure state if $\rho^2 = \rho$ and mixed state otherwise
+	\item $\rho$ is self-adjoint $\rho = \rho^{\dagger}$
+	\item $\rho$ is positive i.e. $\bra{\psi}\rho\ket{\psi} \ge 0$ for any $\ket{\psi}$
+	\item $tr \rho = 1$
+	\item pure state if rank($\rho$) = 1 and mixed state otherwise
+	\item pure state if $\rho^2 = \rho$ and mixed state otherwise
 \end{itemize}
 
 \subsubsection{No cloning theorem}
@@ -275,17 +276,17 @@ States that no arbitrary transformation can make a copy of an arbitrary quantum 
 Take two arbitrary states $\ket{\psi}_A$ and $\ket{\phi}_A$
 
 \begin{align*}
-  U\ket{\psi}_A \ket{0}_E &= \ket{\psi}_A \ket{\psi}_E \\
-  U\ket{\phi}_A \ket{0}_E &= \ket{\phi}_A \ket{\phi}_E \\
+	U\ket{\psi}_A \ket{0}_E & = \ket{\psi}_A \ket{\psi}_E \\
+	U\ket{\phi}_A \ket{0}_E & = \ket{\phi}_A \ket{\phi}_E \\
 \end{align*}
 
-The unitary transformation preserves the inner product 
+The unitary transformation preserves the inner product
 
 \begin{equation*}
-  \braket{\psi}{\phi} = \braket{\psi}{\phi}^2
+	\braket{\psi|\phi} = \braket{\psi|\phi}^2
 \end{equation*}
 
-But $\braket{\psi}{\phi}$ = 0 or 1 which is a contradiction unless the states were already orthogonal or identical. Thus, cloning arbitrary states is algebraically impossible.
+But $\braket{\psi|\phi}$ = 0 or 1 which is a contradiction unless the states were already orthogonal or identical. Thus, cloning arbitrary states is algebraically impossible.
 
 
 \newpage
@@ -297,31 +298,31 @@ Quantum circuits are one of the foundational concepts of quantum computing. It j
 In vector form, the basis in Hilbert space looks like
 
 \begin{equation*}
-  \ket{0} = \begin{pmatrix}0 \\ 1\end{pmatrix}, \ket{1} = \begin{pmatrix}1 \\ 0\end{pmatrix}
+	\ket{0} = \begin{pmatrix}0 \\ 1\end{pmatrix}, \ket{1} = \begin{pmatrix}1 \\ 0\end{pmatrix}
 \end{equation*}
 
 Some basic linear operators include the identity, and Pauli X, Y, Z matrices
 
 \begin{align*}
-  I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \
-  \sigma_1 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \
-  \sigma_2 = \begin{pmatrix} 0 & -i  \\ i & 0 \end{pmatrix} \
-  \sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \
+	I = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \
+	\sigma_1 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \
+	\sigma_2 = \begin{pmatrix} 0 & -i  \\ i & 0 \end{pmatrix} \
+	\sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \
 \end{align*}
 
-\subsection{What is a quantum gate?} A quantum gate is nothing more than a matrix multiplying a vector. It acts similarly like a linear transformation. 
+\subsection{What is a quantum gate?} A quantum gate is nothing more than a matrix multiplying a vector. It acts similarly like a linear transformation.
 
 
 Since it is relatively hard to explain with words, examples should work better. A popular example of a quantum gate is the Hadamard gate which maps $\ket{0}$ to $\ket{+}$ and $\ket{1}$ to $\ket{-}$
 
 \begin{equation*}
-  H = \frac{1}{\sqrt2} \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}
+	H = \frac{1}{\sqrt2} \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}
 \end{equation*}
 
 Mapping the Hadamard gate to $\ket{0}, \ket{1}$ would look like
 
 \begin{equation*}
-  \ket{+} = H\ket{0} = \frac{1}{\sqrt2}(\ket{0} + \ket{1}), \ket{-} = H\ket{1} = \frac{1}{\sqrt2}(\ket{0} - \ket{1})
+	\ket{+} = H\ket{0} = \frac{1}{\sqrt2}(\ket{0} + \ket{1}), \ket{-} = H\ket{1} = \frac{1}{\sqrt2}(\ket{0} - \ket{1})
 \end{equation*}
 
 \subsubsection{Quantum interference}
@@ -333,14 +334,14 @@ Think of it like a pond and on this pond there are rubber ducks covering the ent
 Now back to quantum. An example of an interference pattern can be inversely applied using the Hadamard gate
 
 \begin{align*}
-  H\ket{+} &= \frac{1}{\sqrt2}(H\ket{0} + H\ket{1}) \\
-           &= \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} + \ket{1}) + \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} - \ket{1}) \\
-           &= \frac12\ket{0} + \frac12\ket{1} + \frac12\ket{0} - \frac12\ket{1} \\
-           &= \ket{0} \\
-  H\ket{-} &= \frac{1}{\sqrt2}(H\ket{0} - H\ket{1}) \\
-           &= \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} + \ket{1}) - \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} - \ket{1}) \\
-           &= \frac12\ket{0} + \frac12\ket{1} - \frac12\ket{0} - \frac12\ket{1} \\
-           &= \ket{1}
+	H\ket{+} & = \frac{1}{\sqrt2}(H\ket{0} + H\ket{1})                                                                         \\
+	         & = \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} + \ket{1}) + \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} - \ket{1}) \\
+	         & = \frac12\ket{0} + \frac12\ket{1} + \frac12\ket{0} - \frac12\ket{1}                                             \\
+	         & = \ket{0}                                                                                                       \\
+	H\ket{-} & = \frac{1}{\sqrt2}(H\ket{0} - H\ket{1})                                                                         \\
+	         & = \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} + \ket{1}) - \frac{1}{\sqrt2} \frac{1}{\sqrt2} (\ket{0} - \ket{1}) \\
+	         & = \frac12\ket{0} + \frac12\ket{1} - \frac12\ket{0} - \frac12\ket{1}                                             \\
+	         & = \ket{1}
 \end{align*}
 
 With the positive Hadamard gate, the $\ket{0}$ both come out to $\frac12$ and add up (constructive interference). Meanwhile the $\ket{1}$ both cancel each other out.
@@ -354,26 +355,26 @@ A phase shift gate $P(\theta) = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\pi} \end{pmatr
 \textbf{Example}
 
 \begin{equation*}
-  \ket{+} = \frac{1}{\sqrt2}(\ket{0} + \ket{1})
+	\ket{+} = \frac{1}{\sqrt2}(\ket{0} + \ket{1})
 \end{equation*}
 
 Apply the phase change:
 
 \begin{equation*}
-  P(\theta)\ket{+} = (\ket{0} + e^{i\theta}\ket{1})
+	P(\theta)\ket{+} = (\ket{0} + e^{i\theta}\ket{1})
 \end{equation*}
 
 Apply Hadamard interference
 
 \begin{equation*}
-  H P(\theta) \ket{+} = \frac12 [(1 + e^{i\theta}\ket{0})+ (1-e^{i\theta}\ket{1})]
+	H P(\theta) \ket{+} = \frac12 [(1 + e^{i\theta}\ket{0})+ (1-e^{i\theta}\ket{1})]
 \end{equation*}
 
 Taking the $|\texttt{amplitude}|^2$ knowing that $|1 + e^{i\theta}|^2 = 2 + 2 \cos(\theta)$ of each term gives us
 
 \begin{align*}
-  \text{P(measure 0)} &= \frac{1+\cos\theta}{2} = \cos^2(\frac{\theta}{2}) \\
-  \text{P(measure 1)} &= \frac{1-\cos\theta}{2} = \sin^2(\frac{\theta}{2})
+	\text{P (measure 0)} & = \frac{1+\cos\theta}{2} = \cos^2(\frac{\theta}{2}) \\
+	\text{P (measure 1)} & = \frac{1-\cos\theta}{2} = \sin^2(\frac{\theta}{2})
 \end{align*}
 
 \subsection{Multi-qubit gates}
@@ -383,21 +384,21 @@ Taking the $|\texttt{amplitude}|^2$ knowing that $|1 + e^{i\theta}|^2 = 2 + 2 \c
 Maps $\ket{x,y }$ to $\ket{x, x \oplus y}$.
 
 \begin{equation*}
-  CNOT =
-  \begin{pmatrix}
-    1 & 0 & 0 & 0 \\
-    0 & 1 & 0 & 0 \\
-    0 & 0 & 0 & 1 \\
-    0 & 0 & 1 & 0 \\
-  \end{pmatrix}
+	CNOT =
+	\begin{pmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 0 & 1 \\
+		0 & 0 & 1 & 0 \\
+	\end{pmatrix}
 \end{equation*}
 
 Below is an example of applying the Hadamard gate to the first ket and the CNOT gate to the second ket
 
 \centering
 \begin{quantikz}
-  \lstick{$\ket{x}$} & \gate{H}  && \ctrl{1} &&& \\
-  \lstick{\ket{y}} &&& \targ{} &&&
+	\lstick{$\ket{x}$} & \gate{H}  && \ctrl{1} &&& \\
+	\lstick{$\ket{y}$} &&& \targ{} &&&
 \end{quantikz}
 
 \raggedright
@@ -411,8 +412,8 @@ Here's what it looks like in circuit form
 
 \centering
 \begin{quantikz}
-  \lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
-  \lstick{\ket{y}} &&& \gate{U} &&&
+	\lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
+	\lstick{$\ket{y}$} &&& \gate{U} &&&
 \end{quantikz}
 
 \raggedright
@@ -428,16 +429,16 @@ The CCNOT gate is a universal gate for reversible classical computing. Any class
 
 \centering
 \begin{quantikz}
-  \lstick{\ket{x}} &&& \ctrl{1} &&& \\
-  \lstick{\ket{y}} &&& \ctrl{1} &&& \\
-  \lstick{\ket{z}} &&& \targ{} &&&
+	\lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
+	\lstick{$\ket{y}$} &&& \ctrl{1} &&& \\
+	\lstick{$\ket{z}$} &&& \targ{} &&&
 \end{quantikz}
 
 \raggedright
 \subsection{The quantum circuit model}
 
 \begin{equation*}
-  \ket{\psi} = \sum_{x \in \{0, 1\}^n} a_x \ket{x} \mapsto U\ket{\psi}
+	\ket{\psi} = \sum_{x \in \{0, 1\}^n} a_x \ket{x} \mapsto U\ket{\psi}
 \end{equation*}
 
 Instead of building a really big $2^n \times 2^n$ matrix, we can decompose it into a series of smaller operations acting on a few qubits at a time to not overwhelm ourselves!
@@ -445,31 +446,31 @@ Instead of building a really big $2^n \times 2^n$ matrix, we can decompose it in
 Building a circuit has four parts:
 
 \begin{itemize}
-  \item
-    \textbf{Initialization}: $\ket{x} = \ket{0}^{\otimes n} = \ket{000 \dots 0}$
-    \begin{itemize}
-        \item Start in the lowest energy state of quantum register
-    \end{itemize}
+	\item
+	      \textbf{Initialization}: $\ket{x} = \ket{0}^{\otimes n} = \ket{000 \dots 0}$
+	      \begin{itemize}
+		      \item Start in the lowest energy state of quantum register
+	      \end{itemize}
 
-  \item
-    \textbf{A universal set of quantum gates} $\{U_1, U_2, \dots U_m\}$
-    \begin{itemize}
-      \item A finite set of gates can be used to approximate n-qubits to a desired accuracy
-    \end{itemize}
+	\item
+	      \textbf{A universal set of quantum gates} $\{U_1, U_2, \dots U_m\}$
+	      \begin{itemize}
+		      \item A finite set of gates can be used to approximate n-qubits to a desired accuracy
+	      \end{itemize}
 
-  \item
-    \textbf{Classical control}: A classical computer builds a circuit and then executes it in order. (Later: see the quantum-classical paradigm)
+	\item
+	      \textbf{Classical control}: A classical computer builds a circuit and then executes it in order. (Later: see the quantum-classical paradigm)
 
-  \item
-    \textbf{Measurement} in the standard basis $\{0, 1\}$.
-    \begin{itemize}
-      \item Complexity of complicated measurement accounted in complexity of an algorithm.
-      \item Delayed measurement vs measurement at intermediate stages.
-        \begin{itemize}
-          \item delayed measurement is general
-          \item real devices often measure in between based off of outcome and branch
-        \end{itemize}
-    \end{itemize}
+	\item
+	      \textbf{Measurement} in the standard basis $\{0, 1\}$.
+	      \begin{itemize}
+		      \item Complexity of complicated measurement accounted in complexity of an algorithm.
+		      \item Delayed measurement vs measurement at intermediate stages.
+		            \begin{itemize}
+			            \item delayed measurement is general
+			            \item real devices often measure in between based off of outcome and branch
+		            \end{itemize}
+	      \end{itemize}
 \end{itemize}
 
 \subsection{Universal Gates}
@@ -477,18 +478,18 @@ Building a circuit has four parts:
 A gate set is universal if some circuit V built from it can approximate any unitary transformation $U$ on any number of qubits and get a desired accuracy $\epsilon$.
 
 \begin{equation*}
-  ||V-e^{i\theta}U||_{\inf} \le \epsilon
+	||V-e^{i\theta}U||_{\inf} \le \epsilon
 \end{equation*}
 
 There are two flavors:
 
 \begin{enumerate}
-  \item
-    \textbf{exact universality}: requires uncountable gate set; e.g. the set of two qubit gates, any entangling two-qubit gate plus the set of one-qubit gate
-  \item
-    \textbf{generic universality}: almost any two-qubit gate is universal if it can be applied to any pair of qubits.
-  \item
-    examples: $\{CCNOT, H, P(\pi/2)\}$, $\{H, control - e^{i\pi/4}P(\pi/2\}$
+	\item
+	      \textbf{exact universality}: requires uncountable gate set; e.g., the set of two qubit gates, any entangling two-qubit gate plus the set of one-qubit gate
+	\item
+	      \textbf{generic universality}: almost any two-qubit gate is universal if it can be applied to any pair of qubits.
+	\item
+	      examples: $\{CCNOT, H, P(\pi/2)\}$, $\{H, control - e^{i\pi/4}P(\pi/2\}$
 \end{enumerate}
 
 
@@ -497,8 +498,8 @@ There are two flavors:
 This theorem answers these two questions:
 
 \begin{itemize}
-  \item how large does quantum circuit $V$ need to be to approximate a given unitary transformation $U$ to a desired accuracy?
-  \item how large of a classical circuit is needed to find such a quantum circuit?
+	\item how large does quantum circuit $V$ need to be to approximate a given unitary transformation $U$ to a desired accuracy?
+	\item how large of a classical circuit is needed to find such a quantum circuit?
 \end{itemize}
 
 Turns out the answer to both questions is: given a universal set of quantum gates, the quantum circuit and classical circuit need to be  $\log^{O(1)1/\epsilon}$ large.
@@ -513,10 +514,10 @@ There are four possible functions:
 
 \centering
 \begin{tabular}{c|c|c|c|c}
-  \ & $f_0$ & $f_1$ & $f_2$ & $f_3$  \\
-  \hline
-  0 & 0 & 0 & 1 & 1 \\
-  1 & 1 & 0 & 1 & 0 \\
+	\  & $f_0$ & $f_1$ & $f_2$ & $f_3$ \\
+	\hline
+	0  & 0     & 0     & 1     & 1     \\
+	1  & 1     & 0     & 1     & 0     \\
 \end{tabular}
 
 \raggedright
@@ -524,10 +525,10 @@ There are four possible functions:
 
 A single qubit acting on $\ket{0} and \ket{1}$ would be $\begin{pmatrix} 1 & 1 \\ 0 & 0 \end{pmatrix}$ which is not a unitary matrix.
 
-With a two qubit gate, we can use unitary $B_f$ (a "phase oracle" of $f$) acting as:
+With a two qubit gate, we can use unitary $B_f$ (a ``phase oracle'' of $f$) acting as:
 
 \[
-  B_f : \ket{x}\ket{y} \mapsto \ket{x}\ket{y \oplus f(x)}
+	B_f : \ket{x}\ket{y} \mapsto \ket{x}\ket{y \oplus f(x)}
 \]
 
 ...which is always unitary because it's XOR-ing it's own inverse.
@@ -536,8 +537,8 @@ With a two qubit gate, we can use unitary $B_f$ (a "phase oracle" of $f$) acting
 
 \centering
 \begin{quantikz}
-\lstick{0} & \gate{H} & \gate[2]{B_f} & \gate{H} & \gate{M} \\
-\lstick{1} & \gate{H} && \ \text{garbage} \\
+	\lstick{0} & \gate{H} & \gate[2]{B_f} & \gate{H} & \gate{M} \\
+	\lstick{1} & \gate{H} && \ \text{garbage} \\
 \end{quantikz}
 
 \raggedright
@@ -546,93 +547,118 @@ Let's walk through the above circuit.
 Before applying the Hadamard gate we have
 
 \[
-  \ket{0}\ket{1}
+	\ket{0}\ket{1}
 \]
 
 Applying the Hadamard to both yields
 
 \[
-  \ket{0}\ket{1} = \frac12 \Big[ \ket{0}(\ket{0} - \ket{1}) + \ket{1}(\ket{0} - \ket{1}) \Big]
+	\ket{0}\ket{1} = \frac12 \Big[ \ket{0}(\ket{0} - \ket{1}) + \ket{1}(\ket{0} - \ket{1}) \Big]
 \]
 
 Expanding and applying $B_f$ (which turns $\ket{x}\ket{y}$ into $\ket{x}\ket{y \oplus f(x)}$, and flipping $y$ inside ($\ket{0} - \ket{1}$) just flips its overall sign when $f(x) = 1$) gives:
 
 \[
-  \frac12 \Big[\ket{0}\ket{f(0) \oplus 0} - \ket{0}\ket{f(0) \oplus \ket{1}} + \ket{1}\ket{f(1) \oplus 0} - \ket{1}\ket{f(1) \oplus \ket{1}}\Big]
+	\frac12 \Big[\ket{0}\ket{f(0) \oplus 0} - \ket{0}\ket{f(0) \oplus \ket{1}} + \ket{1}\ket{f(1) \oplus 0} - \ket{1}\ket{f(1) \oplus \ket{1}}\Big]
 \]
 
 This can be simplified as
 
 \begin{align*}
- &= \frac12 (-1)^{f(0)}\ket{0}(\ket{0} - \ket{1}) + \frac12 (-1)^{f(1)} \ket{1} (\ket{0} - \ket{1}) \\
- &= \Big(\invsq(-1)^{f(0)}\ket{0} + \invsq(-1)^{f(1)}\ket{1}\Big)\Big(\invsq \ket{0} - \invsq \ket{1}\Big)
+	 & = \frac12 {(-1)}^{f(0)}\ket{0}(\ket{0} - \ket{1}) + \frac12 {(-1)}^{f(1)} \ket{1} (\ket{0} - \ket{1})    \\
+	 & = \Big(\invsq(-1)^{f(0)}\ket{0} + \invsq(-1)^{f(1)}\ket{1}\Big)\Big(\invsq \ket{0} - \invsq \ket{1}\Big)
 \end{align*}
 
-Notice how the state of the second qubit has not changed! This is known as "phase kickback".
+Notice how the state of the second qubit has not changed! This is known as ``phase kickback''.
 
 We can now throw out the second qubit which leaves us with
 
 \[
- \Big(\invsq(-1)^{f(0)}\ket{0} + \invsq(-1)^{f(1)}\ket{1}\Big)
+	\Big(\invsq(-1)^{f(0)}\ket{0} + \invsq(-1)^{f(1)}\ket{1}\Big)
 \]
 
 which can be written as
 
 \[
-  (-1)^{f(0)} \Big(\invsq\ket{0} + \invsq(-1)^{f(0) \oplus f(1)}\ket{1}\Big)
+	(-1)^{f(0)} \Big(\invsq\ket{0} + \invsq(-1)^{f(0) \oplus f(1)}\ket{1}\Big)
 \]
 
-The final Hadamard gate takes us to 
+The final Hadamard gate takes us to
 
 \[
-  (-1)^{f(0)}\ket{f(0) \oplus f(1)}
+	(-1)^{f(0)}\ket{f(0) \oplus f(1)}
 \]
 
-\subsection{Grover's algorithm}
+\subsection{Grovers algorithm}
 
-Suppose you have a key hidden among various boxes and you want to find the box with that specific key. Classically, in the worst case, finding this would require you to iterate over every single piece of hay. With quantum mechanics, we can lower that complexity and find it in $O(\sqrt{2^n}$ times.
+Suppose you have a key hidden among various boxes and you want to find the box with that specific key. Classically, in the worst case, finding this would require you to iterate over every single piece of hay. With quantum mechanics, we can lower that complexity and find it in $O(\sqrt{2^n})$ times.
 
-A more formal way of explaining this is given a function $f: \{0, 1\}^n \mapsto \{0,1\}$ with
+A more formal way of explaining this is given a function $f: {\{0, 1\}}^{n} \mapsto \{0,1\}$ with
 
 \[
-  f(x) = 
-  \begin{cases}
-    0 \ x \ne w \\
-    1 x = w
-  \end{cases}
+	f(x) =
+	\begin{cases}
+		0 \ x \ne w \\
+		1 x = w
+	\end{cases}
 \]
 
 for some unknown $w$, find $w$.
 
 
-\subsubsection{Walkthrough}
+\subsubsection{Setup}
 
-The function $f: \{0,1\}^n \mapsto \{0,1\}$ is implemented with the unitary transformation
+The function $f: \{0,1\}^n \mapsto \{0,1\}$ implemented with the unitary transformation
 
 \[
-  U_f \ket{x}\ket{a} = \ket{x}\ket{a \oplus f(x)}
+	U_f \ket{x}\ket{a} = \ket{x}\ket{a \oplus f(x)}
 \]
 
 where $x \in \{0,1\}^n$ and $a \in \{0,1\}$
 
 
-The oracle $U_f$ is turned into a \textit{phase oracle} which is a quantum black-box operation that marks a specific target state by multiplying them by a negative sign or a phase factor $(-1)^{f(x)}$.
+The oracle $U_f$ turns into a \textit{phase oracle} which is a quantum black-box operation that marks a specific target state by multiplying them by a negative sign or a phase factor $(-1)^{f(x)}$.
 
 \[
-  U_f\ket{x}\ket{-} = (-1)^{f(x)}\ket{x}\ket{-}
+	U_f\ket{x}\ket{-} = {(-1)}^{f(x)}\ket{x}\ket{-}
 \]
 
-where $(-1)^{f(x)}$ equals 1 if $x \ne w$ and -1 if $x = w$. This is essentially saying that we leave every box alone except for the one we want the sign to flip.
+where ${(-1)}^{f(x)}$ equals 1 if $x \ne w$ and -1 if $x = w$. This is essentially saying that we leave every box alone except for the one we want the sign to flip.
 
 Ignoring the output register we can express $U_w$ as
 
 \[
-  U_w = I - 2 \ket{w}\bra{w}
+	U_w = I - 2 \ket{w}\bra{w}
 \]
 
 Given $n$-qubit state we can express this as
 
+\[
+	U_f = \ket{\psi} = a\ket{w}+b\ket{w^\perp} \mapsto -a\ket{w} + b\ket{w^\perp}
+\]
 
+The unitary operator induces a reflection of the vector $\ket{\psi}$ about the hyperplane created by $\braket{w | {w}^\perp}$.
+
+\subsubsection{Walkthrough}
+
+First, we prepare a uniform superposition $\ket{s} = {H}^{\otimes n}\ket{000 \dots 0} = \frac{1}{\sqrt{2^n}}\sum_{x \in {\{0,1\}}^n} \ket{x}$.
+
+Next, we apply the \textit{Grover iteration} in succession where each iteration enhances the value of the secret key while suppressing all other values.
+
+
+\begin{equation*}
+	U_G = U_s U_f \text{with} \ U_S = 2 \ket{s}\bra{s} - I
+\end{equation*}
+
+$U_f$ is the query and $U_s$ is the reflection about the ``axis'' $\ket{s}$
+
+Here, the $I$ does nothing and $\ket{s}\bra{s}$ is an ``outer product'' operator that takes any state and measures how much of it points along $\ket{s}$, and returns that amount of $\ket{s}$. Doubling it and subtracting the identity matrix projects it onto $\ket{s}$ and reflects it.
+
+The rotation of the initial angle $\theta$ is given by
+
+\begin{equation*}
+	\sin(\theta) = \braket{s|w} = \frac{1}{\sqrt{N}}
+\end{equation*}
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
