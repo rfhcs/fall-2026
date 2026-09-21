@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+% algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+}
+
+% line spacing & formatting
+\usepackage{soul}
+\usepackage{parskip}
+
+% title
+\title{Homework 2: Language Models and Author Identification}
+\date{September 21, 2026}
+\author{Rey Stone}
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+
+\section{Instructions}
+In this assignment, you will implement a BPE-based tokenizer, several N-gram language models, and a perplexity measure.  You will then use these components to implement a simple language modeling approach to author identification.  Based on some training materials, you will be asked to use your LM to classify a set of text segments according to their author.
+
+\section{Normalization}
+
+Before starting the tokenization process, I have made several decisions to influence the tokenization process that are noteworthy.
+
+\begin{itemize}
+	\item
+	      \textbf{Preserve case and punctuation}
+	      Because both Tolkien and Doyle write in a similar adventure narrative style, surface stylistic habits (such as capitalization, and punctuation patterns) might be useful in distinguishing between the different authors. This might add vocabulary sparsity, but \href{https://www.youtube.com/watch?v=bwOXhivY1Uc}{it's a sacrifice I'm willing to make}.
+
+	\item
+	      \textbf{Stripped Gutenberg front-matter at the start and end of the .txt files}
+	      For both books, title blocks, and everything before ``Chapter 1'' was stripped because there is no added benefit in keeping these sentences in the text as they are not the author's written work and would just clog up the vocabulary.
+
+	\item
+	      \textbf{Got rid of Chapter indicators and Chapter titles}
+	      Chapter headers ``Chapter XX'' and the chapter titles are not inherently indicative of authorial style, and had to be removed.
+
+	\item
+	      \textbf{Canonicalize typographic artifacts, not stylistic content}
+	      Because punctuation was kept, there were some instances of non-ASCII characters still scattered throughout. Curly quotes were standardized to straight quotes since these artifacts are not authorial choices. Em-dashes were left untouched because collapsing them to a hyphen would make them indistinguishable from hyphenated compounds that may or may not exist in both texts.
+
+	      In some instances in \textit{The Lost World} there were instances of double hyphens or quadruple hyphens for em-dashes which had to be normalized to either signle or double emdashes.
+
+	      In four cases in \textit{The Hobbit} the phrase ``Gandalf's'' was missing an apostrophe for the possessive, which was normalized.
+
+\end{itemize}
+
+\section{Passages and splits}
+
+I went for a more nuanced approach to preserve as much of the author's style as possible. For this reason when creating train, dev, and test splits, I made the choice to split passages of the book instead of just pure sentences.
+
+\begin{itemize}
+	\item Split each book into paragraphs on blank lines, then grouped consecutive paragraphs into passages, closing a passage once it reaches a word count of 80 (although in practice most ended up being 120 to 150 words long).
+
+	\item Merged leftovers at the end of each book into the last passage.
+	\item Collapsed whitespace inside each passage.
+	\item Grouped passages into blocks of 10, shuffled the blocks with a fixed random seed, and assigned these blocks to train, dev, and test at roughly an 80/10/10 split. Each book was split independently.
+
+\end{itemize}
+
+\section{Tokenizer}
+
+I implemented Hugging Face's basic BPE-tokenizer from their quicktour, and trained on the passages of both books combined so both LMs share one vocabulary.
+
+The vocabulary size is initially set to $1000$ and a pre-tokenizer is defaulted to \code{Whitespace()}, which is to be explored further.
+
+\section{Difficulties}
+
+There was a plethora of difficulties which led to me screaming in despair
+
+
+% ----------- DOCUMENT ENDS HERE ------------
+\end{document}
