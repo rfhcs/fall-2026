@@ -74,9 +74,17 @@ def main():
         for r in results:
             print(r)
 
-    # --- final chosen config: n=2, k=0.1, vocab_size=1000 author ID sanity check on own test split ---
-    hobbit_model = AddOneSmoothing(hobbit_train_ids, 1000, k=0.1)
-    lost_model = AddOneSmoothing(lost_train_ids, 1000, k=0.1)
+    # --- final chosen config: n=2, k=0.1, vocab_size=1000 ---
+    tok = train_tokenizer(hobbit_train + lost_train, vocab_size=1000)
+    vocab_size = tok.get_vocab_size()
+
+    hobbit_train_ids = [add_padding(tok, p) for p in hobbit_train]
+    hobbit_test_ids = [add_padding(tok, p) for p in hobbit_test]
+    lost_train_ids = [add_padding(tok, p) for p in lost_train]
+    lost_test_ids = [add_padding(tok, p) for p in lost_test]
+
+    hobbit_model = AddOneSmoothing(hobbit_train_ids, vocab_size, k=0.1)
+    lost_model = AddOneSmoothing(lost_train_ids, vocab_size, k=0.1)
 
     hobbit_correct = sum(
         predict_author(p, hobbit_model, lost_model) == "hobbit" for p in hobbit_test_ids
