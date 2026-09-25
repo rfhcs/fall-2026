@@ -24,6 +24,9 @@
 
 % custom commands
 \newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\newcommand{\sinth}{\sin\theta}
+\newcommand{\costh}{\cos\theta}
+\newcommand{\ztimesn}{0^{\otimes n}}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
 % title stuff
@@ -57,6 +60,8 @@
 		            \begin{equation*}
 			            e^{-i \theta \sigma_j} = I \cos(\theta)-i \sigma_j \sin(\theta)
 		            \end{equation*}
+
+		            \textbf{Begin solution}
 
 		            It is known that ${e}^x$ can expand into the Taylor series
 		            \begin{equation*}
@@ -161,6 +166,8 @@
 		            \end{quantikz}
 
 		            \raggedright
+		            \textbf{Begin solution}
+
 		            We want to show that this circuit implements the unitary transformation $U(\theta) = e^{-i \theta Z_0 Z_1}$.
 
 		            Since $Z\ket{0} = \ket{0}$ and $Z\ket{1} = -\ket{1}$ for any basis state $\ket{x_0 x_1}$
@@ -181,6 +188,7 @@
 			            $\ket{11}$ & $\ket{10}$ & $e^{-i \theta}\ket{10}$ & $e^{-i \theta}\ket{11}$ \\
 		            \end{tabular}
 
+		            \raggedright
 		            In every case the circuit output matches $e^{-i \theta Z_0 Z_1}$ exactly, thus this circuit implements the unitary transformation $U(\theta) = e^{-i \theta Z_0 Z_1}$.
 
 	      \end{enumerate}
@@ -188,7 +196,7 @@
 	\item \textbf{Amplitude Amplification} Given a unitary operator $U$ on a system of $n$ qubits:
 
 	      \begin{align*}
-		      U\ket{o^{\otimes n}} = \cos 2\theta \ket{\Psi_1} - \sin 2\theta \ket{\Psi_0}
+		      U\ket{o^{\otimes n}} = \cos \theta \ket{\Psi_0} + \sin \theta \ket{\Psi_1}
 	      \end{align*}
 
 	      where $\braket{\Psi_0 | \Psi_0} = \braket{\Psi_1 | \Psi_1} = 1$ and $\braket{\Psi_0 | \Psi_1} = 0$. Define $S_1 = I - 2 \ket{\Psi_1} \bra{\Psi_1}$, and $S_i = I - 2 \ket{0^{\otimes n}} \bra{0^{\otimes n}}$, and $Q = -US_i U^{-1}S_1$.
@@ -202,11 +210,311 @@
 
 		            Implies the two-dimensional space spanned by $\ket{\Psi_0}$ and $\ket{\Psi_1}$ is invariant under operator $Q$.
 
+		            \textbf{Begin solution}
+
+		            Applying $S_{1} \ket{\Psi_{1}}$
+
+		            \begin{align*}
+			            S_{1}\ket{\Psi_1} & = (I - 2\ket{\Psi_1}\bra{\Psi_1})\ket{\Psi_1}           \\
+			                              & = I\ket{\Psi_1} - 2\ket{\Psi_1}\braket{\Psi_1 | \Psi_1} \\
+			                              & = -\ket{\Psi_1}
+		            \end{align*}
+
+		            Applying $S_{1} \ket{\Psi_{0}}$
+
+		            \begin{align*}
+			            S_{1}\ket{\Psi_0} & = (I - 2\ket{\Psi_1}\bra{\Psi_1})\ket{\Psi_0}           \\
+			                              & = I\ket{\Psi_0} - 2\ket{\Psi_1}\braket{\Psi_1 | \Psi_0} \\
+			                              & = \ket{\Psi_1}
+		            \end{align*}
+
+		            Therefore we can conclude that $S_1$ is a reflection operator when applying $S_1$ to $\ket{\Psi_1}$ and $\ket{\Psi_0}$.
+
+		            Now, I will walk through $\ket{\Psi_1}$ first and then come back to $\ket{\Psi_0}$.
+
+		            Applying $U^{-1}$
+
+		            It is defined above that $U \ket{o^{\otimes n}} = \cos\theta \ket{\Psi_0} + \sin\theta \ket{\Psi_1}$ which is in the basis $\{\ket{\Psi_{0}}, \ket{\Psi_{1}}\}$. We only know what $U$ does to $\ket{0^{\otimes n}}$, but since $U$ is unitary, we can find an orthogonal compliment I will call $\ket{\Phi}$ to map onto an orthonormal basis $\{U\ket{0^{\otimes n}}, \ket{\Phi}\}$.
+
+		            The orthogonal vector to $U\ket{0^{\otimes n}}$ is the equation $-\sin\theta\ket{\Psi_0} + \cos\theta\ket{\Psi_1}$ because
+
+		            \begin{equation*}
+			            \cos\theta(-\sin\theta) + \sin\theta(cos\theta) = 0
+		            \end{equation*}
+
+		            Which is their inner product.
+
+		            Using the fact that if $\{a, b\}$ is an orthonormal basis, then any vector can be written $\ket{v} = c_a \ket{a} + c_b \ket{b}$, and the coefficients can be extracted by taking an inner product with the corresponding basis vector.
+
+		            \begin{equation*}
+			            \braket{a | v} = c_a \braket{a | a} + c_b \braket{a | b} = c_a (1) + c_b (0) = c_a
+		            \end{equation*}
+
+		            Applying this to basis $\{U\ket{0^{\otimes n}}, \ket{\Phi}\}$ for $\ket{\Psi_1}$
+
+		            \begin{align*}
+			            \ket{\Psi_1}                      & = \braket{U 0^{\otimes n} | \Psi_1}  \cdot U\ket{0^{\otimes n}} + \braket{\Phi | \Psi_1} \cdot \ket{\Phi} \\
+			            \braket{U 0^{\otimes n} | \Psi_1} & = \cos\theta \braket{\Psi_0 | \Psi_1} + \sin\theta \braket{\Psi_1 | \Psi_1} = \sin\theta                  \\
+			            \braket{\Phi | \Psi_1}            & = -\sin\theta\braket{\Psi_0 | \Psi_1} + \cos\theta\braket{\Psi_1 | \Psi_1} = \cos\theta
+		            \end{align*}
+
+		            Apply the negative given to us by $S_1\ket{\Psi_1} = -\ket{\Psi_1}$
+
+		            \begin{equation*}
+			            U^{-1}S_1\ket{\Psi_1} = -(\sin\theta\ket{0^{\otimes n}} + \cos\theta\ket{\phi})
+		            \end{equation*}
+
+		            For simplicity's sake, I am leaving out the negative until the very end.
+
+		            Apply $S_i = I - 2 \ket{0^{\otimes n}}\bra{0^{\otimes n}}$
+
+		            \begin{align*}
+			            S_i & = \Big(I - 2 \ket{0^{\otimes n}}\bra{0^{\otimes n}}\Big) \Big(\sin\theta\ket{0^{\otimes n}} + \cos\theta\ket{\phi}\Big)                           \\
+			                & = \sinth \ket{\ztimesn} + \costh \ket{\phi} - 2\sinth\ket{\ztimesn}\braket{\ztimesn | \ztimesn}+ 2 \costh \ket{\ztimesn} \braket{\ztimesn | \phi} \\
+			                & = \sinth \ztimesn + \costh \ket{\phi} - 2 \sinth \ket{\ztimesn} (1) + 2 \costh \ket{\ztimesn} (0)                                                 \\
+			                & = -\sinth \ket{\ztimesn} + \costh \ket{\phi}
+		            \end{align*}
+
+		            Apply $U$
+
+		            \begin{align*}
+			            US_iU^{-1}S_1\ket{\Psi_1} & = -\sinth U \ket{\ztimesn} + \costh \ket{\phi}                                                                 \\
+			                                      & = -\sinth (\costh \ket{\Psi_0} + \sinth \ket{\Psi_1})  + \costh(-\sinth\ket{\Psi_0} + \costh\ket{\Psi_1})      \\
+			                                      & = -\sinth\costh\ket{\Psi_0} + -\sin^2\theta\ket{\Psi_1} + -\sinth\costh\ket{\Psi_0} + \cos^2\theta\ket{\Psi_1} \\
+			                                      & = \cos^2\theta\ket{\Psi_1} - \sin^2\theta\ket{\Psi_1} - 2\sinth\costh\ket{\Psi_0}                              \\
+			                                      & = \cos(2\theta)\ket{\Psi_1} - \sin(2\theta)\ket{\Psi_0}
+		            \end{align*}
+
+		            Apply both negatives from the equation $S_1 = -\ket{\Psi_1}$ and from the beginning of the equation $Q = -US_iU^{-1}S_1$, which cancels out giving us
+
+		            \begin{equation*}
+			            \cos(2\theta)\ket{\Psi_1} - \sin(2\theta)\ket{\Psi_0}
+		            \end{equation*}
+
+		            Matching the original equation.
+
+		            Back to solving $\ket{\Psi_0}$. Recall that
+
+		            \begin{align*}
+			            S_{1}\ket{\Psi_0} & = (I - 2\ket{\Psi_1}\bra{\Psi_1})\ket{\Psi_0}           \\
+			                              & = I\ket{\Psi_0} - 2\ket{\Psi_1}\braket{\Psi_1 | \Psi_0} \\
+			                              & = \ket{\Psi_1}
+		            \end{align*}
+
+		            Applying $U^{-1}$ which was established above to be $-\sinth\ket{\Psi_0} + \costh\ket{\Psi_1}$. Map $\ket{\Psi_0}$ to orthonormal basis $\{U\ket{\ztimesn}, \ket{\Phi}\}$
+
+		            \begin{align*}
+			            \ket{\Psi_0}                & = \braket{U\ztimesn|\Psi_0} \cdot U\ket{\ztimesn} + \braket{\Phi | \Psi_0} \cdot \ket{\Phi} \\
+			            \braket{U\ztimesn | \Psi_0} & = \costh\braket{\Psi_0 | \Psi_0} + \sinth \braket{\Psi_1 | \Psi_0} = \costh                 \\
+			            \braket{\Phi | \Psi_0}      & = -\sinth(1) + \costh(0) = -\sinth                                                          \\
+			            \ket{\Psi_0}                & = \costh U\ket{\ztimesn} - \sinth\ket{\Phi}
+		            \end{align*}
+
+		            Applying $S_i$
+
+		            \begin{align*}
+			            S_i & = \Big(I - 2 \ket{\ztimesn}\bra{\ztimesn}\Big) \Big(\costh \ket{\ztimesn} - \sinth \ket{\phi}\Big)                                            \\
+			                & = \costh\ket{\ztimesn} - \sinth\ket{\phi} - 2\costh\ket{\ztimesn}\braket{\ztimesn | \ztimesn} + 2\sinth\ket{\ztimesn}\braket{\ztimesn | \phi} \\
+			                & = \costh\ket{\ztimesn} - \sinth\ket{\phi} -2\costh\ket{\ztimesn}(1) + 2\sinth\ket{\ztimesn}(0)                                                \\
+			                & = -\costh\ket{\ztimesn} - \sinth\ket{\phi}
+		            \end{align*}
+
+		            Apply $U$
+
+		            \begin{align*}
+			            US_{i}U^{-1}S_{1}\ket{\Psi_0} & = -\costh\ket{\ztimesn} - \sinth\ket{\phi}                                                                  \\
+			                                          & = -\costh(\costh\ket{\Psi_0} + \sinth\ket{\Psi_1}) - \sinth(-\sinth\ket{\Psi_0} + \costh\ket{\Psi_1})       \\
+			                                          & = -\cos^2\theta\ket{\Psi_0} - \sinth\costh\ket{\Psi_1} + \sin^2\theta\ket{Psi_0} - \sinth\costh\ket{\Psi_1} \\
+			                                          & = \sin^2\theta\ket{\Psi_0} - \cos^2\theta\ket{\Psi_0} - 2\sinth\costh\ket{\Psi_1}
+		            \end{align*}
+
+		            Apply ``$-$'' operator
+
+		            \begin{align*}
+			             & = \cos^2\theta\ket{\Psi_0} - \sin^2\theta\ket{\Psi_0} + 2\sinth\costh\ket{\Psi_1} \\
+			             & = \cos(2\theta)\ket{\Psi_0} + \sin(2\theta)\ket{\Psi_1}
+		            \end{align*}
+
+		            Which is equal to $Q$ defined above.
+
 		      \item Show that
 
 		            \begin{equation*}
 			            Q^k U\ket{O^{\otimes n}} = \cos(2k + 1)\theta \ket{\Psi_0} + \sin(2k+1)\theta\ket{\Psi_1}, k \in \mathbb{Z}_+
 		            \end{equation*}
+
+		            Suppose $\theta$ is very small. If $\ket{\Psi_1}$ is the desired result, the above relation implies that the probability of obtaining the desired result increases quadratically with the number of times $Q$ is applied.
+
+		            \textbf{Begin solution}
+
+		            This is a proof by induction. Idk if I'm supposed to say that, but that's the technique I am using.
+
+		            We can establish a base case of $k=0$
+
+		            \begin{align*}
+			            Q^0U\ket{\ztimesn} & = \cos(2(0) + 1)\theta\ket{\Psi_0} + \sin(2(0)+1)\theta\ket{\Psi_1} \\
+			            U\ket{\ztimesn}    & =  \costh\ket{\Psi_0} + \sinth\ket{\Psi_1}
+		            \end{align*}
+
+		            Assume that this holds for some $k+1$
+
+		            \begin{align*}
+			            Q^{k+1}U\ket{\ztimesn} & = \cos(2(k+1)+1)\theta\ket{\Psi_0} + \sin(2(k+1)+1)\theta\ket{\Psi_1} \\
+			                                   & = \cos(2k+3)\theta\ket{\Psi_0} + \sin(2k+3)\theta\ket{\Psi_1}         \\
+		            \end{align*}
+
+		            $Q^{k+1}$ can also be represented by $Q^1Q^k$ and since we already know $Q^k$ we can expand this as
+
+		            \begin{align*}
+			            Q^{k+1} = Q(Q^k U \ket{\ztimesn}) & = Q(\cos(2k+1)\theta\ket{\Psi_0}+\sin(2k+1)\theta\ket{\Psi_1})
+		            \end{align*}
+
+		            Distribute $Q$ by linearity which was proven in 2(a) using
+
+		            \begin{align*}
+			            Q\ket{\Psi_1} & = \cos 2\theta\ket{\Psi_1} - \sin 2\theta\ket{\Psi_0} \\
+			            Q\ket{\Psi_0} & = \sin 2\theta\ket{\Psi_1} + \cos 2\theta\ket{\Psi_0} \\
+		            \end{align*}
+
+		            Applying to the aforementioned formula
+
+		            \begin{align*}
+			             & = \cos(2k+1)\theta\Big(\sin(2\theta)\ket{\Psi_1}+\cos(2\theta)\ket{\Psi_0}\Big) \\
+			             & + \sin(2k+1)\theta\Big(\cos(2\theta)\ket{\Psi_1}-\sin(2\theta)\ket{\Psi_0}\Big) \\
+		            \end{align*}
+
+		            Expanded this is (really long)
+
+		            \begin{align*}
+			             & = \cos(2k+1)\theta\sin(2\theta)\ket{\Psi_1}+\cos(2k+1)\theta\cos(2\theta)\ket{\Psi_0} \\
+			             & + \sin(2k+1)\theta\cos(2\theta)\ket{\Psi_1}-\sin(2k+1)\theta\sin(2\theta)\ket{\Psi_0}
+		            \end{align*}
+
+		            Grouping all $\ket{\Psi_0}$ together results in
+
+		            \begin{equation*}
+			            \Big[\cos(2k+1)\theta\cos(2\theta)-\sin(2k+1)\theta\sin(2\theta)\Big]\ket{\Psi_0}
+		            \end{equation*}
+
+		            Applying trig identity $\cos(A)\cos(B)-\sin(A)sin(B) = cos(A+B)$
+
+		            \begin{equation*}
+			            \cos(2k+1 + 2)\theta = \cos(2k+3)\theta \ket{\Psi_0}
+		            \end{equation*}
+
+		            Grouping all $\ket{\Psi_1}$ together results in
+
+		            \begin{equation*}
+			            \Big[\cos(2k+1)\theta\sin(2\theta) + \sin(2k+1)\theta\cos(2\theta)\Big]\ket{\Psi_1}
+		            \end{equation*}
+
+		            Applying trig identity $\cos(A)\sin(B) + \sin(A)\cos(B) = \sin(A+B)$
+
+		            \begin{equation*}
+			            \sin(2+2k+1)\theta = \sin(2k+3)\theta\ket{\Psi_1}
+		            \end{equation*}
+
+		            This proves that the claim holds true for $k+1$.
+
+		            Thus the equation
+
+		            \begin{equation*}
+			            Q^k U\ket{O^{\otimes n}} = \cos(2k + 1)\theta \ket{\Psi_0} + \sin(2k+1)\theta\ket{\Psi_1}, k \in \mathbb{Z}_+
+		            \end{equation*}
+
+		            holds true by induction.
+
+	      \end{enumerate}
+
+	\item
+	      Consider the quantum Fourier transformation
+
+
+	      \begin{equation*}
+		      QFT_{2^2}\ket{x} = \frac{1}{\sqrt{2^2}} \sum_{y=0}^{2^{2}-1}e^{i \frac{2\pi xy}{2^2}}\ket{y} = \frac{1}{\sqrt{2^2}}(\ket{0} + e^{i2{\pi}(.x_0)}\ket{1})(\ket{0}+e^{i2{\pi}(.x_1x_0)}\ket{1})
+	      \end{equation*}
+
+	      \begin{enumerate}
+		      \item Recall the notation in lecture 3: $x \equiv x_1x_0$ and $y \equiv y_1y_0$. Show that
+
+		            \begin{equation*}
+			            \frac{xy}{2^2} (mod \ 1) = y_1(.x_0)+y_0(.x_1x_0)
+		            \end{equation*}
+
+		            \textbf{Begin solution}
+
+		            We can write out the expansion of $x \equiv x_1x_0 = 2x_1 + x_0$ and similarly $y \equiv y_1 y_0 = 2y_1 + y_0$.
+
+		            Substituting this in for $xy / 2^2$
+
+		            \begin{align*}
+			            \frac{(2x_1 + x_0)(2y_1 + y_0)}{4} & \frac{4x_1y_1 + 2x_1y_0 + 2x_0y_1 + x_0y_0}{4}                    \\
+			                                               & = x_1y_1 + \frac{x_1y_0}{2} + \frac{x_0y_1}{2} + \frac{x_0y_0}{4}
+		            \end{align*}
+
+		            Since $x_1, y_1 \in \{0,1\}$ the term $x_1y_1$ is an integer and vanishes when applying $mod 1$
+
+		            \begin{equation*}
+			            \frac{xy}{2} (mod \ 1) = \frac{x_1y_0}{2} + \frac{x_0y_1}{2} + \frac{x_0y_0}{4}
+		            \end{equation*}
+
+		            Expanding the binary fractions $(.x_0)$ and $(.x_1x_0)$
+
+		            \begin{equation*}
+			            y_1(.x_0) + y_0(.x_1x_0) = y_1 \cdot \frac{x_0}{2} + y_0 \Big(\frac{x_1}{2} + \frac{x_0}{4}\Big) = \frac{x_0y_1}{2} + \frac{x_1y_0}{2} + \frac{x_0y_0}{4}
+		            \end{equation*}
+
+		            The two expressions agree term by term.
+
+		      \item Show that $QFT_{2^2}$ can be computed by the following circuit
+
+		            \centering
+		            \begin{quantikz}
+			            \lstick{$\ket{x_1}$} & \gate{H} & \gate{R_1} & \qw       & \rstick{$\ket{\tilde{y_0}}$} \\
+			            \lstick{$\ket{x_0}$} & \qw      & \ctrl{-1}  & \gate{H}  & \rstick{$\ket{\tilde{y_1}}$}
+		            \end{quantikz}
+
+		            \raggedright
+		            where $\ket{\tilde{y_0}} = \ket{0} + e^{i2\pi(.x_1x_0)}\ket{1}, \ket{\tilde{y_1}} = \ket{0} + e^{i2\pi(.x_0)}$, and $R_1 = \begin{pmatrix} 1 & 0 \\ 0 & e^{\frac{i\pi}{2}} \end{pmatrix}$
+
+		            \textbf{Begin solution}
+
+		            Apply Hadamard to $\ket{x_0}$
+
+		            \begin{equation*}
+			            H\ket{x_1} = \invsq (\ket{0} + e^{i\pi x_1}\ket{1}) = \invsq (\ket{0} + e^{i\pi (.x_1)}\ket{1})
+		            \end{equation*}
+
+		            since $e^{i \pi \cdot 0} = 1$ and $e^{i\pi} = -1$.
+
+		            Gate 2 controlled $R_1$ on the top wire $\ket{x_1}$. The bottom wire still holds the basis state $\ket{x_0}$, so the joint state is a product and the control bit is definite. $R_1$ multiplies the $\ket{1}$ amplitude by $e^{i\pi / 2}$ when $x_0=1$ and acts trivially when $x_0 = 0$; both cases are captured by the phase $e^{i \pi x_0 / 2}$. The top wire becomes
+
+		            \begin{equation*}
+			            \invsq\Big(\ket{0}+e^{i{\pi}x_1}e^{i{\pi}x_0/2}\ket{1}\Big)
+		            \end{equation*}
+
+		            Factoring the $2\pi$ out of the top gives $\frac{x_1}{2} + \frac{x_0}{4} = (.x_1x_0)$, so the top wire holds
+
+		            \begin{equation*}
+			            \ket{\tilde{y_0}} = \ket{0} + e^{i2\pi(.x_1x_0)}\ket{1}
+		            \end{equation*}
+
+		            Applying the Hadamard gate on $\ket{x_0}$. The control qubit is unchanged by the bottom wire, so the bottom wire holds $\ket{x_0}$. By the same computation as Gate 1,
+
+		            \begin{equation*}
+			            \ket{\tilde{y_1}} = \ket{0} + e^{i2\pi(.x_0)}\ket{1}
+		            \end{equation*}
+
+		            Compared with the $QFT$ definition which is
+
+		            \begin{equation*}
+			            QFT_{2^2}\ket{x} = \frac{1}{\sqrt{2^2}} \sum_{y=0}^{2^{2}-1}e^{i \frac{2\pi xy}{2^2}}\ket{y} = \frac{1}{\sqrt{2^2}}(\ket{0} + e^{i2{\pi}(.x_0)}\ket{1})(\ket{0}+e^{i2{\pi}(.x_1x_0)}\ket{1}) \end{equation*}
+
+                The circuit produces both factors, but with $(.x_1x_0)$ factor on the top wire and $(.x_0)$ on the bottom wire which reverse for what the QFT defines.
+
+                However, this is not a problem, because this is a bit-reversal artifact of the QFT circuit which is resolved by either appending a SWAP gate or by reading the output register in reverse, which is what labeling $\ket{\tilde{y_0}}$(top) and $\ket{\tilde{y_1}}$(bottom) indicates.
+
+                Otherwise, both equations hold true term by term.
 
 	      \end{enumerate}
 
