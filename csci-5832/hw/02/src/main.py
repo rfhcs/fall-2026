@@ -3,12 +3,6 @@ from splits import load_splits
 from ngram import AddOneSmoothing
 
 
-def predict_author(passage_ids, hobbit_model, lost_model, ngram=2):
-    h_score = hobbit_model.neg_log_prob(passage_ids, ngram)
-    l_score = lost_model.neg_log_prob(passage_ids, ngram)
-    return "hobbit" if h_score < l_score else "lost"
-
-
 # this was all messed up and cleaned up by Claude Sonnet 5
 def main():
     hobbit, lost = load_splits()
