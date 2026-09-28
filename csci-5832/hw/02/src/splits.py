@@ -7,7 +7,7 @@ TARGET_WORDS = 80
 
 
 def build_passages(data):
-    """Read a normalized book adn return a list of short passages."""
+    """Read a normalized book and return a list of short passages."""
 
     with open(f"../data/processed/normie-{data}.txt", "r", encoding="utf-8") as file:
         text = file.read()
@@ -36,6 +36,7 @@ def build_passages(data):
     return passage_list
 
 
+# Splitting passages function written by Claude Sonnet 5
 def split_passages(passages, block_size=10, dev_frac=0.1, test_frac=0.1):
     """Group consecutive passages into blocks, and split on that."""
 
@@ -52,5 +53,8 @@ def split_passages(passages, block_size=10, dev_frac=0.1, test_frac=0.1):
     return train, dev, test
 
 
-hobbit_train, hobbit_dev, hobbit_test = split_passages(build_passages("hobbit"))
-lost_train, lost_dev, lost_test = split_passages(build_passages("lostworld"))
+def load_splits():
+    hobbit = split_passages(build_passages("hobbit"))
+    lost = split_passages(build_passages("lostworld"))
+
+    return hobbit, lost

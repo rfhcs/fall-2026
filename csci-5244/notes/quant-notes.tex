@@ -438,7 +438,7 @@ The CCNOT gate is a universal gate for reversible classical computing. Any class
 \subsection{The quantum circuit model}
 
 \begin{equation*}
-	\ket{\psi} = \sum_{x \in \{0, 1\}^n} a_x \ket{x} \mapsto U\ket{\psi}
+	\ket{\psi} = \sum_{x \in \{0, 1\}^n} a_x \ket{x} \rightarrow U\ket{\psi}
 \end{equation*}
 
 Instead of building a really big $2^n \times 2^n$ matrix, we can decompose it into a series of smaller operations acting on a few qubits at a time to not overwhelm ourselves!
@@ -528,7 +528,7 @@ A single qubit acting on $\ket{0} and \ket{1}$ would be $\begin{pmatrix} 1 & 1 \
 With a two qubit gate, we can use unitary $B_f$ (a ``phase oracle'' of $f$) acting as:
 
 \[
-	B_f : \ket{x}\ket{y} \mapsto \ket{x}\ket{y \oplus f(x)}
+	B_f : \ket{x}\ket{y} \rightarrow \ket{x}\ket{y \oplus f(x)}
 \]
 
 ...which is always unitary because it's XOR-ing it's own inverse.
@@ -593,7 +593,7 @@ The final Hadamard gate takes us to
 
 Suppose you have a key hidden among various boxes and you want to find the box with that specific key. Classically, in the worst case, finding this would require you to iterate over every single piece of hay. With quantum mechanics, we can lower that complexity and find it in $O(\sqrt{2^n})$ times.
 
-A more formal way of explaining this is given a function $f: {\{0, 1\}}^{n} \mapsto \{0,1\}$ with
+A more formal way of explaining this is given a function $f: {\{0, 1\}}^{n} \rightarrow \{0,1\}$ with
 
 \[
 	f(x) =
@@ -608,7 +608,7 @@ for some unknown $w$, find $w$.
 
 \subsubsection{Setup}
 
-The function $f: \{0,1\}^n \mapsto \{0,1\}$ implemented with the unitary transformation
+The function $f: \{0,1\}^n \rightarrow \{0,1\}$ implemented with the unitary transformation
 
 \[
 	U_f \ket{x}\ket{a} = \ket{x}\ket{a \oplus f(x)}
@@ -634,7 +634,7 @@ Ignoring the output register we can express $U_w$ as
 Given $n$-qubit state we can express this as
 
 \[
-	U_f = \ket{\psi} = a\ket{w}+b\ket{w^\perp} \mapsto -a\ket{w} + b\ket{w^\perp}
+	U_f = \ket{\psi} = a\ket{w}+b\ket{w^\perp} \rightarrow -a\ket{w} + b\ket{w^\perp}
 \]
 
 The unitary operator induces a reflection of the vector $\ket{\psi}$ about the hyperplane created by $\braket{w | {w}^\perp}$.
@@ -647,18 +647,127 @@ Next, we apply the \textit{Grover iteration} in succession where each iteration 
 
 
 \begin{equation*}
-	U_G = U_s U_f \text{with} \ U_S = 2 \ket{s}\bra{s} - I
+	U_G = U_s U_f
 \end{equation*}
 
-$U_f$ is the query and $U_s$ is the reflection about the ``axis'' $\ket{s}$
+$U_f$ is the query and $U_s$ is the reflection about the ``axis'' $\ket{s}$ which can be expressed as
 
-Here, the $I$ does nothing and $\ket{s}\bra{s}$ is an ``outer product'' operator that takes any state and measures how much of it points along $\ket{s}$, and returns that amount of $\ket{s}$. Doubling it and subtracting the identity matrix projects it onto $\ket{s}$ and reflects it.
+\begin{equation*}
+	U_s = 2\ket{s}\bra{s} - I
+\end{equation*}
+
+So what does $U_G$ do?
+
+It preserves the plane spanned by $\ket{s}$ and $\ket{w}$, so we can focus solely on the plane. First $U_f$ reflects $\ket{s}$ about the axis $\ket{w^\perp}$.
+
+Then $U_s$ reflects $U_w\ket{s}$ about the axis $\ket{s}$.
+
+The effect of $U_G$ is  a counterclockwise rotation of the state vector by $2\theta$ where $\theta$ is the initial angle between $\ket{s}$ and $\ket{w}$.
 
 The rotation of the initial angle $\theta$ is given by
 
 \begin{equation*}
-	\sin(\theta) = \braket{s|w} = \frac{1}{\sqrt{N}}
+	\sin(\theta) = \braket{s|w} = \frac{1}{\sqrt{2^N}}
 \end{equation*}
+
+The required number of Grover iterations $T = O(\sqrt{2^n})$. If we repeat it $T$ times, the vector is rotated away from the $\ket{w^\perp}$ $(2T+1)\theta$.
+
+We may choose $T$ s.t. $(2T+1)\theta = \frac{\pi}{2} + \delta$ with $|\delta| \le 0$.
+
+The probability to find $\ket{w} = P(w) = \cos^2\delta \ge 1 - \delta^2 \ge 1 - \frac{1}{2^n}$.
+
+Suppose there are $r$ marked states where $r$ is known. We can define the marked states as
+
+\begin{equation*}
+	\ket{\text{marked}} = \frac{1}{\sqrt{r}} \sum_{i=1}^r \ket{w_i}, \sin\theta = \braket{s | \text{marked}} = \sqrt{r/2^n}
+\end{equation*}
+
+and the Grover iteration rotates by $2\theta$ in the plane spanned by $\ket{s}$ and $\ket{\text{marked}}$.
+
+Classically, this problem would need $O(2^n/r)$ queries. Quantumly, we would need $T = O(\sqrt{\frac{2^n}{r}})$ queries (our quadratic speedup).
+
+What if $r$ is not known a priori? The success probability oscillates with the period $\sim \pi/2 \sqrt{2^n/r}$. If we choose $T$ uniformly at random between $0$ and $\sim \pi / 4 \sqrt{2^n}$, then if there is a solution ($r > 0$), a solution will be found with a probability greater than $1/2$ if it exists.
+
+
+\subsection{Period finding}
+
+Imagine a quantum oracle that computes a function
+
+\begin{equation*}
+	f : \left\{ 0, 1 \right\}^n \rightarrow \left\{ 0,1 \right\}^m
+\end{equation*}
+
+that has an unknown period $r$ where $r$ is a positive integer satisfying
+
+\begin{equation*}
+	1 \ll r \ll 2^m \ll 2^n
+\end{equation*}
+
+The quantum oracle is expressed as
+
+\begin{equation*}
+	f(x) = f(x + kr)
+\end{equation*}
+
+where $k \in \mathbb{Z_+}$ such that $x$ and $x+kr$ lie in $\left\{ 0,1,2,\ldots, 2^n-1 \right\}$. Classically, this is a hard problem. If $r = O(2^{n/2})$, then we would need $O(2^{n/4})$ queries before finding two $x$ values with the same function value. Quantumly, period $r$ can be found in $poly(n)$ time using the quantum Fourier Transformation.
+
+\subsection{Quantum Fourier Transformation}
+
+The classical Fourier Transform implementation
+
+\begin{equation*}
+	\sum_x f(x)\ket{x} \rightarrow \sum_y \Big( \frac{1}{\sqrt{M}} \sum_x e^{i2{\pi}xy/M}f(x)\Big)\ket{y}
+\end{equation*}
+
+is multiplication by an $M \times M$ matrix where the $\left( x,y \right)$ matrix element is $\left( e^{2{\pi}i/M} \right)^{xy}$ which naively requires $O(M^2)$ elementary operations. We can reduce the number of operations to $O(M \log M)$, by assuming that $M = 2^m$, we can express $x$ and $y$ as binary expansions.
+
+\begin{align*}
+	x & = x_{m-1} \cdot 2^{m-1} + x_{m-2} \cdot 2^{m-2} \cdots + x_1 \cdot 2 + x_0 \\
+	y & = y_{m-1} \cdot 2^{m-1} + y_{m-2} \cdot 2^{m-2} \cdots + y_1 \cdot 2 + y_0 \\
+\end{align*}
+
+We can throw away terms containing $m$ or more powers of 2, hence
+
+\begin{equation*}
+	\frac{xy}{2^m} \equiv y_{m-1}(.x_0) + y_{m-2}(.x_1x_0) + \cdots + y_0(.x_{m-1}x_{m-2}\cdots x_0) (mod \ 1)
+\end{equation*}
+
+where the factors in parentheses are binary expansions e.g.
+
+\begin{equation*}
+	.x_2x_1x_0 = x_2/2 + x_1/2^2 + x_0/2^3
+\end{equation*}
+
+QFT takes each computational basis to an \textit{unentangled} state of $n$ qubits.
+
+Let's consider the case $n = 3$. The circuit would look like
+
+\vspace{20pt}
+
+\centering
+\begin{quantikz}
+  \lstick{$\ket{x_2}$} & \gate{H} & \gate{R_1} & \gate{R_2} &&&& \rstick{$\ket{y_0}$} \\
+  \lstick{$\ket{x_1}$} && \ctrl{0}\wire[u]{q} && \gate{H} & \gate{R_1} && \rstick{$\ket{y_1}$} \\
+  \lstick{$\ket{x_0}$} &&& \ctrl{0}\wire[u][2]{q} && \ctrl{0}\wire[u]{q} & \gate{H} & \rstick{$\ket{y_2}$} \\
+\end{quantikz}
+
+\raggedright
+note the order of the bits are reversed in the output. Each Hadamard gate acts as
+
+\begin{equation*}
+  H : \ket{x_k} \rightarrow \invsq \Big(\ket{0} + e^{2i(.x_k)}\ket{1} \Big)
+\end{equation*}
+
+The two-qubit conditional rotations are defined as
+
+\begin{equation*}
+  R_d = \begin{pmatrix} 1 & 0 \\ 0 & e^{i{\pi}/2^d} \end{pmatrix}
+\end{equation*}
+
+where $d$ is the ``distance'' between the qubits.
+
+For the $n=3$ qubit state we can see that the QFT is constructed of three Hadamard gates and three controlled-R gates. For a general $n$, we require $n$ Hadamard gates and $n(n-1)/2$ controlled R gates. A two qubit gate is applied to each pair of qubits with controlled relative phase $\pi/2^d$ where $d$ is the distance between the qubits. Thus, the circuit that implements QFT has the size $\left( \log M \right)^2$.
+
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}

@@ -8,6 +8,7 @@ def normalize(raw, processed):
         text = file.read()
 
     # 1. Remove end of Gutenberg
+    # translated to python from: https://gist.github.com/hippietrail/751921
     end_pattern = r"\*\*\* END OF TH(E|IS) PROJECT GUTENBERG EBOOK .* \*\*\*"
 
     end_match = re.search(end_pattern, text)
@@ -29,7 +30,7 @@ def normalize(raw, processed):
     normalized = normalized[start_pos:]
 
     # 2. Remove chapter headers and titles
-
+    # I WROTE THIS ENTIRE REGEX BY MYSELF AND IT TOOK ME FOUR HOURS
     chapter_pattern = r"^[ \t]*chapter [IVXLC ]+[ \t]*$[\n]*[ \t]*.*$"
 
     normalized = re.sub(
@@ -50,7 +51,6 @@ def normalize(raw, processed):
 
     # 3.2 Standardize em dashes
     normalized = re.sub(r"--", "—", normalized).strip()
-    normalized = re.sub(r"----", "——", normalized).strip()
 
     # 3.3 Misisng apostrophes
     normalized = re.sub(r"\s[s]\s", "'s ", normalized)
@@ -64,5 +64,7 @@ def normalize(raw, processed):
 
 
 # call normalize on the hobbit and lost world
-normalize("hobbit", "normie-hobbit")
-normalize("lostworld", "normie-lostworld")
+
+if __name__ == "__main__":
+    normalize("hobbit", "normie-hobbit")
+    normalize("lostworld", "normie-lostworld")
