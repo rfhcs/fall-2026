@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% quantum packages
+\usepackage{braket}
+\usepackage{quantikz}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% line spacing & formatting
+\usepackage{parskip}
+\usepackage{soul}
+
+% custom commands
+\newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\newcommand{\sinth}{\sin\theta}
+\newcommand{\costh}{\cos\theta}
+\newcommand{\ztimesn}{0^{\otimes n}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% title stuff
+\title{CSCI 5244: Homework Set 3}
+\date{}
+\author{Rey Stone}
+
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+	\item Given two vectors $x,y \in \mathbb{R}^n$, using amplitude encoding we can encode them as quantum states
+
+	      \begin{equation*}
+		      \ket{x} = \sum_{k=1}^n \frac{x_k}{\|x\|} \ket{k}, \ \ket{y} = \sum_{k=1}^n \frac{y_k}{\|y\|}
+	      \end{equation*}
+
+	      where $\| \cdot \|$ denotes the Euclidean norm and $\{\ket{1}, \ket{2}, \cdots, \ket{n}\}$ are orthonormal quantum states.
+
+	      \begin{enumerate}
+		      \item Show that the inner product $x^{T}y = \|x\| \|y\| \braket{x|y}$
+
+		            \textbf{Begin solution}
+
+		            Given $\braket{x|y}$, we can define its amplitudes as the sum of the conjugate transpose of $\ket{x}$ which is written as $\bra{x}$ and $\ket{y}$ which is $a_0^*b_0* + a_1^*b+1 + \cdots | a_n^*b_n$
+
+		            Rewrite the given amplitudes to reflect $\braket{x|y}$
+
+		            \begin{equation*}
+			            \bra{x} = \sum_{k=1}^n \frac{x_k}{\|x\|}, \ket{y} = \sum_{k=1}^n \frac{y_k}{\|y\|}
+		            \end{equation*}
+
+		            Now we can write $\braket{x|y}$ as the double sum
+
+		            \begin{equation*}
+			            \braket{x|y} = \sum_{j=1}^n \frac{x_j}{\|x\|} \sum_{k=1}^n \frac{y_k}{\|y\|}
+		            \end{equation*}
+
+                Since these are orthonormal quantum states for every pair $(j,k)$ where $j \ne k$ results in a 0, else $j = k$ results in a 1. This is just the Kronecker Delta $\delta_{jk}$, thus the sum reduces to
+
+                \begin{equation*}
+                  \braket{x|y} = \sum_i\frac{x_i y_i}{\|x\| \|y\|}
+                \end{equation*}
+
+                Thus we get
+
+                \begin{align*}
+                  x^T y & = \|x\| \|y\| \frac{1}{\|x\| \|y\|} \sum_{i=1}^n x_i y_i \\
+                  x^T y & = \sum_{i=1}^n x_i y_i
+                \end{align*}
+
+          \item The outer product $xy^T$ is an $n \times n$ matrix. How to encode $xy^T$ quantumly using $\ket{x}$ and $\ket{y}$?
+
+                \textbf{Begin solution}
+
+                $xy^T$ is an $n \times n$ matrix with $(j,k)$ which can be represented quantumly as $\ket{x}\bra{y}$, the outer product.
+
+                Expanding the outer product with given amplitudes gives us
+
+                \begin{equation*}
+                  \ket{x} = \sum_{j=1}^n \frac{x_j}{\|x\|}, \bra{y} = \sum_{k=1}^n \frac{y_j}{\|y\|} \bra{k}
+                \end{equation*}
+
+                Writing as a double sum
+
+                \begin{equation*}
+                  \ket{x}\bra{y} = \frac{1}{\|x\| \|y\|} \sum_j \sum_k x_j y_k
+                \end{equation*}
+
+                This differs from $x_j y_k$ by the same constant $\frac{1}{\|x\| \|y\|}$ for every entry, so
+
+                \begin{equation*}
+                  A = \|x\| \|y\| \ket{x}\bra{y}
+                \end{equation*}
+
+	      \end{enumerate}
+
+\end{enumerate}
+
+\end{document}
