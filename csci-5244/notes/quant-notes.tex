@@ -29,7 +29,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \setlength{\headheight}{14pt}
-\lhead{\textit{CSCI 5244: Quantum Computing}}
+\lhead{\textbf{CSCI 5244: Quantum Computing}}
 \cfoot{\thepage}
 
 % line spacing & formatting
@@ -38,6 +38,12 @@
 
 % custom commands
 \newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\newcommand{\hadamard}{\invsq(\ket{0} + \ket{1})}
+\newcommand{\ketpsi}{\ket{\psi}}
+\newcommand{\ketphi}{\ket{\phi}}
+\newcommand{\ketz}{\ket{0}}
+\newcommand{\ketone}{\ket{1}}
+\newcommand{\etwoi}[1]{e^{2{\pi}i{#1}}}
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
 % ----------- DOCUMENT STARTS HERE ------------
@@ -537,8 +543,8 @@ With a two qubit gate, we can use unitary $B_f$ (a ``phase oracle'' of $f$) acti
 
 \centering
 \begin{quantikz}
-	\lstick{0} & \gate{H} & \gate[2]{B_f} & \gate{H} & \gate{M} \\
-	\lstick{1} & \gate{H} && \ \text{garbage} \\
+	\lstick{0} & \gate{H} & \gate[2][2.0cm]{B_f} & \gate{H} & \gate{M} \\
+	\lstick{1} & \gate{H} && \ \text{garbage} & \wireoverride{n}
 \end{quantikz}
 
 \raggedright
@@ -689,28 +695,6 @@ Classically, this problem would need $O(2^n/r)$ queries. Quantumly, we would nee
 What if $r$ is not known a priori? The success probability oscillates with the period $\sim \pi/2 \sqrt{2^n/r}$. If we choose $T$ uniformly at random between $0$ and $\sim \pi / 4 \sqrt{2^n}$, then if there is a solution ($r > 0$), a solution will be found with a probability greater than $1/2$ if it exists.
 
 
-\subsection{Period finding}
-
-Imagine a quantum oracle that computes a function
-
-\begin{equation*}
-	f : \left\{ 0, 1 \right\}^n \rightarrow \left\{ 0,1 \right\}^m
-\end{equation*}
-
-that has an unknown period $r$ where $r$ is a positive integer satisfying
-
-\begin{equation*}
-	1 \ll r \ll 2^m \ll 2^n
-\end{equation*}
-
-The quantum oracle is expressed as
-
-\begin{equation*}
-	f(x) = f(x + kr)
-\end{equation*}
-
-where $k \in \mathbb{Z_+}$ such that $x$ and $x+kr$ lie in $\left\{ 0,1,2,\ldots, 2^n-1 \right\}$. Classically, this is a hard problem. If $r = O(2^{n/2})$, then we would need $O(2^{n/4})$ queries before finding two $x$ values with the same function value. Quantumly, period $r$ can be found in $poly(n)$ time using the quantum Fourier Transformation.
-
 \subsection{Quantum Fourier Transformation}
 
 The classical Fourier Transform implementation
@@ -746,28 +730,197 @@ Let's consider the case $n = 3$. The circuit would look like
 
 \centering
 \begin{quantikz}
-  \lstick{$\ket{x_2}$} & \gate{H} & \gate{R_1} & \gate{R_2} &&&& \rstick{$\ket{y_0}$} \\
-  \lstick{$\ket{x_1}$} && \ctrl{0}\wire[u]{q} && \gate{H} & \gate{R_1} && \rstick{$\ket{y_1}$} \\
-  \lstick{$\ket{x_0}$} &&& \ctrl{0}\wire[u][2]{q} && \ctrl{0}\wire[u]{q} & \gate{H} & \rstick{$\ket{y_2}$} \\
+	\lstick{$\ket{x_2}$} & \gate{H} & \gate{R_1} & \gate{R_2} &&&& \rstick{$\ket{y_0}$} \\
+	\lstick{$\ket{x_1}$} && \ctrl{0}\wire[u]{q} && \gate{H} & \gate{R_1} && \rstick{$\ket{y_1}$} \\
+	\lstick{$\ket{x_0}$} &&& \ctrl{0}\wire[u][2]{q} && \ctrl{0}\wire[u]{q} & \gate{H} & \rstick{$\ket{y_2}$}
 \end{quantikz}
 
 \raggedright
 note the order of the bits are reversed in the output. Each Hadamard gate acts as
 
 \begin{equation*}
-  H : \ket{x_k} \rightarrow \invsq \Big(\ket{0} + e^{2i(.x_k)}\ket{1} \Big)
+	H : \ket{x_k} \rightarrow \invsq \Big(\ket{0} + e^{2i(.x_k)}\ket{1} \Big)
 \end{equation*}
 
 The two-qubit conditional rotations are defined as
 
 \begin{equation*}
-  R_d = \begin{pmatrix} 1 & 0 \\ 0 & e^{i{\pi}/2^d} \end{pmatrix}
+	R_d = \begin{pmatrix} 1 & 0 \\ 0 & e^{i{\pi}/2^d} \end{pmatrix}
 \end{equation*}
 
 where $d$ is the ``distance'' between the qubits.
 
 For the $n=3$ qubit state we can see that the QFT is constructed of three Hadamard gates and three controlled-R gates. For a general $n$, we require $n$ Hadamard gates and $n(n-1)/2$ controlled R gates. A two qubit gate is applied to each pair of qubits with controlled relative phase $\pi/2^d$ where $d$ is the distance between the qubits. Thus, the circuit that implements QFT has the size $\left( \log M \right)^2$.
 
+
+\subsection{Period finding}
+
+
+\centering
+\begin{quantikz}[wire types={b,b}, classical gap=0.3cm]
+	\lstick{$\ket{0^n}$} & \gate[1][1.0cm][1.0cm]{H} & \gate[2][1.7cm][1.0cm]{U_f} && \gate[1][1.0cm][1.0cm]{QFT} & \gate[1][1.0cm][1.0cm]{M} &\setwiretype{c} \\
+	\lstick{$\ket{0^m}$} & & & \gate[1][1.0cm][1.0cm]{M} &\setwiretype{c} & \wireoverride{n} & \wireoverride{n}
+\end{quantikz}
+
+\raggedright
+Imagine a quantum oracle that computes a function
+
+\begin{equation*}
+	f : \left\{ 0, 1 \right\}^n \rightarrow \left\{ 0,1 \right\}^m
+\end{equation*}
+
+that has an unknown period $r$ where $r$ is a positive integer satisfying
+
+\begin{equation*}
+	1 \ll r \ll 2^m \ll 2^n
+\end{equation*}
+
+The quantum oracle is expressed as
+
+\begin{equation*}
+	f(x) = f(x + kr)
+\end{equation*}
+
+where $k \in \mathbb{Z_+}$ such that $x$ and $x+kr$ lie in $\left\{ 0,1,2,\ldots, 2^n-1 \right\}$. Classically, this is a hard problem. If $r = O(2^{n/2})$, then we would need $O(2^{n/4})$ queries before finding two $x$ values with the same function value. Quantumly, period $r$ can be found in $poly(n)$ time using the quantum Fourier Transformation.
+
+\subsubsection{Finding the period}
+
+Given a function $f : \left\{ 0,1 \right\}^n \rightarrow \left\{ 0,1 \right\}^m$ implemented by the unitary transformation $U_f$
+
+\begin{equation*}
+	U_f \ket{x}\ket{a} = \ket{x}\ket{a \oplus f(x)}
+\end{equation*}
+
+where $x \in \left\{ 0,1 \right\}^n, a \in \left\{ 0,1 \right\}^m$ and bitwise XOR.
+
+We prepare the uniform superposition over $x$, query $f$, and measure the \textit{output} register. This collapses the input register onto a superposition of just the $x$'s consistent with the observed ouput. And because $f$ is periodic, it is an \textit{evenly spaced comb} of L values.
+
+\textbf{How it works}
+
+Before measuring we have two registers called $\ket{0^n}$ and $\ket{0^m}$.
+
+We add the Hadamard gates and apply it to the first register.
+
+\begin{equation*}
+	\ket{0^n}\ket{0^m} \Rightarrow \Big(\frac{1}{\sqrt{2^n}}\sum_{x \in \left\{ 0,1 \right\}^n}\ket{x}\Big)\ket{0^m} \Rightarrow \Big(\frac{1}{\sqrt{2^n}}\sum_{x \in \left\{ 0,1 \right\}^n}\ket{x}\Big)\ket{f(x)}
+\end{equation*}
+
+Then we can measure the output register obtaining the result $\ket{f(x_0)}$ for some $0 \le x_0 \le r$. This measurement prepares the input register for the state
+
+\begin{equation*}
+	\frac{1}{\sqrt{L}} \sum_{j=0}^{L-1} \ket{x_0+jr}
+\end{equation*}
+
+where $L$ is the number of $x$ values with the function value $f(x_0)$ and $2^n-r \le x_0 + (L-1)r < 2^n$.
+
+We need to extract the value of $r$ from the prepared state. We apply the QFT and then measure by projecting onto the computation basis.
+
+Applying QFT to obtain
+
+\begin{equation*}
+	\frac{1}{\sqrt{2^nL}} \sum_{y=0}^{2^n-1} e^{i2{\pi}x_0y/2^n} \sum_{j=0}^{L-1}e^{i2{\pi}jry/2^n}\ket{y}
+\end{equation*}
+
+If we now measure the computation basis, the probability is
+
+\begin{equation*}
+	Prob(y) = \frac{L}{2^n} \Big| \frac1L \sum_{j=0}^{L-1} e^{i2\pi jry/2^n} \Big|^2
+\end{equation*}
+
+This is independent of $x_0$, and strongly favors values of $y$ s.t. $yr/2^n$ is close to an integer.
+
+\textbf{Special case}
+
+If $2^n/r$ happens to be an integer, then $2^n/r = L$ and
+
+\begin{equation*}
+	Prob(y) = \frac1r \Big| \frac1L \sum_{j=1}^{L-1} e^{i2{\pi}jy/L} \Big|^2 = \begin{cases} \frac1r & y = \ \text{a multiple of} \ L \\ 0 & \text{otherwise} \end{cases}
+\end{equation*}
+
+Constructive interference if $y$ is a multiple of $2^n/r$ and destructive otherwise.
+
+\subsection{Phase estimation}
+
+
+Let $U$ be a unitary transformation that has an orthonormal basis of eigenvectors $\ket{\psi_1}, \ket{\psi_2} \dots \ket{\psi_N}$ with associated values $\etwoi{\theta}_1, \etwoi{\theta}_2, \dots, \etwoi{\theta}_N$.
+
+Given a unitary transformation $U$ and one of its eigenvector $\ket{\psi_j}$, find the corresponding eigenvalue, $\theta_j$. That is the phase estimation problem.
+
+\textbf{How it works}
+
+\centering
+\begin{quantikz}[wire types={q,b},classical gap=0.3cm]
+	\lstick{$0$} & \gate[1]{H} & \ctrl{1} & \gate{H} & \gate{M}  \\
+	\lstick{$\ket{\psi}$} && \gate[1][1.5cm][1.5cm]{U_f} && \rstick{$\psi$}
+\end{quantikz}
+
+\raggedright
+First apply the Hadamard gate
+
+\begin{equation*}
+	\ket{0} \Rightarrow \hadamard \Rightarrow \invsq(\ketz + \etwoi{\theta}\ketone) \Rightarrow \frac12(1 + \etwoi{\theta}\ketz) + \frac12 (1 - \etwoi{\theta}\ketone)
+\end{equation*}
+
+After the unitary transformation, the eigenvector remains unchanged while we have been able to put $\etwoi{\theta}$ into the phase of the first qubit will transform this information into the amplitude which we will be able to measure.
+
+Let $P(0)$ and $P(1)$ be the probability of seeing a 0 or 1 respectively on measuring the first qubit (kind of like Deutsch's). The probabilities will be
+
+\begin{align*}
+	\text{Prob}(0) & = |\frac12(1 + \etwoi{\theta})|^2 = \frac{1 + \cos(2\pi\theta)}{2} \\
+	\text{Prob}(1) & = |\frac12(1 - \etwoi{\theta})|^2 = \frac{1 - \cos(2\pi\theta)}{2}
+\end{align*}
+
+This estimates $\cos(2\pi\theta)$ to $m$ bits of precision, but only after repeating $O(2^m)$ times --- not really efficient by itself.
+
+\textbf{Efficient way}
+
+Let's make this more efficient. Suppose we can implement the unitary transformation $C_m-U$ transformation defined below.
+
+For any unitary transformation $U$, let $C_k-U$ stand for a ``k-controlled U'' circuit which implements the transformation $\ket{k} \otimes \ket{\psi} \rightarrow \ket{k} \otimes U^k\ket{\psi}$ as shown below
+
+\centering
+\begin{quantikz}[row sep={0.5cm,between origins}]
+	&&& \wire[d][2]{c} &&& \\
+	\lstick{$k$} &&&&&& \\
+	&&& \wire[d][1]{q} &&& \\[0.5cm]
+	&&& \gate[3][2.0cm][1.0cm]{U} &&& \\
+	\lstick{$\psi$} &&&&&& \rstick{$U^k\psi$} \\
+  &&&&&&
+\end{quantikz}
+
+\raggedright
+Estimating $\theta$ within $m$-bit accuracy is equivalent to estimate integer $j$ where $\frac{j}{2^m}$ is the closest approximation to $\theta$. Let $M = 2^m$ and $w_m = e^{\frac{2{\pi}i}{M}}$
+
+
+\centering
+\begin{quantikz}[row sep={0.5cm,between origins}]
+	& \gate[3][1.5cm]{H^{\otimes m}} && \wire[d][2]{c} && \gate[3][1.5cm]{QFT^{-1}_{M}} & \\
+	\lstick{$0^m$} &&&&&& \rstick{$j$}\\
+	&&& \wire[d][1]{q} &&& \\[0.5cm]
+	&&& \gate[3][2.0cm][1.0cm]{U} &&& \\
+	\lstick{$\psi$} &&&&&& \\
+  &&&&&&
+\end{quantikz}
+
+\raggedright
+The circuit above follows the sequence of transformations
+
+\begin{align*}
+  \ket{0^m}\ketpsi & \xrightarrow{H^{\otimes M}} \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \ket{k} \Big) \otimes \ketpsi \\
+  & \xrightarrow{C_m-U} \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \etwoi{\theta k}\ket{k} \Big) \otimes \ketpsi \\
+  & = \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \etwoi{k (\theta - \frac{j}{M})}\ket{k} \Big) \otimes \ketpsi \\
+\end{align*}
+
+Note that the first register now contains the Fourier Transform mod M of \textit{j} and if we apply the reverse Fourier Transformation mod M we get back \textit{j}.
+
+The probabilities are as follows:
+
+\begin{itemize}
+  \item{$Prob(j) = 1 \ \text{if} \ \theta = \frac{j}{M}$}
+  \item{$Prob(j) \ge 4/\pi^2 \ \text{if} \ \frac{j}{M}$ is the closest approximation}
+\end{itemize}
+
+\subsection{Factoring}
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
