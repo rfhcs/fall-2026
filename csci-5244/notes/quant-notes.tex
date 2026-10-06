@@ -885,7 +885,7 @@ For any unitary transformation $U$, let $C_k-U$ stand for a ``k-controlled U'' c
 	&&& \wire[d][1]{q} &&& \\[0.5cm]
 	&&& \gate[3][2.0cm][1.0cm]{U} &&& \\
 	\lstick{$\psi$} &&&&&& \rstick{$U^k\psi$} \\
-  &&&&&&
+	&&&&&&
 \end{quantikz}
 
 \raggedright
@@ -899,16 +899,16 @@ Estimating $\theta$ within $m$-bit accuracy is equivalent to estimate integer $j
 	&&& \wire[d][1]{q} &&& \\[0.5cm]
 	&&& \gate[3][2.0cm][1.0cm]{U} &&& \\
 	\lstick{$\psi$} &&&&&& \\
-  &&&&&&
+	&&&&&&
 \end{quantikz}
 
 \raggedright
 The circuit above follows the sequence of transformations
 
 \begin{align*}
-  \ket{0^m}\ketpsi & \xrightarrow{H^{\otimes M}} \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \ket{k} \Big) \otimes \ketpsi \\
-  & \xrightarrow{C_m-U} \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \etwoi{\theta k}\ket{k} \Big) \otimes \ketpsi \\
-  & = \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \etwoi{k (\theta - \frac{j}{M})}\ket{k} \Big) \otimes \ketpsi \\
+	\ket{0^m}\ketpsi & \xrightarrow{H^{\otimes M}} \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \ket{k} \Big) \otimes \ketpsi         \\
+	                 & \xrightarrow{C_m-U} \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \etwoi{\theta k}\ket{k} \Big) \otimes \ketpsi \\
+	                 & = \Big( \frac{1}{\sqrt{M}} \sum_{k=0}^{M-1} \etwoi{k (\theta - \frac{j}{M})}\ket{k} \Big) \otimes \ketpsi   \\
 \end{align*}
 
 Note that the first register now contains the Fourier Transform mod M of \textit{j} and if we apply the reverse Fourier Transformation mod M we get back \textit{j}.
@@ -916,11 +916,113 @@ Note that the first register now contains the Fourier Transform mod M of \textit
 The probabilities are as follows:
 
 \begin{itemize}
-  \item{$Prob(j) = 1 \ \text{if} \ \theta = \frac{j}{M}$}
-  \item{$Prob(j) \ge 4/\pi^2 \ \text{if} \ \frac{j}{M}$ is the closest approximation}
+	\item{$Prob(j) = 1 \ \text{if} \ \theta = \frac{j}{M}$}
+	\item{$Prob(j) \ge 4/\pi^2 \ \text{if} \ \frac{j}{M}$ is the closest approximation}
 \end{itemize}
 
 \subsection{Factoring}
+
+Suppose we have a positive integer $N$, find a prime factorization such that $N = p_1^{k_1} p_2^{k_2}, \cdots, p_m^{k_m}$ where $p_i$'s are prime numbers and $k_i$'s are positive integers.
+
+This is believed to be a hard problem, classically. and its hardness is the basis of RSA encryption scheme for public key cryptography.
+
+\textbf{Order finding}
+
+For a random $a < N$ coprime to $N$ (having no common factor with $N$), its multiplicative \textit{order r} is the smallest positive integer with
+
+
+\begin{equation*}
+	a^r \equiv 1 \ (\text{mod} \ N)
+\end{equation*}
+
+The order of $a \ \text{mod} \ N$ is the period of the function
+
+\begin{equation*}
+	f_{N,a} = a^x \ ( \text{mod} \ N )
+\end{equation*}
+
+We know that there's an efficient quantum algorithm that can find the period of a function. Therefore, we can compute $f_{N,a}$ efficiently if we can find the order of $a$ efficiently.
+
+If $x < 2^m$ and we express $x$ as a binary expansion
+
+\begin{equation*}
+	x = x_{m-1} \cdot 2^{m-1} + x_{m-2} \cdot 2^{m-2} + \cdots + x_0
+\end{equation*}
+
+we have
+
+\begin{equation*}
+	a^x \ (\text{mod} \ N) = (a^{2^{m-1}})^{x_{m-1}} (a^{2^{m-2}})^{x_{m-2}} \dots (a)^x_0 \ \text{mod} \ N
+\end{equation*}
+
+
+Therefore, finding the order of $a$ is a period-finding problem, and $a^x \ \text{mod} \ N$ can be computed in $O(\log N)^3$ via the repeated squaring: compute $a, a^2, a^4, a^8, \dots a^{2^{k}}$.
+
+\centering
+\begin{quantikz}
+	\lstick{$\ket{x_2}$} & & & & \ctrl{3} & \\
+	\lstick{$\ket{x_1}$} & & & \ctrl{2} & & \\
+	\lstick{$\ket{x_0}$} & & \ctrl{1} & & & \\
+	\lstick{$\ket{1}$} & \qwbundle{} & \gate[1][1.0cm][1.0cm]{a} & \gate[1][1.0cm][1.0cm]{a^2} & \gate[1][1.0cm][1.0cm]{a^4} & \\
+\end{quantikz}
+
+\raggedright
+\subsubsection{Shor's algorithm}
+
+\begin{itemize}
+	\item pick a random $a < N$
+	\item if the $GCD(a, N) \ne 1$, then  $GCD(a, N)$ is nontrivial factor of $N$ (done!)
+	\item if $GCD(a, N) = 1$, find the order $r$ of $a$ via quantum period finding
+	\item if $r$ is even, $N$ divides $(a^{r/2} + 1)(a^{r/2} - 1)$ and
+	      \begin{itemize}
+		      \item either $N$ divides $a^{r/2} + 1$
+		      \item or, factors of $N$ split between $a^{r/2} + 1$ and $a^{r/2} - 1$ and then $GCD(a^{r/2} \pm 1, N)$ are nontrivial factors of $N$ (done!)
+	      \end{itemize}
+\end{itemize}
+
+\subsubsection{Factoring via phase estimation}
+
+Instead of framing it like period finding, define $U_a \ket{x} = \ket{ax \ \text{mod} \ N}$. Since $a$ has order $r$, $U_r^a = I$, so its eigenvalues are exactly the $r$-th roots of unity $e^{i 2 \pi k/r}$ for $k = 0, \dots, r-1$. The phase estimation determines the value of $k/r$, which is the same as period finding.
+
+\section{Quantum Complexity Theory}
+
+
+\subsection{What is a solvable problem?}
+
+Which problems are solvable in practice? How do we rate how hard a problem is to solve? We define solvable problems as those that are able to be solved in polynomial time. Classically this includes: shortest path, min cut, 2-satisfiability, primality testing, etc. Some classical problems that are believed to be not solvable classically are: longest path, max cut, 3-satisfiability, factoring, to name a few.
+
+\subsection{Complexity theory}
+
+We can classify hardness of a problem in terms of the resources needed to solve large instances of these problems. The computational efficiency can be measured by scaling the resources (time/space) of the algorithm.
+
+\subsection {Polynomial time reduction}
+
+problem $X$ polynomial-time-reduces to problem $Y$ if arbitrary instances of problem $X$ can be solved using:
+
+\begin{itemize}
+  \item polynomial number of basic computational steps
+  \item polynomial number of calls to oracle that solves problem $Y$
+\end{itemize}
+
+We note this as $X \le_p Y$.
+
+We can use polynomial time reduction in these ways
+
+\begin{itemize}
+  \item design algorithms: if $X \le_p Y$, $Y$'s polynomial time solvable implies $X$ is polynomial time-solvable.
+  \item establish intractability: if $X \le_p Y$ and $X$ is not polynomial time solvable, $Y$ cannot be polynomial time solvable.
+  \item establish equivalence: $X$ and $Y$ are equivalent if both $X \le_p Y$ and $Y \le_p X$ denoted $X \equiv_p Y$.
+\end{itemize}
+
+\subsection{Different types of problems}
+
+We can classify different types of problems into three types:
+
+\begin{itemize}
+  \item decision problems: given a question, an input and a threshold $w$, determine the existence of a solution at least as good as $w$, answering YES if such a solution exists and NO otherwise.
+  \item search problems: given a question, an input and a threshold $w$, find a solution at least as good as $w$.
+  \item optimization problems: given a question and an input, find the best solution.
+\end{itemize}
 
 
 
