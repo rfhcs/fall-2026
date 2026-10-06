@@ -1,0 +1,225 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% quantum packages
+\usepackage{braket}
+\usepackage{quantikz}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  filecolor=blue
+}
+
+% line spacing & formatting
+\usepackage{parskip}
+\usepackage{soul}
+
+% custom commands
+\newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\newcommand{\sinth}{\sin\theta}
+\newcommand{\costh}{\cos\theta}
+\newcommand{\ztimesn}{0^{\otimes n}}
+\newcommand{\ketphi}{\ket{\phi}}
+\newcommand{\ketpsi}{\ket{\psi}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% title stuff
+\title{CSCI 5244: Homework Set 3}
+\date{}
+\author{Rey Stone}
+
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+\maketitle
+
+\raggedright
+\begin{enumerate}
+	\item Given two vectors $x,y \in \mathbb{R}^n$, using amplitude encoding we can encode them as quantum states
+
+	      \begin{equation*}
+		      \ket{x} = \sum_{k=1}^n \frac{x_k}{\|x\|} \ket{k}, \ \ket{y} = \sum_{k=1}^n \frac{y_k}{\|y\|} \ket{k}
+	      \end{equation*}
+
+	      where $\| \cdot \|$ denotes the Euclidean norm and $\{\ket{1}, \ket{2}, \cdots, \ket{n}\}$ are orthonormal quantum states.
+
+	      \begin{enumerate}
+		      \item Show that the inner product $x^{T}y = \|x\| \|y\| \braket{x|y}$
+
+		            \textbf{Begin solution}
+
+		            Rewrite the given amplitudes to reflect $\braket{x|y}$
+
+		            \begin{equation*}
+			            \bra{x} = \sum_{j=1}^n \frac{x_j}{\|x\|} \bra{j}, \ket{y} = \sum_{k=1}^n \frac{y_k}{\|y\|} \ket{k}
+		            \end{equation*}
+
+		            $\bra{x}$ is the conjugate transpose, so it's amplitudes are $(x_j/\|x\|)^*$. The conjugate drops out because we are in teh $\mathbb{R}^n$ space, and don't have to deal with complex numbers.
+
+		            Now we can write $\braket{x|y}$ as the double sum
+
+		            \begin{equation*}
+			            \braket{x|y} = \sum_{j=1}^n \sum_{k=1}^n \frac{x_j}{\|x\|} \frac{y_k}{\|y\|} \braket{j|k}
+		            \end{equation*}
+
+		            Since these are orthonormal quantum states for every pair $(j,k)$ where $j \ne k$ results in a 0, else $j = k$ results in a 1. This is just the Kronecker Delta $\delta_{jk}$, thus the sum reduces to
+
+		            \begin{equation*}
+			            \braket{x|y} = \sum_i\frac{x_i y_i}{\|x\| \|y\|}
+		            \end{equation*}
+
+		            Thus we get
+
+		            \begin{equation*}
+			            \braket{x|y} = \frac{1}{\|x\| \|y\|} \sum_{i=1}^n x_i y_i \Rightarrow \|x\|\|y\| \braket{x|y} = \sum_i^n x_iy_i = x^Ty
+		            \end{equation*}
+
+		      \item The outer product $xy^T$ is an $n \times n$ matrix. How to encode $xy^T$ quantumly using $\ket{x}$ and $\ket{y}$?
+
+		            \textbf{Begin solution}
+
+		            $xy^T$ is an $n \times n$ matrix with $(j,k)$ entry $x_j y_k$ which is proportional to  $\ket{x}\bra{y}$, the outer product.
+
+		            Expanding the outer product with given amplitudes gives us
+
+		            \begin{equation*}
+			            \ket{x} = \sum_{j=1}^n \frac{x_j}{\|x\|} \ket{j}, \bra{y} = \sum_{k=1}^n \frac{y_k}{\|y\|} \bra{k}
+		            \end{equation*}
+
+		            Writing as a double sum
+
+		            \begin{equation*}
+			            \ket{x}\bra{y} = \frac{1}{\|x\|\|y\|} \sum_{j=1}^n \sum_{k=1}^n x_j y_k \ket{j}\bra{k}
+		            \end{equation*}
+
+		            This differs from $x_j y_k$ by the same constant $\frac{1}{\|x\| \|y\|}$ for every entry, so
+
+		            \begin{equation*}
+			            A = \|x\| \|y\| \ket{x} \bra{y} = \sum_{j=1}^n \sum_{k=1}^n x_j y_k \ket{j}\bra{k}
+		            \end{equation*}
+
+		      \item Suppose the answer to (b) is \textit{A}. Show that the inner product $x^Ty = \text{tr} \ A$.
+
+		            \textbf{Begin solution}
+
+		            $tr(A) = \sum_l \braket{l | A | l}$, the sum of the diagonal entries.
+
+		            From 1b, we can substitute $A$ to be
+
+		            \begin{equation*}
+			            \sum_j^n \sum_k^n x_j y_k \ket{j} \bra{k}
+		            \end{equation*}
+
+		            Applying the trace
+
+		            \begin{align*}
+			            \text{tr}(A) & = \sum_l^n \sum_j^n \sum_k^n \bra{l} (x_j y_k \ket{j}\bra{k}) \ket{l} \\
+			                         & = \sum_l^n \sum_j^n \sum_k^n x_j y_k \braket{l|j} \braket{k|l}        \\
+			                         & = \sum_l^n \sum_j^n \sum_k^n x_j y_k \braket{k|l} \braket{l|j}
+		            \end{align*}
+
+		            \textit{note: also assume that all indexes be it $j,k,l,g$ all start at 1. I just don't want to write it out every time.}
+
+		            The brakets can be rearranged because we are dealing with real numbers.
+
+		            Because $\sum_l \ket{l}\bra{l} = I$ we can replace that in the equation
+
+		            \begin{align*}
+			             & = \sum_j^n \sum_k^n x_j y_k \braket{k|I|j} \\
+			             & = \sum_j^n \sum_k^n x_j y_k \braket{k|j}
+		            \end{align*}
+
+
+		            Apply the Kronecker delta $\delta_{kj}$ to get
+
+		            \begin{equation*}
+			            \sum_j x_j y_j = x^Ty = \text{tr}(A)
+		            \end{equation*}
+
+		            Thus it is proven that the inner product $x^Ty = \text{tr}(A)$
+
+
+		      \item Design a quantum algorithm to determine the sign of $x^Ty$ i.e. if it is positive or negative.
+
+		            \textbf{Begin solution}
+
+		            Because the encoding requires $x,y \ne 0$, the norm has to be $\|x\| \|y\| > 0$ for $x^Ty = \|x\| \|y\| \braket{x|y}$. Thus, it does not affect the sign of $\braket{x|y}$, thus $\text{sign}(x^Ty) = \text{sign}(\braket{x|y})$.
+
+		            Starting to build the algorithm, we can take inspiration from the \href{https://en.wikipedia.org/wiki/Hadamard_test}{Hadamard test} which has the following circuit
+
+		            \centering
+		            \begin{quantikz}
+			            \lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \gate{H} & \meter{} \\
+			            \lstick{$\ket{\psi}$} & \qwbundle{} & \gate{U} & &
+		            \end{quantikz}
+
+		            \raggedright
+		            We assume we have access to the state-preparation unitary operators $U_x$ and $U_y$ for $\ket{x}$ and $\ket{y}$ respectively giving us $\ket{x} = U_x \ket{0}$ and $\ket{y} = U_y \ket{0}$ since any unit vector extends to an orthonormal basis.
+
+		            Writing the conjugate transpose of $\ket{x}$ to get  $\bra{x} = \bra{0} U_x^{\dagger}$.
+
+		            Thus $\braket{x|y} = \braket{0 | U_x^{\dagger}U_y | 0}$ which matches the Hadamard test $\ket{\psi} = \ket{0}$ and $U = U_x^{\dagger} U_y$.
+
+
+		            Following the design of the Hadamard test for the real expression (since we are not dealing with imaginary numbers right now), the steps are as follows
+
+		            First, we prepare an ancilla qubit $\ket{0}$ and data register $\ket{0}$ and apply a Hadamard gate to the ancilla qubit
+
+		            \begin{align*}
+			            \overset{\text{A}}{\ket{0}}, \overset{\text{D}}{\ket{0}} & \xRightarrow{H} \invsq (\ket{0} + \ket{1}) \otimes \ket{0}                                                                         \\
+			                                                                     & \xRightarrow{c-U_y} \invsq (\ket{0} \ket{0} + \ket{1} U_y \ket{0})                                                                 \\
+			                                                                     & \xRightarrow{c-U_x^{\dagger}} \invsq (\ket{0} \ket{0} + \ket{1} U_x^{\dagger} U_y \ket{0})                                         \\
+			                                                                     & \xRightarrow{H} \invsq (\invsq (\ket{0} + \ket{1}) \otimes \ket{0} + \invsq (\ket{0} - \ket{1}) \otimes U^{\dagger}_x U_y \ket{0}) \\
+			                                                                     & = \frac12 \Big((\ket{0} + \ket{1}) \ket{0} + (\ket{0} - \ket{1}) U^{\dagger}_x U_y \ket{0} \Big)                                   \\
+			                                                                     & = \frac12 \Big( \ket{0} (\ket{0} + U^{\dagger}_x U_y \ket{0}) + \ket{1} (\ket{0} - U^{\dagger}_x U_y \ket{0}) \Big)
+		            \end{align*}
+
+		            The probability of measuring the qubit 0 to be in state $\ket{0}$ is (using $U = U_x^\dagger U_y$)
+
+		            \begin{align*}
+			            P(0)  = \| \frac12 (\ket{0} + U \ket{0}) \|^2 & = \frac14 (\bra{0} + \bra{0} U^\dagger) (\ket{0} + U \ket{0})                                     \\
+			                                                                        & = \frac14 \Big[ \braket{0|0} + \braket{0|U| 0} + \braket{0 | U^{\dagger}| 0} + \braket{0|U^\dagger U|0} \Big]
+		            \end{align*}
+
+		            Note that $\braket{0|0} = 1$, $\braket{0 | UU^\dagger| 0} = 1$, and $\braket{0 | U^\dagger | 0} = (\braket{0 | U |0})^*$, and $z + z^* = 2 \text{Re}(z)$ so we get
+
+		            \begin{align*}
+			             & = \frac14 (2 \text{Re}(\braket{0 | U | 0}) + 2) \\
+			             & = \frac12 (1 + \text{Re}(\braket{x|y})
+		            \end{align*}
+
+                The squared norm of the data state
+
+		            \begin{equation*}
+			            P(0) = \frac12 (1 + \text{Re}\braket{0|U_x^{\dagger} U_y|0}) = \frac12 (1 + \text{Re}\braket{x|y})
+		            \end{equation*}
+
+		            Since $\braket{x|y}$ is already real, Re changes nothing.
+
+
+		            The circuit is then repeated $N$ times to estimate $P(0)$. The ancilla is measured in the computational basis and $P(0) \approx N_0/N$. The sign is measured to be positive if $P(0) > 1/2$ and negative if $P(0) < 1/2$. If $P(0) = 1/2$ it means $\braket{x|y} = 0$. One thing to note: the closer $\braket{x|y}$ is to 0, the larger N must be to tell the two sides apart.
+
+	      \end{enumerate}
+
+	\item Given $N$ vectors $x_1, x_2, \cdots, x_N \in \mathbb{R}^n$. Define an \textit{N}-by-\textit{N} matrix $K$ with entry $K_{ij} = x_i^Tx_j$. Matrix $K$ can be encoded as a quantum state described by the density matrix $\rho = \sum_{i=1}^N \sum_{j=1}^N K_{ij} \ket{i} \bra{j}$ where $\{ \ket{1}, \ket{2}, \cdots, \ket{N} \}$ are orthonormal quantum states. Explain in detail how you would prepare state $\rho$.
+
+
+	\item To be submitted via email.
+\end{enumerate}
+
+\end{document}
