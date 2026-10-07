@@ -83,10 +83,16 @@
 			            \braket{x|y} = \sum_i\frac{x_i y_i}{\|x\| \|y\|}
 		            \end{equation*}
 
-		            Thus we get
+		            Multiply the norm by both sides
 
 		            \begin{equation*}
-			            \braket{x|y} = \frac{1}{\|x\| \|y\|} \sum_{i=1}^n x_i y_i \Rightarrow \|x\|\|y\| \braket{x|y} = \sum_i^n x_iy_i = x^Ty
+			            \|x\|\|y\| \braket{x|y} =  \frac{\sum_{i=1}^n x_i y_i}{\|x\| \|y\|} \cdot \|x\|\|y\|
+		            \end{equation*}
+
+		            The norm cancel out on the right side and we are left with
+
+		            \begin{equation*}
+			            \braket{x|y} = \sum_i^n x_iy_i = x^Ty
 		            \end{equation*}
 
 		      \item The outer product $xy^T$ is an $n \times n$ matrix. How to encode $xy^T$ quantumly using $\ket{x}$ and $\ket{y}$?
@@ -112,6 +118,8 @@
 		            \begin{equation*}
 			            A = \|x\| \|y\| \ket{x} \bra{y} = \sum_{j=1}^n \sum_{k=1}^n x_j y_k \ket{j}\bra{k}
 		            \end{equation*}
+
+		            Thus, $\|x\| \|y\| \ket{x}\bra{y}$ is the quantum encoding of $xy^T$.
 
 		      \item Suppose the answer to (b) is \textit{A}. Show that the inner product $x^Ty = \text{tr} \ A$.
 
@@ -192,8 +200,8 @@
 		            The probability of measuring the qubit 0 to be in state $\ket{0}$ is (using $U = U_x^\dagger U_y$)
 
 		            \begin{align*}
-			            P(0)  = \| \frac12 (\ket{0} + U \ket{0}) \|^2 & = \frac14 (\bra{0} + \bra{0} U^\dagger) (\ket{0} + U \ket{0})                                     \\
-			                                                                        & = \frac14 \Big[ \braket{0|0} + \braket{0|U| 0} + \braket{0 | U^{\dagger}| 0} + \braket{0|U^\dagger U|0} \Big]
+			            P(0)  = \| \frac12 (\ket{0} + U \ket{0}) \|^2 & = \frac14 (\bra{0} + \bra{0} U^\dagger) (\ket{0} + U \ket{0})                                                 \\
+			                                                          & = \frac14 \Big[ \braket{0|0} + \braket{0|U| 0} + \braket{0 | U^{\dagger}| 0} + \braket{0|U^\dagger U|0} \Big]
 		            \end{align*}
 
 		            Note that $\braket{0|0} = 1$, $\braket{0 | UU^\dagger| 0} = 1$, and $\braket{0 | U^\dagger | 0} = (\braket{0 | U |0})^*$, and $z + z^* = 2 \text{Re}(z)$ so we get
@@ -203,7 +211,7 @@
 			             & = \frac12 (1 + \text{Re}(\braket{x|y})
 		            \end{align*}
 
-                The squared norm of the data state
+		            The squared norm of the data state
 
 		            \begin{equation*}
 			            P(0) = \frac12 (1 + \text{Re}\braket{0|U_x^{\dagger} U_y|0}) = \frac12 (1 + \text{Re}\braket{x|y})
@@ -218,8 +226,37 @@
 
 	\item Given $N$ vectors $x_1, x_2, \cdots, x_N \in \mathbb{R}^n$. Define an \textit{N}-by-\textit{N} matrix $K$ with entry $K_{ij} = x_i^Tx_j$. Matrix $K$ can be encoded as a quantum state described by the density matrix $\rho = \sum_{i=1}^N \sum_{j=1}^N K_{ij} \ket{i} \bra{j}$ where $\{ \ket{1}, \ket{2}, \cdots, \ket{N} \}$ are orthonormal quantum states. Explain in detail how you would prepare state $\rho$.
 
+	      \textbf{Begin solution}
+
+	      We can first start by rewriting the matrix $K$ as
+
+	      \begin{equation*}
+		      K_{ij} = x_i^T x_j = \sum_{k=1}^n x_{ik} x_{jk}
+	      \end{equation*}
+
+	      from question 1a above. We can then substitute this into $\rho$
+
+	      \begin{equation*}
+		      \rho = \sum_i \sum_j \sum_k x_{ik} x_{jk} \ket{i} \bra{j}
+	      \end{equation*}
+
+	      and assume all indices start at 1 and go to $n$ (I just don't want to write it in LaTeX).
+
+	      We can then take some hints from 1d, and separate this into two registers
+
+	      \begin{equation*}
+		      \ket{\psi} = \sum_{i=1}^n \sum_{k=1}^n x_{ik} \ket{i}_A \ket{k}_B
+	      \end{equation*}
+
+	      if we take the partial trace over register B, we can recover the target density matrix
+
+	      \begin{equation*}
+		      \text{Tr}_B(\ket{\psi}\bra{\psi}) = \sum_{k=1}^n \bra{k}_B \Bigg( \sum_{i,j,k'} x_{ik} x_{jk'} \ket{i} \bra{j} \otimes \ket{k} \bra{k'} \Bigg) \ket{k}_B = \sum_{i,j=1}^n \sum_{k=1}^n x_{ik} x_{jk} \ket{i} \bra{j} = \rho
+	      \end{equation*}
+
+	      Therefore the problem reduces to prepare pure state $\ket{\psi}$.
 
 	\item To be submitted via email.
-\end{enumerate}
 
+\end{enumerate}
 \end{document}
