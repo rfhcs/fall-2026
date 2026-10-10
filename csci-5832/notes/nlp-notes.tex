@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
+\usepackage{ragged2e}
 
 % math packages
 \usepackage{amssymb}
@@ -12,6 +13,10 @@
 
 % lists
 \usepackage{enumitem}
+
+% images
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 % color + links
 \usepackage{xcolor}
@@ -196,32 +201,34 @@ a label to data. Now you can just prmopt! What is prompting? Given an algorithm
 that can predict words, just type in a question and append something like ``the
 answer is'' and it would predict the answer!
 
-After this, NLP became about generation rather than algorithms that can
-parse/interpret text. This paved the way for \textbf{generative AI} which
-focuses on generation of text, images, video, speech, etc.
+After this, NLP became about generation rather than algorithms that can parse/interpret text. This paved the way for \textbf{generative AI} which focuses on generation of text, images, video, speech, etc.
 
 \subsection{Linguistic Structure}
 
-Understanding human language and their properties are important for studying
-speech and language processing.a
+Understanding human language and their properties are important for studying speech and language processing.
 
 \subsubsection{Syntactic structure}
 
 Abstract grammar relationships between words or phrases. For example, verbs have
 subjects and direct objects
 
-\centering \textit{She announced this in January}
+\begin{center}
+	\textit{She announced this in January}
+\end{center}
 
-\raggedright Detecting these relationships is what \textbf{parsing} can do.
+Detecting these relationships is what \textbf{parsing} can do.
 
-\subsubsection{Coreference}
+\subsubsection{Co-reference}
 
 When a text talks about a person, it can refer to them in many ways.
 
-\centering \textit{Victoria, the CFO of J.P Morgan, saw her pay jump from \$2.4
-	million, as the 32-year old became the company's president}
+\begin{center}
+	\textit{Victoria, the CFO of J.P Morgan, saw her pay jump from \$2.4
+		million, as the 32-year old became the company's president}
+\end{center}
 
-\raggedright ``Victoria'' is the ``CFO'' and the ``32-year old''. They refer to
+
+``Victoria'' is the ``CFO'' and the ``32-year old''. They refer to
 the same entity ``Victoria'', just with different ways of saying it.
 
 
@@ -478,9 +485,11 @@ Let's see how BPE really works with this sentence that will never exist beyond
 this example in the English language (see: infinite monkeys with infinite
 typewriters)
 
-\centering \texttt{set\_new\_new\_renew\_reset\_renew}
+\begin{center}
+	\texttt{set\_new\_new\_renew\_reset\_renew}
+\end{center}
 
-\raggedright First, we can break up the corpus into words, with their counts
+First, we can break up the corpus into words, with their counts
 (including whitespace!).
 
 \begin{center}
@@ -840,14 +849,13 @@ Everything is just logs \ldots But they are useful!
 
 By taking the log odds, we can get some nice symmetry with opposing odds
 
+\begin{center}
+	\begin{tabular}{ccc}
+		0.95 & 19 to 1 & 2.994  \\
+		0.5  & 1 to 19 & -2.994
+	\end{tabular}
+\end{center}
 
-\centering
-\begin{tabular}{ccc}
-	0.95 & 19 to 1 & 2.994  \\
-	0.5  & 1 to 19 & -2.994
-\end{tabular}
-
-\raggedright
 \subsubsection*{Logit}
 
 The "log of the odds" is often referred to as the \textbf{logit}
@@ -1187,31 +1195,32 @@ to the left and right. Let's use the four words \textit{cherry, strawberry,
 	digital, information}. The words $\pm$ 4 for each of these could look like
 this
 
-\centering is traditionally followed by \textbf{cherry} pie, a traditional
-desert
+\begin{center}
+  is traditionally followed by \textbf{cherry} pie, a traditional
+  desert
 
-often mixed, such as \textbf{strawberry} rhubarb pie. Apple pie
+  often mixed, such as \textbf{strawberry} rhubarb pie. Apple pie
 
-computer peripherals and personal \textbf{digital} assistants. These devices
-usually
+  computer peripherals and personal \textbf{digital} assistants. These devices
+  usually
 
-a computer. This includes \textbf{information} available on the Internet
+  a computer. This includes \textbf{information} available on the Internet
+\end{center}
 
-\raggedright We can then take every occurrence of each word, count the context
+We can then take every occurrence of each word, count the context
 words around it, and get a word-context co-occurrence matrix where each row of
 the table is a vector representing a word.
 
-\centering
-\begin{tabular}{lccr}
-	                     & \textbf{a} & \textbf{computer} & \textbf{pie} \\
-	\hline
-	\textbf{cherry}      & 1          & 0                 & 1            \\
-	\textbf{strawberry}  & 0          & 0                 & 2            \\
-	\textbf{digital}     & 0          & 1                 & 0            \\
-	\textbf{information} & 1          & 1                 & 0
-\end{tabular}
-
-\raggedright
+\begin{center}
+  \begin{tabular}{lccr}
+    & \textbf{a} & \textbf{computer} & \textbf{pie} \\
+    \hline
+    \textbf{cherry}      & 1          & 0                 & 1            \\
+    \textbf{strawberry}  & 0          & 0                 & 2            \\
+    \textbf{digital}     & 0          & 1                 & 0            \\
+    \textbf{information} & 1          & 1                 & 0
+  \end{tabular}
+\end{center}
 
 A \textbf{vector space} is a collection of vectors and is characterized by its
 \textbf{dimension}.
@@ -1294,9 +1303,9 @@ It trains a probabilistic classifier that assigns a probability of how similar t
 The learning algorithm for skip-gram embeddings is as follows
 
 \begin{enumerate}
-  \item Take a corpus of text as input and a chosen vocabulary size \textit{N} vocabulary words.
-  \item Assign a random embedding vector for each N vocabulary words.
-  \item Iteratively shift embeddings of each word \textit{w} to be more like the embeddings of the words that occur nearby.
+	\item Take a corpus of text as input and a chosen vocabulary size \textit{N} vocabulary words.
+	\item Assign a random embedding vector for each N vocabulary words.
+	\item Iteratively shift embeddings of each word \textit{w} to be more like the embeddings of the words that occur nearby.
 \end{enumerate}
 
 For a binary classifier we also need negative samples. (Skip-gram with negative sampling uses more negative than positive samples. ratio set with param \textit{k}).
@@ -1304,20 +1313,153 @@ For a binary classifier we also need negative samples. (Skip-gram with negative 
 For each $(w,c_{pos})$ training instances, create $k$ negative samples consisting of the target word $w$ plus a 'noise word' $c_{neg}$.\footnote{A noise word being a random word from the lexicon not constrained to the lexicon to the target word $w$}. Noise words are chosen according to their weighted unigram probability $p_a(w)$.
 
 \begin{equation*}
-  P_{\alpha}(w) = \frac{count(w)^\alpha}{\sum_{w'}count(w')^\alpha}
+	P_{\alpha}(w) = \frac{count(w)^\alpha}{\sum_{w'}count(w')^\alpha}
 \end{equation*}
 
 Given a set of positive and negative training instances, and an initial set of embeddings, the goal of the learning algorithm is to adjust those embeddings to
 
 
 \begin{itemize}
-  \item Maximize similarity of the target word, context word pairs $(w, c_{pos})$ drawn from the positive examples
-  \item Minimize the similarity of the negative examples.
+	\item Maximize similarity of the target word, context word pairs $(w, c_{pos})$ drawn from the positive examples
+	\item Minimize the similarity of the negative examples.
 \end{itemize}
 
 Then use stochastic gradient descent to calculate to move the weights and contexts towards the direction we want them to minimize loss.
 
 \section{Neural Networks}
+
+\begin{itemize}
+	\item Fundamental computational tool for language processing
+	\item Based on \textbf{McCulloch-Pitts} neuron (modern NNs no longer draw on these biological inspirations)
+	\item Modern NNs are a network of small computational units that takes a vector of input and produces a single output.
+	\item Modern NNs are often called \textbf{deep learning} because of their many layers.
+	\item Takes raw inputs like tokens as inputs and learns to induce features to classify.
+\end{itemize}
+
+
+\subsection{Units}
+
+The core of NNs is a single computational unit. The unit takes a set of real valued numbers as input, performs magic, and then produces an output.
+
+\textbf{Bias terms}
+
+Given a set of inputs $x_1, \dots, x_n$ a unit has corresponding weights $w_1, \dots, w_n$ and a bias term which can be represented as
+
+\begin{equation*}
+	z = b + \sum_i w_i x_i
+\end{equation*}
+
+We usually think of the weights and inputs as vectors, so it can be represented as the dot product plus the bias term
+
+\begin{equation*}
+	z = w \cdot x + b
+\end{equation*}
+
+Finally, we do the same thing we did in logistic regression, which is take the $z$ the output and apply a non-linear function $f$ to $z$. The output of this function is referred to as the \textbf{activation} value of the unit $a$. The activation for the node is the final output of the network which is called $y$ so $y$ is defined as
+
+\begin{equation*}
+	y = a = f(z)
+\end{equation*}
+
+Common activation function used are \textbf{tanh}
+
+\begin{equation*}
+	y = \tanh{(z)} = \frac{e^z - e^{-z}}{e^z + e^{-z}}
+\end{equation*}
+
+or the \textbf{ReLU} function which is just
+
+\begin{equation*}
+	y = \text{ReLU}(z) = max(z, 0)
+\end{equation*}
+
+\subsection{XOR problem}
+
+Consider the task of computing basic logical functions of two inputs AND, OR, XOR. Here are the truth tables for each
+
+\begin{center}
+  \begin{tabular}{ |c|c||c|c|c||c|c|c||c| }
+    \hline
+    \multicolumn{3}{|c|}{AND} & \multicolumn{3}{|c|}{OR} & \multicolumn{3}{|c|}{XOR}                                           \\
+    \hline
+    $x_0$                     & $x_1$                    & y                         & $x_0$ & $x_1$ & y & $x_0$ & $x_1$ & $y$ \\
+    \hline
+    0                         & 0                        & 0                         & 0     & 0     & 0 & 0     & 0     & 0   \\
+    0                         & 1                        & 0                         & 0     & 1     & 1 & 0     & 1     & 1   \\
+    1                         & 0                        & 0                         & 1     & 0     & 1 & 1     & 0     & 1   \\
+    1                         & 1                        & 1                         & 1     & 1     & 1 & 1     & 1     & 0   \\
+    \hline
+  \end{tabular}
+\end{center}
+
+It's very easy to build a perceptron that can compute AND and OR, but not XOR. The problem with the perceptron is it's a linear classifier and XOR is a non-linear problem. So, what's the solution?
+
+\subsubsection{Neural networks!}
+
+The XOR function cannot be computed with a single perceptron, but it can be calculated with a layered neural network!\footnote{See \url{https://web.stanford.edu/~jurafsky/slp3/6.pdf\#figure.6.6}}.
+
+\subsection{Feed-forward neural networks}
+
+A feed-forward neural network is a multi-layer neural network in which layers are connected with no cycle. Simple feed-forward neural networks have three kinds of nodes: input units, hidden units, and output units.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{fig-6.8.png}
+	\caption{Example of a feed-forward neural network}
+\end{figure}
+
+A single hidden unit has parameters, a weight vector, and a bias. The parameters can be represented by combining weight vector and the bias for every input $i$ into a single Weight metrix $W$ and single bias vector $b$ for the entire layer. Now we can just do matrix multiplication! GPUs are great at that!
+
+The computation only has three steps now:
+
+\begin{enumerate}
+	\item Multiply the weight matrix by input vector \textbf{x}.
+	\item Add bias \textbf{b}.
+	\item Apply the activation function $g$ (sigmoid, ReLU, etc.)
+\end{enumerate}
+
+The output of the hidden layer would be the following
+
+\begin{equation*}
+	h = \sigma(Wx + b)
+\end{equation*}
+
+For the case of classification, since the output layer could contain more than one node, this can also be represented as a vector of values that gives a probability distribution across all output nodes.
+
+\subsection{Feed-forward networks for NLP classification}
+
+Now that we have the basics of neural networks down, how can we model
+
+\begin{equation*}
+  P(w_t | w_1^{t-1}) \approx P(w_t | w_{t-N+1}^{t-1})
+\end{equation*}
+
+We need to represent these tokens as vectors so they can be put into our neural model. The naive option would be to map each token to an arbitrary number, or one-hot encode them. This is problematic because we aren't encoding any information with this approach.
+
+A better approach would be to use \textbf{word embeddings}. Dense representations can encode some meaning to where the words appear in a vector. It also allows the NN to generalize better with words that it has never seen before.
+
+\subsubsection{How it works in practice}
+
+First, we take a vocabulary using our training data. Each token is assigned an index and corresponding 1-hot vector. This vector is multiplied with a dense embedding layer initialized from the word embeddings, and acts as a ``lookup'' in our embedding matrix.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[scale=0.5]{fig-6.14.png}
+	\caption{Forward interference in a feed-forward neural language model.}
+\end{figure}
+
+In the figure below, we can see the language modeling task that has a context of only 3 embedding vectors. Those three vectors are then concatenated to produce \textbf{e} the embedding layer. It is then multiplied by the weight matrix \textbf{W} the polygon to produce the hidden layer and another weight matrix \textbf{U} to produce an output layer whose softmax gives us the probability distribution of the words.
+
+The equation for this simple NN looks like
+
+\begin{align*}
+  e & = [\mathbf{Ex}_{t-3}; \mathbf{Ex}_{t-2}; \mathbf{Ex}_{t-1}] \\
+  h & = \sigma(\mathbf{We} + \mathbf{b}) \\
+  z & = \mathbf{Uh} \\
+  \hat{y} & = \text{softmax}(\mathbf{z})
+\end{align*}
+
+The semicolons represent the concatenation of the three embeddings.
 
 
 \section{Transformers}
