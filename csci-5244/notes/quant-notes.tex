@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
+\usepackage{ragged2e}
 
 % math packages
 \usepackage{amssymb}
@@ -401,13 +402,12 @@ Maps $\ket{x,y }$ to $\ket{x, x \oplus y}$.
 
 Below is an example of applying the Hadamard gate to the first ket and the CNOT gate to the second ket
 
-\centering
-\begin{quantikz}
-	\lstick{$\ket{x}$} & \gate{H}  && \ctrl{1} &&& \\
-	\lstick{$\ket{y}$} &&& \targ{} &&&
-\end{quantikz}
-
-\raggedright
+\begin{center}
+  \begin{quantikz}
+    \lstick{$\ket{x}$} & \gate{H}  && \ctrl{1} &&& \\
+    \lstick{$\ket{y}$} &&& \targ{} &&&
+  \end{quantikz}
+\end{center}
 \subsubsection{Controlled-U gate}
 
 It's defined as $\ket{0} \bra{0} \otimes I + \ket{1} \bra{1} \otimes U$.
@@ -416,13 +416,12 @@ Alright, let's back it up and explain that in plain English: If the control bit 
 
 Here's what it looks like in circuit form
 
-\centering
-\begin{quantikz}
-	\lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
-	\lstick{$\ket{y}$} &&& \gate{U} &&&
-\end{quantikz}
-
-\raggedright
+\begin{center}
+  \begin{quantikz}
+    \lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
+    \lstick{$\ket{y}$} &&& \gate{U} &&&
+  \end{quantikz}
+\end{center}
 The CNOT gate is this exact operation with the Pauli bit flip.
 
 \subsubsection{Toffoli Gate}
@@ -433,14 +432,13 @@ It maps $\ket{x, y, z}$ to $\ket{x, y, z, \oplus (x \land y)}$.
 
 The CCNOT gate is a universal gate for reversible classical computing. Any classical reversible circuit can be constructed from it.
 
-\centering
-\begin{quantikz}
-	\lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
-	\lstick{$\ket{y}$} &&& \ctrl{1} &&& \\
-	\lstick{$\ket{z}$} &&& \targ{} &&&
-\end{quantikz}
-
-\raggedright
+\begin{center}
+  \begin{quantikz}
+    \lstick{$\ket{x}$} &&& \ctrl{1} &&& \\
+    \lstick{$\ket{y}$} &&& \ctrl{1} &&& \\
+    \lstick{$\ket{z}$} &&& \targ{} &&&
+  \end{quantikz}
+\end{center}
 \subsection{The quantum circuit model}
 
 \begin{equation*}
@@ -518,15 +516,15 @@ Suppose you have a black-box function $f$ mapping a single bit to another bit, a
 
 There are four possible functions:
 
-\centering
-\begin{tabular}{c|c|c|c|c}
-	\  & $f_0$ & $f_1$ & $f_2$ & $f_3$ \\
-	\hline
-	0  & 0     & 0     & 1     & 1     \\
-	1  & 1     & 0     & 1     & 0     \\
-\end{tabular}
+\begin{center}
+  \begin{tabular}{c|c|c|c|c}
+    \  & $f_0$ & $f_1$ & $f_2$ & $f_3$ \\
+    \hline
+    0  & 0     & 0     & 1     & 1     \\
+    1  & 1     & 0     & 1     & 0     \\
+  \end{tabular}
+\end{center}
 
-\raggedright
 \textbf{Q: Why can't we do it with a single qubit?}
 
 A single qubit acting on $\ket{0} and \ket{1}$ would be $\begin{pmatrix} 1 & 1 \\ 0 & 0 \end{pmatrix}$ which is not a unitary matrix.
@@ -541,13 +539,12 @@ With a two qubit gate, we can use unitary $B_f$ (a ``phase oracle'' of $f$) acti
 
 \subsubsection*{Example}
 
-\centering
-\begin{quantikz}
-	\lstick{0} & \gate{H} & \gate[2][2.0cm]{B_f} & \gate{H} & \gate{M} \\
-	\lstick{1} & \gate{H} && \ \text{garbage} & \wireoverride{n}
-\end{quantikz}
-
-\raggedright
+\begin{center}
+  \begin{quantikz}
+    \lstick{0} & \gate{H} & \gate[2][2.0cm]{B_f} & \gate{H} & \gate{M} \\
+    \lstick{1} & \gate{H} && \ \text{garbage} & \wireoverride{n}
+  \end{quantikz}
+\end{center}
 Let's walk through the above circuit.
 
 Before applying the Hadamard gate we have
@@ -728,14 +725,14 @@ Let's consider the case $n = 3$. The circuit would look like
 
 \vspace{20pt}
 
-\centering
-\begin{quantikz}
-	\lstick{$\ket{x_2}$} & \gate{H} & \gate{R_1} & \gate{R_2} &&&& \rstick{$\ket{y_0}$} \\
-	\lstick{$\ket{x_1}$} && \ctrl{0}\wire[u]{q} && \gate{H} & \gate{R_1} && \rstick{$\ket{y_1}$} \\
-	\lstick{$\ket{x_0}$} &&& \ctrl{0}\wire[u][2]{q} && \ctrl{0}\wire[u]{q} & \gate{H} & \rstick{$\ket{y_2}$}
-\end{quantikz}
+\begin{center}
+  \begin{quantikz}
+    \lstick{$\ket{x_2}$} & \gate{H} & \gate{R_1} & \gate{R_2} &&&& \rstick{$\ket{y_0}$} \\
+    \lstick{$\ket{x_1}$} && \ctrl{0}\wire[u]{q} && \gate{H} & \gate{R_1} && \rstick{$\ket{y_1}$} \\
+    \lstick{$\ket{x_0}$} &&& \ctrl{0}\wire[u][2]{q} && \ctrl{0}\wire[u]{q} & \gate{H} & \rstick{$\ket{y_2}$}
+  \end{quantikz}
+\end{center}
 
-\raggedright
 note the order of the bits are reversed in the output. Each Hadamard gate acts as
 
 \begin{equation*}
@@ -755,14 +752,13 @@ For the $n=3$ qubit state we can see that the QFT is constructed of three Hadama
 
 \subsection{Period finding}
 
+\begin{center}
+  \begin{quantikz}[wire types={b,b}, classical gap=0.3cm]
+    \lstick{$\ket{0^n}$} & \gate[1][1.0cm][1.0cm]{H} & \gate[2][1.7cm][1.0cm]{U_f} && \gate[1][1.0cm][1.0cm]{QFT} & \gate[1][1.0cm][1.0cm]{M} &\setwiretype{c} \\
+    \lstick{$\ket{0^m}$} & & & \gate[1][1.0cm][1.0cm]{M} &\setwiretype{c} & \wireoverride{n} & \wireoverride{n}
+  \end{quantikz}
+\end{center}
 
-\centering
-\begin{quantikz}[wire types={b,b}, classical gap=0.3cm]
-	\lstick{$\ket{0^n}$} & \gate[1][1.0cm][1.0cm]{H} & \gate[2][1.7cm][1.0cm]{U_f} && \gate[1][1.0cm][1.0cm]{QFT} & \gate[1][1.0cm][1.0cm]{M} &\setwiretype{c} \\
-	\lstick{$\ket{0^m}$} & & & \gate[1][1.0cm][1.0cm]{M} &\setwiretype{c} & \wireoverride{n} & \wireoverride{n}
-\end{quantikz}
-
-\raggedright
 Imagine a quantum oracle that computes a function
 
 \begin{equation*}
@@ -848,13 +844,13 @@ Given a unitary transformation $U$ and one of its eigenvector $\ket{\psi_j}$, fi
 
 \textbf{How it works}
 
-\centering
-\begin{quantikz}[wire types={q,b},classical gap=0.3cm]
-	\lstick{$0$} & \gate[1]{H} & \ctrl{1} & \gate{H} & \gate{M}  \\
-	\lstick{$\ket{\psi}$} && \gate[1][1.5cm][1.5cm]{U_f} && \rstick{$\psi$}
-\end{quantikz}
+\begin{center}
+  \begin{quantikz}[wire types={q,b},classical gap=0.3cm]
+    \lstick{$0$} & \gate[1]{H} & \ctrl{1} & \gate{H} & \gate{M}  \\
+    \lstick{$\ket{\psi}$} && \gate[1][1.5cm][1.5cm]{U_f} && \rstick{$\psi$}
+  \end{quantikz}
+\end{center}
 
-\raggedright
 First apply the Hadamard gate
 
 \begin{equation*}
@@ -878,31 +874,30 @@ Let's make this more efficient. Suppose we can implement the unitary transformat
 
 For any unitary transformation $U$, let $C_k-U$ stand for a ``k-controlled U'' circuit which implements the transformation $\ket{k} \otimes \ket{\psi} \rightarrow \ket{k} \otimes U^k\ket{\psi}$ as shown below
 
-\centering
-\begin{quantikz}[row sep={0.5cm,between origins}]
-	&&& \wire[d][2]{c} &&& \\
-	\lstick{$k$} &&&&&& \\
-	&&& \wire[d][1]{q} &&& \\[0.5cm]
-	&&& \gate[3][2.0cm][1.0cm]{U} &&& \\
-	\lstick{$\psi$} &&&&&& \rstick{$U^k\psi$} \\
-	&&&&&&
-\end{quantikz}
+\begin{center}
+  \begin{quantikz}[row sep={0.5cm,between origins}]
+    &&& \wire[d][2]{c} &&& \\
+    \lstick{$k$} &&&&&& \\
+    &&& \wire[d][1]{q} &&& \\[0.5cm]
+    &&& \gate[3][2.0cm][1.0cm]{U} &&& \\
+    \lstick{$\psi$} &&&&&& \rstick{$U^k\psi$} \\
+    &&&&&&
+  \end{quantikz}
+\end{center}
 
-\raggedright
 Estimating $\theta$ within $m$-bit accuracy is equivalent to estimate integer $j$ where $\frac{j}{2^m}$ is the closest approximation to $\theta$. Let $M = 2^m$ and $w_m = e^{\frac{2{\pi}i}{M}}$
 
+\begin{center}
+  \begin{quantikz}[row sep={0.5cm,between origins}]
+    & \gate[3][1.5cm]{H^{\otimes m}} && \wire[d][2]{c} && \gate[3][1.5cm]{QFT^{-1}_{M}} & \\
+    \lstick{$0^m$} &&&&&& \rstick{$j$}\\
+    &&& \wire[d][1]{q} &&& \\[0.5cm]
+    &&& \gate[3][2.0cm][1.0cm]{U} &&& \\
+    \lstick{$\psi$} &&&&&& \\
+    &&&&&&
+  \end{quantikz}
+\end{center}
 
-\centering
-\begin{quantikz}[row sep={0.5cm,between origins}]
-	& \gate[3][1.5cm]{H^{\otimes m}} && \wire[d][2]{c} && \gate[3][1.5cm]{QFT^{-1}_{M}} & \\
-	\lstick{$0^m$} &&&&&& \rstick{$j$}\\
-	&&& \wire[d][1]{q} &&& \\[0.5cm]
-	&&& \gate[3][2.0cm][1.0cm]{U} &&& \\
-	\lstick{$\psi$} &&&&&& \\
-	&&&&&&
-\end{quantikz}
-
-\raggedright
 The circuit above follows the sequence of transformations
 
 \begin{align*}
@@ -958,15 +953,15 @@ we have
 
 Therefore, finding the order of $a$ is a period-finding problem, and $a^x \ \text{mod} \ N$ can be computed in $O(\log N)^3$ via the repeated squaring: compute $a, a^2, a^4, a^8, \dots a^{2^{k}}$.
 
-\centering
-\begin{quantikz}
-	\lstick{$\ket{x_2}$} & & & & \ctrl{3} & \\
-	\lstick{$\ket{x_1}$} & & & \ctrl{2} & & \\
-	\lstick{$\ket{x_0}$} & & \ctrl{1} & & & \\
-	\lstick{$\ket{1}$} & \qwbundle{} & \gate[1][1.0cm][1.0cm]{a} & \gate[1][1.0cm][1.0cm]{a^2} & \gate[1][1.0cm][1.0cm]{a^4} & \\
-\end{quantikz}
+\begin{center}
+  \begin{quantikz}
+    \lstick{$\ket{x_2}$} & & & & \ctrl{3} & \\
+    \lstick{$\ket{x_1}$} & & & \ctrl{2} & & \\
+    \lstick{$\ket{x_0}$} & & \ctrl{1} & & & \\
+    \lstick{$\ket{1}$} & \qwbundle{} & \gate[1][1.0cm][1.0cm]{a} & \gate[1][1.0cm][1.0cm]{a^2} & \gate[1][1.0cm][1.0cm]{a^4} & \\
+  \end{quantikz}
+\end{center}
 
-\raggedright
 \subsubsection{Shor's algorithm}
 
 \begin{itemize}
@@ -1000,8 +995,8 @@ We can classify hardness of a problem in terms of the resources needed to solve 
 problem $X$ polynomial-time-reduces to problem $Y$ if arbitrary instances of problem $X$ can be solved using:
 
 \begin{itemize}
-  \item polynomial number of basic computational steps
-  \item polynomial number of calls to oracle that solves problem $Y$
+	\item polynomial number of basic computational steps
+	\item polynomial number of calls to oracle that solves problem $Y$
 \end{itemize}
 
 We note this as $X \le_p Y$.
@@ -1009,9 +1004,9 @@ We note this as $X \le_p Y$.
 We can use polynomial time reduction in these ways
 
 \begin{itemize}
-  \item design algorithms: if $X \le_p Y$, $Y$'s polynomial time solvable implies $X$ is polynomial time-solvable.
-  \item establish intractability: if $X \le_p Y$ and $X$ is not polynomial time solvable, $Y$ cannot be polynomial time solvable.
-  \item establish equivalence: $X$ and $Y$ are equivalent if both $X \le_p Y$ and $Y \le_p X$ denoted $X \equiv_p Y$.
+	\item design algorithms: if $X \le_p Y$, $Y$'s polynomial time solvable implies $X$ is polynomial time-solvable.
+	\item establish intractability: if $X \le_p Y$ and $X$ is not polynomial time solvable, $Y$ cannot be polynomial time solvable.
+	\item establish equivalence: $X$ and $Y$ are equivalent if both $X \le_p Y$ and $Y \le_p X$ denoted $X \equiv_p Y$.
 \end{itemize}
 
 \subsection{Different types of problems}
@@ -1019,12 +1014,10 @@ We can use polynomial time reduction in these ways
 We can classify different types of problems into three types:
 
 \begin{itemize}
-  \item decision problems: given a question, an input and a threshold $w$, determine the existence of a solution at least as good as $w$, answering YES if such a solution exists and NO otherwise.
-  \item search problems: given a question, an input and a threshold $w$, find a solution at least as good as $w$.
-  \item optimization problems: given a question and an input, find the best solution.
+	\item decision problems: given a question, an input and a threshold $w$, determine the existence of a solution at least as good as $w$, answering YES if such a solution exists and NO otherwise.
+	\item search problems: given a question, an input and a threshold $w$, find a solution at least as good as $w$.
+	\item optimization problems: given a question and an input, find the best solution.
 \end{itemize}
-
-
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
