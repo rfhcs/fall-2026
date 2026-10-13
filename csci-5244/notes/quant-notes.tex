@@ -133,7 +133,7 @@ A state is a complete description of a physical system. A state in quantum mecha
 		      \item Positivity: $\braket{\psi|\psi} > 0$ for $\ket{\psi} \ne 0$
 		      \item Skew symmetry: $\braket{\psi|\phi} = \braket{\phi|\psi}$
 	      \end{itemize}
-	\item \textbf{Normalization}: $||\ket{psi}|| = \sqrt{\braket{\psi|\psi}}$
+	\item \textbf{Normalization}: $\|\ket{\psi}\| = \sqrt{\braket{\psi|\psi}}$
 	\item \textbf{Global phase}: $\ket{\psi}$ and $e^{ia}\ket{\psi}, a \in \mathbb{R}$ are indistinguishable
 \end{itemize}
 
@@ -212,11 +212,11 @@ The measurement of an observable $A$ prepares an eigenstate $\ket{n}$ of $A$ (st
 \begin{itemize}
 	\item Probability of outcome $a_n$:
 	      \[
-		      Prob(a_n) = ||E\ket{\psi}||^2 = \bra{\psi}E\ket{\psi}
+		      Prob(a_n) = \|E\ket{\psi}\|^2 = \bra{\psi}E\ket{\psi}
 	      \]
 	\item Post-measurement state:
 	      \[
-		      \frac{E_n \ket{\psi}}{||E_n\ket{\psi}||} \text{(state collapse)}
+		      \frac{E_n \ket{\psi}}{\|E_n\ket{\psi}\|} \text{(state collapse)}
 	      \]
 	      Note: when measured again, the outcome remains the same.
 
@@ -482,7 +482,7 @@ Building a circuit has four parts:
 A gate set is universal if some circuit V built from it can approximate any unitary transformation $U$ on any number of qubits and get a desired accuracy $\epsilon$.
 
 \begin{equation*}
-	||V-e^{i\theta}U||_{\inf} \le \epsilon
+	\|V-e^{i\theta}U\|_{\infty} \le \epsilon
 \end{equation*}
 
 There are two flavors:
@@ -493,7 +493,7 @@ There are two flavors:
 	\item
 	      \textbf{generic universality}: almost any two-qubit gate is universal if it can be applied to any pair of qubits.
 	\item
-	      examples: $\{CCNOT, H, P(\pi/2)\}$, $\{H, control - e^{i\pi/4}P(\pi/2\}$
+	      examples: $\{\text{CCNOT}, H, P(\pi/2)\}$, $\{H, \text{control} - e^{i\pi/4}P(\pi/2\}$
 \end{enumerate}
 
 
