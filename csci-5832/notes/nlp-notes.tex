@@ -1404,7 +1404,7 @@ A feed-forward neural network is a multi-layer neural network in which layers ar
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.75]{fig-6.8.png}
+	\includegraphics[scale=0.75]{fig-1.png}
 	\caption{Example of a feed-forward neural network}
 \end{figure}
 
@@ -1444,7 +1444,7 @@ First, we take a vocabulary using our training data. Each token is assigned an i
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[scale=0.5]{fig-6.14.png}
+	\includegraphics[scale=0.5]{fig-2.png}
 	\caption{Forward interference in a feed-forward neural language model.}
 \end{figure}
 
@@ -1461,9 +1461,57 @@ The equation for this simple NN looks like
 
 The semicolons represent the concatenation of the three embeddings.
 
+\subsection{Training NNs}
+
+
+The goal of training a neural network is to get it to blindly throw darts very accurately. A more formal way of putting it is: to get it to learn parameters $W^i$ and $b^i$ for each layer $i$ such that $\hat{y}$ is as true to $y$ as possible.
+
+First, we need a \textbf{loss function} (common to use cross-entropy loss). Second, we need to find parameters that minimize loss using \textbf{gradient descent }. Third, we need to know the gradient of the loss function. For this we will use \textbf{error back propagation}.
+
+\subsection{Loss function}
+
+Same thing as logistic regression
+
+\begin{equation*}
+  L_{CE}(\hat{y}, y) = -\log p(y|x) = -[y\log \hat{y} + (1 - y) \log(1 - \hat{y})]
+\end{equation*}
+
+\subsection{Gradient}
+
+We need the partial derivative of the loss function with respect to each parameter. For deep NNs computing gradients is much more complex as we need the derivative with respect to weight parameters that appear in every layer of the network, and not just the one at the very end. To do this, we need to use \textbf{back propagation}.
+
+\subsection{Computation Graphs}
+
+A computation graph is a representation of the process of computing a mathematical expression. The expression is broken down into separate operations modeled as a node on a graph.
+
+\subsubsection{Backwards pass}
+
+This is used to compute the derivatives needed for weight updates. We can make use of the \textbf{chain rule} $f(x) = u(v(x))$:
+
+\begin{equation*}
+  \frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dx}
+\end{equation*}
+
+We can extend that to more than two functions like so
+
+
+\begin{equation*}
+  \frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dw} \cdot \frac{dw}{dx}
+\end{equation*}
+
+For the function $L(a,b,c) = c(a+2b)$ the computation graph would look something like this
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.75]{fig-3.png}
+  \caption{Computation graph of $L(a,b,c) = c(a + 2b)$}
+\end{figure}
+
+Of course a computation for a neural network is much more complicated and honestly is not worth computing by hand. Just let the damn computer do it.
 
 \section{Transformers}
 
+Transformers are the standard architecture for building LLMs. They work by taking an input token, passing it through an embedding matrix (linear layer that maps a token to a vector representing that token) resulting in the vector representing the word and the position of said word. This is passed through a set of transformer blocks.
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
