@@ -1069,7 +1069,7 @@ related.
 
 \textit{Words that occur in similar contexts tend to have similar meanings.}
 
-\textbf{Ok, so how do we represent this?}
+\subsubsection*{Ok, so how do we represent this?}
 
 \textbf{Embeddings} (insert title reference; we can all go home now). Embeddings
 are vector representations of the meaning of words learned directly from word
@@ -1100,7 +1100,7 @@ A more formal definition is ``two words are synonymous if they are suitable for
 one another in any sentence without changing the \textit{truth conditions} of
 the sentence''.
 
-\textbf{Principle of contrast} difference in form is always associated with a
+\textbf{Principle of contrast} --- difference in form is always associated with a
 difference in meaning.
 
 This is used to describe how approximately a word is synonymous with another.
@@ -1186,7 +1186,7 @@ One way to compute word vector embeddings is by using a \textbf{co-occurrence
 A particular type of co-occurrence matrix, the \textbf{word-content matrix},
 will represent how often each other word in vocabulary appears nearby.
 
-\textbf{Nearby is so ambiguous, so wtf do you mean by that??}
+\subsubsection*{Nearby is so ambiguous, so wtf do you mean by that??}
 
 The textbook uses the following example:
 
@@ -1341,7 +1341,7 @@ Then use stochastic gradient descent to calculate to move the weights and contex
 
 The core of NNs is a single computational unit. The unit takes a set of real valued numbers as input, performs magic, and then produces an output.
 
-\textbf{Bias terms}
+\subsubsection*{Bias terms}
 
 Given a set of inputs $x_1, \dots, x_n$ a unit has corresponding weights $w_1, \dots, w_n$ and a bias term which can be represented as
 
@@ -1404,7 +1404,7 @@ A feed-forward neural network is a multi-layer neural network in which layers ar
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.75]{fig-6.8.png}
+	\includegraphics[scale=0.75]{fig-1.png}
 	\caption{Example of a feed-forward neural network}
 \end{figure}
 
@@ -1444,7 +1444,7 @@ First, we take a vocabulary using our training data. Each token is assigned an i
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[scale=0.5]{fig-6.14.png}
+	\includegraphics[scale=0.5]{fig-2.png}
 	\caption{Forward interference in a feed-forward neural language model.}
 \end{figure}
 
@@ -1461,8 +1461,94 @@ The equation for this simple NN looks like
 
 The semicolons represent the concatenation of the three embeddings.
 
+\subsection{Training NNs}
+
+
+The goal of training a neural network is to get it to blindly throw darts very accurately. A more formal way of putting it is: to get it to learn parameters $W^i$ and $b^i$ for each layer $i$ such that $\hat{y}$ is as true to $y$ as possible.
+
+First, we need a \textbf{loss function} (common to use cross-entropy loss). Second, we need to find parameters that minimize loss using \textbf{gradient descent }. Third, we need to know the gradient of the loss function. For this we will use \textbf{error back propagation}.
+
+\subsection{Loss function}
+
+Same thing as logistic regression
+
+\begin{equation*}
+  L_{CE}(\hat{y}, y) = -\log p(y|x) = -[y\log \hat{y} + (1 - y) \log(1 - \hat{y})]
+\end{equation*}
+
+\subsection{Gradient}
+
+We need the partial derivative of the loss function with respect to each parameter. For deep NNs computing gradients is much more complex as we need the derivative with respect to weight parameters that appear in every layer of the network, and not just the one at the very end. To do this, we need to use \textbf{back propagation}.
+
+\subsection{Computation Graphs}
+
+A computation graph is a representation of the process of computing a mathematical expression. The expression is broken down into separate operations modeled as a node on a graph.
+
+\subsubsection{Backwards pass}
+
+This is used to compute the derivatives needed for weight updates. We can make use of the \textbf{chain rule} $f(x) = u(v(x))$:
+
+\begin{equation*}
+  \frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dx}
+\end{equation*}
+
+We can extend that to more than two functions like so
+
+
+\begin{equation*}
+  \frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dw} \cdot \frac{dw}{dx}
+\end{equation*}
+
+For the function $L(a,b,c) = c(a+2b)$ the computation graph would look something like this
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.75]{fig-3.png}
+  \caption{Computation graph of $L(a,b,c) = c(a + 2b)$}
+\end{figure}
+
+Of course a computation for a neural network is much more complicated and honestly is not worth computing by hand. Just let the damn computer do it.
+
+\subsection{Recurrent NNs}
+
+Any network that contains a cycle within its network connections. Recurrent neural networks work the same as any neural network: An input vector $x_i$ goes in, multiplied by a weight matrix, passed through a non-linear activation function to compute values for the hidden layer. This hidden layer is then used to calculate a corresponding output $y_i$.
+
 
 \section{Transformers}
+
+Transformers are the standard architecture for building LLMs. The first types of transformers are left-to-right transformers (called causal or auto-regressive decoders) used for language modeling. These transformers work by taking an input token and predicting output tokens one by one by conditioning on the prior context.
+
+There are three types of transformer architectures:
+
+\begin{enumerate}
+  \item Causal autoregressive models
+  \item Encoder-decoder
+  \item Bidirectional encoders
+\end{enumerate}
+
+\subsection{Attention}
+
+The core foundation of transformers, and what differentiates them from neural networks, is this concept called \textbf{attention}. Attention is a ``biologically inspired'' concept that essentially allows you to allocate resources to focus on what's really important from a larger input field.
+
+\subsubsection{Word embeddings vs contextual embeddings}
+
+Before, we used \textbf{word embeddings} to represent a single word as a vector. But now we need something more robust.
+
+Words (vectors) must have information from the surrounding context to make sense of that word, how to use it, etc.
+
+
+\subsubsection{Self-attention}
+
+\textbf{Casual sequence processing} (Left-to-right processing)
+
+This works by essentially comparing the current token to each previous item in a sentence and generating a similarity score to each, normalizing these scores to produce a probability distribution, and then using the normalized scores to produce an output based on the \underline{weighted sum} of the preceding units.
+
+\subsubsection*{A simplified version}
+
+All attention is is just a weighted sum of context vectors, with a lot of headaches as to how the weights are computed and what gets summed.
+
+
+
 
 
 % ----------- NOTHING AFTER THIS LINE ------------
