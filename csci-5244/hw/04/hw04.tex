@@ -1,0 +1,100 @@
+
+\documentclass[11pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% quantum packages
+\usepackage{braket}
+\usepackage{quantikz}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  filecolor=blue
+}
+
+% line spacing & formatting
+\usepackage{parskip}
+\usepackage{soul}
+
+% custom commands
+\newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\newcommand{\sinth}{\sin\theta}
+\newcommand{\costh}{\cos\theta}
+\newcommand{\ztimesn}{0^{\otimes n}}
+\newcommand{\ketphi}{\ket{\phi}}
+\newcommand{\ketpsi}{\ket{\psi}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% title stuff
+\title{CSCI 5244: Homework Set 3}
+\date{}
+\author{Rey Stone}
+
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+\maketitle
+
+\raggedright
+\begin{enumerate}
+	\item \textbf{[Phase Flip Codes]} Recall the phase-flip error $\begin{cases}\ket{0} \rightarrow \ket{0} \\ \ket{1} \rightarrow -\ket{1} \end{cases}$, and the states $\ket{+} = \invsq (\ket{0} + \ket{1})$ and $\ket{1} = \invsq (\ket{0} - \ket{1})$. The following $[3,1]$ codes can be used to detect and correct the phase-flip error:
+
+	      \begin{equation*}
+		      \begin{cases}
+			      \ket{0} \rightarrow \ket{\bar{0}} = \ket{+++} \\
+			      \ket{1} \rightarrow \ket{\bar{1}} = \ket{---}
+		      \end{cases}
+	      \end{equation*}
+
+	      \begin{enumerate}
+		      \item Draw the quantum circuit for encoding the above phase-flip codes.
+		      \item Give the stabilizers that can be used to detect the phase-flip error.
+		      \item Continuing on the encoding circuit from (a), draw the circuit for error detection and correction.
+	      \end{enumerate}
+
+	\item Recall Pauli X,Y,Z matrices: $\sigma_1 =
+		      \begin{pmatrix}
+			      0 & 1 \\ 1 & 0
+		      \end{pmatrix},
+        \sigma_2 =
+        \begin{pmatrix}
+          0 & -i \\ i & 0
+        \end{pmatrix},
+        \sigma_3 =
+        \begin{pmatrix}
+          1 & 0 \\ 0 & -1
+        \end{pmatrix}
+        $
+
+        \begin{enumerate}
+          \item Show  the following anti-communication relationships:
+
+                \begin{equation*}
+                 {\sigma_i, \sigma_j} = 2 \delta_{ij}I
+               \end{equation*}
+
+                where $\delta_{ij}$ is the Kronecker delta.
+          \item Show the following communication relationships:
+
+
+
+        \end{enumerate}
+
+\end{enumerate}
+
+% ----------- DOCUMENT ENDS HERE ------------
+\end{document}
