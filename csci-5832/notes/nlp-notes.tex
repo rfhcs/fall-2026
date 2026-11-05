@@ -132,7 +132,7 @@ we can understand how languages work
 	\item linked to psychology, philosophy, and cognitive science.
 \end{itemize}
 
-\subsection{The Three Pillars of Modern NLP}
+\subsection{The Three Pillars of modern NLP}
 
 \begin{enumerate}
 	\item \textbf{Probabilistic Language Models}: systems that assign probability
@@ -305,7 +305,7 @@ Messy stuff that nobody ever "taught" when learning English
 	      etc.
 \end{itemize}
 
-\subsubsection{Morphological Typology}
+\subsubsection{Morphological typology}
 
 Groups languages based on aspects of morphology
 
@@ -408,7 +408,7 @@ Normalizing text can look like
 	\item Recognizing different scripts/languages
 \end{itemize}
 
-\subsubsection{Issues in Normalizationn}
+\subsubsection{Issues in normalization}
 
 \begin{itemize}
 	\item Hong Kong $\rightarrow$ one word? two?
@@ -416,7 +416,7 @@ Normalizing text can look like
 	\item IRA, I.R.A $\rightarrow$ expand? keep out?
 \end{itemize}
 
-\subsubsection{Sentence Segmentation}
+\subsubsection{Sentence segmentation}
 
 Tokenization, morphology, and further syntactic processing first requires
 sentence segmentation
@@ -430,7 +430,7 @@ sentence segmentation
 	      \end{itemize}
 \end{itemize}
 
-\subsubsection{Multilingual issues in Normalization}
+\subsubsection{Multilingual issues in normalization}
 
 English is not the only language out there, and there are several problems that
 need to be faced.
@@ -555,7 +555,7 @@ If we do that enough times merges 5--8 look like this
 
 
 
-\subsubsection{Multilingual issues with Tokenization}
+\subsubsection{Multilingual issues with tokenization}
 
 Most models are assumed to be monolingual. Multilingual models were built for
 the use of translation, retrieval, etc. While most frontier models have
@@ -569,7 +569,7 @@ It does! Smaller vocabularies have lower memory requirements, but they might
 miss more tokens. But smaller vocabularies lead to longer inputs, because the
 smaller words lead to more tokens (commercial LLMs charge by token).
 
-\section{N-Gram Language Models}
+\section{N-Gram language models}
 
 \subsection{What is a language model?}
 
@@ -578,7 +578,7 @@ elegantly, it assigns probability to each possible next word, or gives a
 probability distribution of upcoming words that could may or may not be
 possible.
 
-\subsubsection{Word Prediction}
+\subsubsection{Word prediction}
 
 Given a certain word, we can formalize this prediction of ``given this word,
 what is the probability of this word occurring next?'' as
@@ -676,7 +676,7 @@ For bigrams
 	P_{+1}(w_n|w_{n-1}) = \frac{\text{Count}(w_{n-1},w_n)+1}{\text{Count}(w_{n-1})+V}
 \]
 
-\subsection{Evaluating Language Models}
+\subsection{Evaluating language models}
 
 Best way to evaluate a model is to embed it into an application and measure its
 performance. This is called \textbf{extrinsic evaluation}. It's really the only
@@ -736,7 +736,7 @@ make in guessing the next item in a sequence.
 	      $M$ which makes sense! it's just guessing randomly.
 \end{itemize}
 
-\section{Logistic Regression and Text Classification}
+\section{Logistic regression and text classification}
 
 \subsection{Classification}
 
@@ -764,7 +764,7 @@ With language classification, each word can be thought of as a class, so
 \textbf{predicting the next word} can be thought of as classifying the
 context-thus-far into a class for each next word!
 
-\subsection{Logistic Regression}
+\subsection{Logistic regression}
 
 The goal of classification is to take a single input, find some useful features
 from the input, and then use that to predict an unknown case.
@@ -980,7 +980,7 @@ or
 	-(y-\hat{y})x_j
 \]
 
-\subsubsection{Stochastic Gradient Descent}
+\subsubsection{Stochastic gradient descent}
 
 The Stochastic Gradient Descent minimizes the loss function by computing the
 gradient after each training example, nudging $\theta$ in the right direction
@@ -1075,11 +1075,11 @@ related.
 are vector representations of the meaning of words learned directly from word
 distributions in texts.
 
-\subsection{Lexical Semantics}
+\subsection{Lexical semantics}
 
 How should we represent the meaning of a word?
 
-\subsubsection{Lemmas and Senses}
+\subsubsection{Lemmas and senses}
 
 aka the \textbf{citation form}. like ``pepper'' or ``mouse'' (in this case
 ``mouse'' can be a lemma to ``mice'').
@@ -1105,7 +1105,7 @@ difference in meaning.
 
 This is used to describe how approximately a word is synonymous with another.
 
-\subsubsection{Word Similarity}
+\subsubsection{Word similarity}
 
 While words don't have many synonyms, words do have a LOT similar words. Take
 for example ``cat'' and ``dog''. They mean completely different things, but they
@@ -1114,7 +1114,7 @@ are similar words.
 Shifting towards similarity is important because it helps with tasks such as
 paraphrasing, summarizing, etc.
 
-\subsubsection{Word Relatedness}
+\subsubsection{Word relatedness}
 
 Words can be related in many ways even if they aren't similar at all. The
 example the textbook gives is ``coffee'' and ``cup''. These words aren't similar
@@ -1142,7 +1142,7 @@ emotions, sentiment, opinions, etc.
 
 \end{itemize}
 
-\subsection{Vector Semantics}
+\subsection{Vector semantics}
 
 The standard way to represent a word meaning in NLP. This helps us model the
 many aspects of word meaning described in the section above.
@@ -1196,15 +1196,15 @@ to the left and right. Let's use the four words \textit{cherry, strawberry,
 this
 
 \begin{center}
-  is traditionally followed by \textbf{cherry} pie, a traditional
-  desert
+	is traditionally followed by \textbf{cherry} pie, a traditional
+	desert
 
-  often mixed, such as \textbf{strawberry} rhubarb pie. Apple pie
+	often mixed, such as \textbf{strawberry} rhubarb pie. Apple pie
 
-  computer peripherals and personal \textbf{digital} assistants. These devices
-  usually
+	computer peripherals and personal \textbf{digital} assistants. These devices
+	usually
 
-  a computer. This includes \textbf{information} available on the Internet
+	a computer. This includes \textbf{information} available on the Internet
 \end{center}
 
 We can then take every occurrence of each word, count the context
@@ -1212,14 +1212,14 @@ words around it, and get a word-context co-occurrence matrix where each row of
 the table is a vector representing a word.
 
 \begin{center}
-  \begin{tabular}{lccr}
-    & \textbf{a} & \textbf{computer} & \textbf{pie} \\
-    \hline
-    \textbf{cherry}      & 1          & 0                 & 1            \\
-    \textbf{strawberry}  & 0          & 0                 & 2            \\
-    \textbf{digital}     & 0          & 1                 & 0            \\
-    \textbf{information} & 1          & 1                 & 0
-  \end{tabular}
+	\begin{tabular}{lccr}
+		                     & \textbf{a} & \textbf{computer} & \textbf{pie} \\
+		\hline
+		\textbf{cherry}      & 1          & 0                 & 1            \\
+		\textbf{strawberry}  & 0          & 0                 & 2            \\
+		\textbf{digital}     & 0          & 1                 & 0            \\
+		\textbf{information} & 1          & 1                 & 0
+	\end{tabular}
 \end{center}
 
 A \textbf{vector space} is a collection of vectors and is characterized by its
@@ -1378,18 +1378,18 @@ or the \textbf{ReLU} function which is just
 Consider the task of computing basic logical functions of two inputs AND, OR, XOR. Here are the truth tables for each
 
 \begin{center}
-  \begin{tabular}{ |c|c||c|c|c||c|c|c||c| }
-    \hline
-    \multicolumn{3}{|c|}{AND} & \multicolumn{3}{|c|}{OR} & \multicolumn{3}{|c|}{XOR}                                           \\
-    \hline
-    $x_0$                     & $x_1$                    & y                         & $x_0$ & $x_1$ & y & $x_0$ & $x_1$ & $y$ \\
-    \hline
-    0                         & 0                        & 0                         & 0     & 0     & 0 & 0     & 0     & 0   \\
-    0                         & 1                        & 0                         & 0     & 1     & 1 & 0     & 1     & 1   \\
-    1                         & 0                        & 0                         & 1     & 0     & 1 & 1     & 0     & 1   \\
-    1                         & 1                        & 1                         & 1     & 1     & 1 & 1     & 1     & 0   \\
-    \hline
-  \end{tabular}
+	\begin{tabular}{ |c|c||c|c|c||c|c|c||c| }
+		\hline
+		\multicolumn{3}{|c|}{AND} & \multicolumn{3}{|c|}{OR} & \multicolumn{3}{|c|}{XOR}                                           \\
+		\hline
+		$x_0$                     & $x_1$                    & y                         & $x_0$ & $x_1$ & y & $x_0$ & $x_1$ & $y$ \\
+		\hline
+		0                         & 0                        & 0                         & 0     & 0     & 0 & 0     & 0     & 0   \\
+		0                         & 1                        & 0                         & 0     & 1     & 1 & 0     & 1     & 1   \\
+		1                         & 0                        & 0                         & 1     & 0     & 1 & 1     & 0     & 1   \\
+		1                         & 1                        & 1                         & 1     & 1     & 1 & 1     & 1     & 0   \\
+		\hline
+	\end{tabular}
 \end{center}
 
 It's very easy to build a perceptron that can compute AND and OR, but not XOR. The problem with the perceptron is it's a linear classifier and XOR is a non-linear problem. So, what's the solution?
@@ -1431,7 +1431,7 @@ For the case of classification, since the output layer could contain more than o
 Now that we have the basics of neural networks down, how can we model
 
 \begin{equation*}
-  P(w_t | w_1^{t-1}) \approx P(w_t | w_{t-N+1}^{t-1})
+	P(w_t | w_1^{t-1}) \approx P(w_t | w_{t-N+1}^{t-1})
 \end{equation*}
 
 We need to represent these tokens as vectors so they can be put into our neural model. The naive option would be to map each token to an arbitrary number, or one-hot encode them. This is problematic because we aren't encoding any information with this approach.
@@ -1453,10 +1453,10 @@ In the figure below, we can see the language modeling task that has a context of
 The equation for this simple NN looks like
 
 \begin{align*}
-  e & = [\mathbf{Ex}_{t-3}; \mathbf{Ex}_{t-2}; \mathbf{Ex}_{t-1}] \\
-  h & = \sigma(\mathbf{We} + \mathbf{b}) \\
-  z & = \mathbf{Uh} \\
-  \hat{y} & = \text{softmax}(\mathbf{z})
+	e       & = [\mathbf{Ex}_{t-3}; \mathbf{Ex}_{t-2}; \mathbf{Ex}_{t-1}] \\
+	h       & = \sigma(\mathbf{We} + \mathbf{b})                          \\
+	z       & = \mathbf{Uh}                                               \\
+	\hat{y} & = \text{softmax}(\mathbf{z})
 \end{align*}
 
 The semicolons represent the concatenation of the three embeddings.
@@ -1473,14 +1473,14 @@ First, we need a \textbf{loss function} (common to use cross-entropy loss). Seco
 Same thing as logistic regression
 
 \begin{equation*}
-  L_{CE}(\hat{y}, y) = -\log p(y|x) = -[y\log \hat{y} + (1 - y) \log(1 - \hat{y})]
+	L_{CE}(\hat{y}, y) = -\log p(y|x) = -[y\log \hat{y} + (1 - y) \log(1 - \hat{y})]
 \end{equation*}
 
 \subsection{Gradient}
 
 We need the partial derivative of the loss function with respect to each parameter. For deep NNs computing gradients is much more complex as we need the derivative with respect to weight parameters that appear in every layer of the network, and not just the one at the very end. To do this, we need to use \textbf{back propagation}.
 
-\subsection{Computation Graphs}
+\subsection{Computation graphs}
 
 A computation graph is a representation of the process of computing a mathematical expression. The expression is broken down into separate operations modeled as a node on a graph.
 
@@ -1489,22 +1489,22 @@ A computation graph is a representation of the process of computing a mathematic
 This is used to compute the derivatives needed for weight updates. We can make use of the \textbf{chain rule} $f(x) = u(v(x))$:
 
 \begin{equation*}
-  \frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dx}
+	\frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dx}
 \end{equation*}
 
 We can extend that to more than two functions like so
 
 
 \begin{equation*}
-  \frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dw} \cdot \frac{dw}{dx}
+	\frac{df}{dx} = \frac{du}{dv} \cdot \frac{dv}{dw} \cdot \frac{dw}{dx}
 \end{equation*}
 
 For the function $L(a,b,c) = c(a+2b)$ the computation graph would look something like this
 
 \begin{figure}[h]
-  \centering
-  \includegraphics[scale=0.75]{fig-3.png}
-  \caption{Computation graph of $L(a,b,c) = c(a + 2b)$}
+	\centering
+	\includegraphics[scale=0.75]{fig-3.png}
+	\caption{Computation graph of $L(a,b,c) = c(a + 2b)$}
 \end{figure}
 
 Of course a computation for a neural network is much more complicated and honestly is not worth computing by hand. Just let the damn computer do it.
@@ -1521,9 +1521,9 @@ Transformers are the standard architecture for building LLMs. The first types of
 There are three types of transformer architectures:
 
 \begin{enumerate}
-  \item Causal autoregressive models
-  \item Encoder-decoder
-  \item Bidirectional encoders
+	\item Causal autoregressive models
+	\item Encoder-decoder
+	\item Bidirectional encoders
 \end{enumerate}
 
 \subsection{Attention}
@@ -1545,10 +1545,129 @@ This works by essentially comparing the current token to each previous item in a
 
 \subsubsection*{A simplified version}
 
-All attention is is just a weighted sum of context vectors, with a lot of headaches as to how the weights are computed and what gets summed.
+Attention is just a weighted sum of context vectors, with a lot of headaches as to how the weights are computed and what gets summed.
+
+A simplified version of attention just boils down to
+
+\begin{equation*}
+	a_i = \sum_{j \le i} \alpha_{ij} x_j
+\end{equation*}
+
+where $a_i$ is the attention token at position $i$, $x_i$ is the weighted sum of all representations, and each $\alpha_{ij}$ is a scalar used for weighing the value of input $x_j$.
+
+\textbf{How do we compute this $\alpha$ weighting?} We weigh each prior embedding proportionally to how \textbf{similar } it is to the current token $i$.
+
+This is the attention-based approach to computing: compare the $x_i$ prior vectors, normalize those scores in a probability distribution.
+
+\subsubsection{Attention head}
+
+This version is what's actually used in transformers. The attention head allows us to distinctly represent three different roles that each input embedding plays during the attention process:
+
+\begin{enumerate}
+	\item \textbf{query} --- the current element being compared to preceding inputs
+	\item \textbf{key} --- a preceding input that is being compared to the current element to determine the similarity weight.
+	\item \textbf{value} --- this gets weighted and summed to compute the output for the current element
+\end{enumerate}
+
+To use these, we introduce weight matrices for each item listed above. These weights will project each input vector $x_i$ into a representation of its role as a query, key, or value:
+
+\begin{equation*}
+	q_i = x_i W^Q \ k_i = x_i W^K \ v_i = x_i W^V
+\end{equation*}
+
+For a single attention head with one layer this is what the calculations would look like
+
+\begin{align*}
+	q_i = x_i W^Q \ k_i    & = x_i W^K \ v_i = x_i W^V                                \\
+	\text{score}(x_i, x_j) & = \frac{q_i \cdot k_j}{\sqrt{d_k}}                       \\
+	\alpha_{ij}            & = \text{softmax}(\text{score}(x_i, x_j)) \forall j \le i \\
+	\mathbf{head}_i        & = \sum_{j \le i} \alpha_{ij} v_j                         \\
+	a_i                    & = \mathbf{head} \  W^O
+\end{align*}
+
+The matrix $\mathbf{W^O}$ is used to reshape the output of the head (to make things less of a headache).
+
+\subsubsection{Multi-head attention}
+
+The above example was of a single attention head. Transformers use multiple of those each with their own set of parameters, key, query, value weight matrices, etc. Modifying the single-head attention for multi-head is almost trivial
+
+\begin{align*}
+	q^c_i = x_i W^{Qc} \ k_i                                     & = x_i W^{Kc} \ v_i = x_i W^{Vc} \ \forall c \ 1 \le c \le A                    \\
+	\text{score}^c(x_i, x_j)                                     & = \frac{q^c_i \cdot k^c_j}{\sqrt{d_k}}                                         \\
+	\alpha^c_{ij}                                                & = \text{softmax}(\text{score}^c(x_i, x_j)) \forall j \le i                     \\
+	\mathbf{head}_i                                              & = \sum_{j \le i} \alpha^c_{ij} v^c_j                                           \\
+	a_i                                                          & = (\mathbf{head}^1 \oplus \mathbf{head}^2 \oplus \dots \mathbf{head}^A) \  W^O \\
+	\mathbf{MultiHeadAttention}(x_i, [x_1, x_2, \dots, x_{i-1}]) & = a_i
+\end{align*}
+
+MultiHeadAttention is a function of the current input $x_i$ as well as other inputs. We still have to do reshaping using a linear projection $\mathbf{W^O} \in \mathbb{R}^{Ad_v \times d}$ resulting in vector $a_i$ with the correct dimensions shape of $[1 \times d]$ at each input $i$. The dimensionality $d_v$ is set so that $d_v = d/A$ meaning that multihead attention costs about the same in parameters as having a single head.
+
+\subsection{Transformer blocks}
+
+A transformer block is made up of these parts
+\begin{enumerate}
+	\item Self-attention layer
+	\item Feed-forward layer
+	\item Residual connections
+	\item Normalizing layers (layer norms)
+\end{enumerate}
+
+The figure below depicts how these parts integrate into the \textbf{residual stream} which is is the processing of an individual token thorugh the transformer block as a single stream of $d$-dimensional representations for token position $i$.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{fig-6.png}
+\end{figure}
+
+\subsubsection{Feed-forward layer}
+
+\begin{enumerate}
+	\item The feed-forward layer is a fully-connected 2-layer network (one hidden layer, two weight matrices).
+	\item The feed-forward layer operates on each position $i$ independently.
+	\item The FF weights are shared across positions. Same parameters applied to every token position but are different from layer to layer.
+\end{enumerate}
+
+\subsubsection{Layer norm}
+
+At two stages we normalize the vector using \textbf{layer normalization} (layer norm for short) to improve training performance in deep NNs by keeping the values of a hidden layer in a range that facilitates gradient-based training.
+
+Layer norm is actually a variation of \textbf{z-score} in statistics, applied to a single vector in a hidden layer.
+
+\textbf{IMPORTANT} --- the layer norm is \textbf{not applied} to an entire transformer layer, but rather the embedding vector of a single token.
+
+First, we calculate the mean $\mu$ and the standard deviation $\sigma$ over the elements of the vector to be normalized.
+
+\begin{align*}
+	\mu    & = \frac{1}{d} \sum_{j=1}^d x[j]                    \\
+	\sigma & = \sqrt{\frac{1}{d} \sum_{j=1}^d ( x[j] - \mu )^2}
+\end{align*}
+
+The result is a new vector with zero mean and a standard deviation of one.
 
 
+\begin{equation*}
+	\hat{x} = \frac{( x - \mu )}{\sigma}
+\end{equation*}
 
+Finally, two learnable parameters $\gamma$ and $\beta$ are introduced
+
+\begin{equation*}
+	\text{LayerNorm}(x) = \gamma \frac{( x - \mu )}{\sigma} + \beta
+\end{equation*}
+
+\subsubsection{All together now}
+
+All together the steps are as follows
+
+
+\begin{align*}
+	t^1_i & = \text{LayerNorm}(x_i)                                       \\
+	t^2_i & = \text{MultiHeadAttention}(t^1_i, [t^1_i, \dots, t^1_{i-1}]) \\
+	t^3_i & = t^2_i + x_i                                                 \\
+	t^4_i & = \text{LayerNorm}(t^3_i)                                     \\
+	t^5_i & = \text{FFN}(t^4_i)                                           \\
+	h_i   & = t^5_i + t^3_i
+\end{align*}
 
 
 % ----------- NOTHING AFTER THIS LINE ------------

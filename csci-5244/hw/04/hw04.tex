@@ -1,0 +1,389 @@
+
+\documentclass[11pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+% math packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% quantum packages
+\usepackage{braket}
+\usepackage{quantikz}
+
+% lists
+\usepackage{enumitem}
+
+% color + links
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  filecolor=blue
+}
+
+% line spacing & formatting
+\usepackage{parskip}
+\usepackage{soul}
+
+% custom commands
+\newcommand{\invsq}{\frac{1}{\sqrt{2}}}
+\newcommand{\sinth}{\sin\theta}
+\newcommand{\costh}{\cos\theta}
+\newcommand{\ztimesn}{0^{\otimes n}}
+\newcommand{\ketphi}{\ket{\phi}}
+\newcommand{\ketpsi}{\ket{\psi}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+% title stuff
+\title{CSCI 5244: Homework Set 4}
+\date{}
+\author{Rey Stone}
+
+
+% ----------- DOCUMENT STARTS HERE ------------
+
+\begin{document}
+\maketitle
+
+\raggedright
+\begin{enumerate}
+	\item \textbf{[Phase Flip Codes]} Recall the phase-flip error $\begin{cases}\ket{0} \rightarrow \ket{0} \\ \ket{1} \rightarrow -\ket{1} \end{cases}$, and the states $\ket{+} = \invsq (\ket{0} + \ket{1})$ and $\ket{1} = \invsq (\ket{0} - \ket{1})$. The following $[3,1]$ codes can be used to detect and correct the phase-flip error:
+
+	      \begin{equation*}
+		      \begin{cases}
+			      \ket{0} \rightarrow \ket{\bar{0}} = \ket{+++} \\
+			      \ket{1} \rightarrow \ket{\bar{1}} = \ket{---}
+		      \end{cases}
+	      \end{equation*}
+
+	      \begin{enumerate}
+		      \item Draw the quantum circuit for encoding the above phase-flip codes.
+
+		            \textbf{Begin solution}
+
+		            \begin{quantikz}[wire types={q,q,q,n,n}]
+			            \lstick{$\ket{\phi}$} & & \ctrl{1} & \ctrl{2} & \gate{H} & \\
+			            \lstick{$\ket{0}$} & & \targ{} & & \gate{H} & \\
+			            \lstick{$\ket{0}$} & & & \targ{} & \gate{H} &
+		            \end{quantikz}
+
+		      \item Give the stabilizers that can be used to detect the phase-flip error.
+
+		            \textbf{Begin solution}
+
+		            Since this is a phase-flip error, we use the Pauli \textbf{X} matrices to flip $\ket{+}$ to $\ket{-}$.
+
+		            The stabilizers would be
+
+		            \begin{align*}
+			            M_1 & = X_1 \otimes X_2 \otimes I \\
+			            M_2 & = I \otimes X_2 \otimes X_3
+		            \end{align*}
+
+
+		      \item Continuing on the encoding circuit from (a), draw the circuit for error detection and correction.
+
+		            \textbf{Begin solution}
+
+		            \begin{quantikz}[wire types={q,q,q,n,n}]
+			            \lstick{$\ket{\phi}$} & & \ctrl{1} & \ctrl{2} & \gate{H} & \gate[3]{E} & \gate{H} & & \ctrl{3} & & & & & \gate{X} & & & \gate{H} \\
+			            \lstick{$\ket{0}$} & & \targ{} & & \gate{H} & & \gate{H} & & & \ctrl{2} & \ctrl{3} & & & & \gate{X} & & \gate{H} \\
+			            \lstick{$\ket{0}$} & & & \targ{} & \gate{H} & & \gate{H} & & & & & \ctrl{2} & & & & \gate{X} & \gate{H} \\
+			            &&&&&&&\lstick{$\ket{0}$} & \targ{}\setwiretype{q} & \targ{} & & & \meter[2]{} & \ctrl[vertical wire=c]{-3}\setwiretype{c} & \ctrl[vertical wire=c]{-2} & \octrl[vertical wire=c]{-1} \\
+			            &&&&&&&\lstick{$\ket{0}$} &\setwiretype{q} & & \targ{} & \targ{} & & \octrl[vertical wire=c]{-1}\setwiretype{c} & \ctrl[vertical wire=c]{-1} & \ctrl[vertical wire=c]{-1} \\
+		            \end{quantikz}
+
+	      \end{enumerate}
+
+	\item Recall Pauli X,Y,Z matrices: $\sigma_1 =
+		      \begin{pmatrix}
+			      0 & 1 \\ 1 & 0
+		      \end{pmatrix},
+		      \sigma_2 =
+		      \begin{pmatrix}
+			      0 & -i \\ i & 0
+		      \end{pmatrix},
+		      \sigma_3 =
+		      \begin{pmatrix}
+			      1 & 0 \\ 0 & -1
+		      \end{pmatrix}
+	      $
+
+	      \begin{enumerate}
+		      \item Show  the following anti-commutation relationships:
+
+		            \begin{equation*}
+			            \{\sigma_i, \sigma_j\} = 2 \delta_{ij}I
+		            \end{equation*}
+
+		            where $\delta_{ij}$ is the Kronecker delta.
+
+		            \textbf{Begin solution}
+
+		            An anti-commutator is a bilinear map defined as $\{X,Y\} = XY + YX$ and has the following properties
+
+		            \begin{itemize}
+			            \item $\{A,B\}^{\dagger} = \{B^\dagger, A^\dagger\}$
+			            \item $i\{A,B\}^\dagger = -i{A,B}$
+		            \end{itemize}
+
+		            (Taken from \href{https://publish.obsidian.md/myquantumwell/Quantum+Mechanics/Anti-commutators+in+quantum+mechanics}{The Quantum Well})
+
+		            The Kronecker delta is defined as: $\delta_{ij} = 1$ if $i = j $ else $0$ if $i \ne j$.
+
+		            To check these claims we can first check when $i = j = 1$ for $\{\sigma_1, \sigma_1\}$
+
+		            \begin{align*}
+			            \sigma_1 \sigma_1                     & =
+			            \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
+			            \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} =
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & 1
+			            \end{bmatrix}                             \\
+			            \sigma_1 \sigma_1 + \sigma_1 \sigma_1 & =
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & 1
+			            \end{bmatrix} +
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & 1
+			            \end{bmatrix}                             \\
+			                                                  & = 2
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & 1
+			            \end{bmatrix} = 2I
+		            \end{align*}
+
+		            Next we can check for $\sigma_1 \sigma_2$ which is
+
+		            \begin{align*}
+			            \sigma_1 \sigma_2                     & =
+			            \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
+			            \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} =
+			            \begin{bmatrix}
+				            i & 0 \\ 0 & -i
+			            \end{bmatrix}                           \\
+			            \sigma_2 \sigma_1                     & =
+			            \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}
+			            \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} =
+			            \begin{bmatrix}
+				            -i & 0 \\ 0 & i
+			            \end{bmatrix}                           \\
+			            \sigma_1 \sigma_2 + \sigma_1 \sigma_1 & =
+			            \begin{bmatrix}
+				            i & 0 \\ 0 & -i
+			            \end{bmatrix} +
+			            \begin{bmatrix}
+				            -i & 0 \\ 0 & i
+			            \end{bmatrix} = 0
+		            \end{align*}
+
+		            For $\sigma_2$ and $\sigma_3$
+
+		            \begin{align*}
+			            \sigma_2 \sigma_3                     & =
+			            \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}
+			            \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & i \\ i & 0
+			            \end{bmatrix}                           \\
+			            \sigma_3 \sigma_2                     & =
+			            \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}
+			            \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & -i \\ -i & 0
+			            \end{bmatrix}                          \\
+			            \sigma_2 \sigma_3 + \sigma_3 \sigma_2 & =
+			            \begin{bmatrix}
+				            0 & i \\ i & 0
+			            \end{bmatrix} +
+			            \begin{bmatrix}
+				            0 & -i \\ -i & 0
+			            \end{bmatrix} = 0
+		            \end{align*}
+
+		            Finally for $\sigma_1$ and $\sigma_3$
+
+		            \begin{align*}
+			            \sigma_1 \sigma_3                     & =
+			            \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
+			            \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & -1 \\ 1 & 0
+			            \end{bmatrix}                           \\
+			            \sigma_3 \sigma_1                     & =
+			            \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} =
+			            \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}
+			            \begin{bmatrix}
+				            0 & 1 \\ -1 & 0
+			            \end{bmatrix}                           \\
+			            \sigma_1 \sigma_3 + \sigma_3 \sigma_1 & =
+			            \begin{bmatrix}
+				            0 & -1 \\ 1 & 0
+			            \end{bmatrix} +
+			            \begin{bmatrix}
+				            0 & 1 \\ -1 & 0
+			            \end{bmatrix} = 0
+		            \end{align*}
+
+
+		      \item Show the following commutation relationships:
+
+		            \begin{equation*}
+			            [\sigma_j, \sigma_k] = 2i\epsilon_{jkl} \sigma_l
+		            \end{equation*}
+
+		            where $\epsilon_{jkl}$ is the Levi-Civita symbol.
+
+		            \textbf{Begin solution}
+
+		            First, we can exapand $[\sigma_j, \sigma_k] = \sigma_j \sigma_k - \sigma_k \sigma_j$.
+
+		            To check these claims we can first check when $j = 1, k =2$. This gives us
+
+		            \begin{equation*}
+			            2i(\epsilon_{121} \sigma_1 + \epsilon_{122} \sigma_2 + \epsilon_{123} \sigma_3) = 2i\sigma_3
+		            \end{equation*}
+
+		            \begin{align*}
+			            \sigma_1 \sigma_2                     & =
+			            \begin{bmatrix}
+				            0 & 1 \\ 1 & 0
+			            \end{bmatrix}
+			            \begin{bmatrix}
+				            0 & -i \\ i & 0
+			            \end{bmatrix} =
+			            \begin{bmatrix}
+				            i & 0 \\ 0 & -i
+			            \end{bmatrix}                           \\
+			            \sigma_2 \sigma_1                     & =
+			            \begin{bmatrix}
+				            0 & -i \\ i & 0
+			            \end{bmatrix}
+			            \begin{bmatrix}
+				            0 & 1 \\ 1 & 0
+			            \end{bmatrix} =
+			            \begin{bmatrix}
+				            -i & 0 \\ 0 & i
+			            \end{bmatrix}                           \\
+			            \sigma_1 \sigma_2 - \sigma_2 \sigma_1 & =
+			            \begin{bmatrix}
+				            i & 0 \\ 0 & -i
+			            \end{bmatrix} -
+			            \begin{bmatrix}
+				            -i & 0 \\ 0 & i
+			            \end{bmatrix} =
+			            2i \begin{bmatrix}
+				               1 & 0 \\ 0 & -1
+			               \end{bmatrix} = 2i\sigma_3
+		            \end{align*}
+
+		            Check $j = 2, k = 3$
+
+		            \begin{equation*}
+			            2i(\epsilon_{231} \sigma_1 + \epsilon_{232} \sigma_2 + \epsilon_{233} \sigma_3) = 2i\sigma_1
+		            \end{equation*}
+
+		            \begin{align*}
+			            \sigma_2 \sigma_3                     & =
+			            \begin{bmatrix}
+				            0 & -i \\ i & 0
+			            \end{bmatrix}
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & -1
+			            \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & i \\ i & 0
+			            \end{bmatrix}                           \\
+			            \sigma_3 \sigma_2                     & =
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & -1
+			            \end{bmatrix}
+			            \begin{bmatrix}
+				            0 & 1 \\ 1 & 0
+			            \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & -i \\ -i & 0
+			            \end{bmatrix}                          \\
+			            \sigma_2 \sigma_3 - \sigma_3 \sigma_2 & =
+			            \begin{bmatrix}
+				            0 & i \\ i & 0
+			            \end{bmatrix} -
+			            \begin{bmatrix}
+				            0 & -i \\ -i & 0
+			            \end{bmatrix} =
+			            2i \begin{bmatrix}
+				               0 & 1 \\ 1 & 0
+			               \end{bmatrix} = 2i\sigma_1
+		            \end{align*}
+
+		            Check $j = 3, k = 1$
+
+		            \begin{equation*}
+			            2i(\epsilon_{311} \sigma_1 + \epsilon_{312} \sigma_2 + \epsilon_{313} \sigma_3) = 2i\sigma_2
+		            \end{equation*}
+
+		            \begin{align*}
+			            \sigma_3 \sigma_1 & =
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & -1
+			            \end{bmatrix}
+			            \begin{bmatrix}
+				            0 & 1 \\ 1 & 0
+			            \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & 1 \\ -1 & 0
+			            \end{bmatrix}       \\
+			            \sigma_1 \sigma_3 & =
+			            \begin{bmatrix}
+				            0 & 1 \\ 1 & 0
+			            \end{bmatrix}
+			            \begin{bmatrix}
+				            1 & 0 \\ 0 & -1
+			            \end{bmatrix} =
+			            \begin{bmatrix}
+				            0 & -1 \\ 1 & 0
+			            \end{bmatrix}       \\
+			            \sigma_3 \sigma_1 - \sigma_1 \sigma_3 & =
+			            \begin{bmatrix}
+				            0 & 1 \\ -1 & 0
+			            \end{bmatrix} -
+			            \begin{bmatrix}
+				            0 & -1 \\ 1 & 0
+			            \end{bmatrix} =
+			            2 \begin{bmatrix}
+                      0 & 1 \\ -1 & 0
+			               \end{bmatrix} = 2i\sigma_2
+		            \end{align*}
+
+                For $j = k = 1$ we get
+
+                \begin{equation*}
+			            2i(\epsilon_{111} \sigma_1 + \epsilon_{112} \sigma_2 + \epsilon_{113} \sigma_3) = 0
+                \end{equation*}
+
+                \begin{align*}
+                  \sigma_1 \sigma_1 - \sigma_1 \sigma_1 =
+                  \begin{bmatrix}
+                    0 & 1 \\ 1 & 0
+                  \end{bmatrix}
+                  \begin{bmatrix}
+                    0 & 1 \\ 1 & 0
+                  \end{bmatrix} -
+                  \begin{bmatrix}
+                    0 & 1 \\ 1 & 0
+                  \end{bmatrix}
+                  \begin{bmatrix}
+                    0 & 1 \\ 1 & 0
+                  \end{bmatrix} = 0
+                \end{align*}
+
+	      \end{enumerate}
+
+\end{enumerate}
+
+% ----------- DOCUMENT ENDS HERE ------------
+\end{document}
