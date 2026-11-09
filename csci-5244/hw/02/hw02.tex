@@ -510,11 +510,11 @@
 		            \begin{equation*}
 			            QFT_{2^2}\ket{x} = \frac{1}{\sqrt{2^2}} \sum_{y=0}^{2^{2}-1}e^{i \frac{2\pi xy}{2^2}}\ket{y} = \frac{1}{\sqrt{2^2}}(\ket{0} + e^{i2{\pi}(.x_0)}\ket{1})(\ket{0}+e^{i2{\pi}(.x_1x_0)}\ket{1}) \end{equation*}
 
-                The circuit produces both factors, but with $(.x_1x_0)$ factor on the top wire and $(.x_0)$ on the bottom wire which reverse for what the QFT defines.
+		            The circuit produces both factors, but with $(.x_1x_0)$ factor on the top wire and $(.x_0)$ on the bottom wire which reverse for what the QFT defines.
 
-                However, this is not a problem, because this is a bit-reversal artifact of the QFT circuit which is resolved by either appending a SWAP gate or by reading the output register in reverse, which is what labeling $\ket{\tilde{y_0}}$(top) and $\ket{\tilde{y_1}}$(bottom) indicates.
+		            However, this is not a problem, because this is a bit-reversal artifact of the QFT circuit which is resolved by either appending a SWAP gate or by reading the output register in reverse, which is what labeling $\ket{\tilde{y_0}}$(top) and $\ket{\tilde{y_1}}$(bottom) indicates.
 
-                Otherwise, both equations hold true term by term.
+		            Otherwise, both equations hold true term by term.
 
 	      \end{enumerate}
 
