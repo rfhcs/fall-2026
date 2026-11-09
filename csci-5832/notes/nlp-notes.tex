@@ -207,7 +207,7 @@ After this, NLP became about generation rather than algorithms that can parse/in
 
 Understanding human language and their properties are important for studying speech and language processing.
 
-\paragraph{Syntactic structure}
+\subsubsection{Syntactic structure}
 
 Abstract grammar relationships between words or phrases. For example, verbs have
 subjects and direct objects
@@ -218,7 +218,7 @@ subjects and direct objects
 
 Detecting these relationships is what \textbf{parsing} can do.
 
-\paragraph{Co-reference}
+\subsubsection{Co-reference}
 
 When a text talks about a person, it can refer to them in many ways.
 
@@ -261,7 +261,7 @@ the same entity ``Victoria'', just with different ways of saying it.
 	      \end{itemize}
 \end{itemize}
 
-\subsubsection{Inflectional morphology}
+\subsubsection*{Inflectional morphology}
 
 The combination of stems and affixes where the resulting word \ldots
 
@@ -278,7 +278,7 @@ The combination of stems and affixes where the resulting word \ldots
 	      \end{itemize}
 \end{itemize}
 
-\subsubsection{Derivational morphology}
+\subsubsection*{Derivational morphology}
 
 Messy stuff that nobody ever "taught" when learning English
 
@@ -296,7 +296,7 @@ Messy stuff that nobody ever "taught" when learning English
 	\item changes of word class
 \end{itemize}
 
-\subsection{Language classification}
+\subsubsection{Language classification}
 
 \begin{itemize}
 	\item \textbf{Genetically}: groups based on family history
@@ -309,14 +309,14 @@ Messy stuff that nobody ever "taught" when learning English
 
 Groups languages based on aspects of morphology
 
-\subsubsection{Isolating vs Synthetic}
+\subsubsection*{Isolating vs Synthetic}
 
 \begin{itemize}
 	\item \textbf{Isolating}: one morpheme per word
 	\item \textbf{Synthetic}: lots of morphemes per word
 \end{itemize}
 
-\subsubsection{Agglutinating vs fusional}
+\subsubsection*{Agglutinating vs fusional}
 
 \begin{itemize}
 	\item \textbf{Agglutinating}: form words by concatenating stems with affixes
@@ -325,7 +325,7 @@ Groups languages based on aspects of morphology
 	      harder to isolate them
 \end{itemize}
 
-\subsubsection{Computational morphology}
+\subsubsection*{Computational morphology}
 
 Morphological analysis takes surface form and returns the stem with a set of
 morphological features rather than segmenting the surface form.
@@ -1555,7 +1555,7 @@ A simplified version of attention just boils down to
 
 where $a_i$ is the attention token at position $i$, $x_i$ is the weighted sum of all representations, and each $\alpha_{ij}$ is a scalar used for weighing the value of input $x_j$.
 
-\paragraph{How do we compute this $\alpha$ weighting?} We weigh each prior embedding proportionally to how \textbf{similar } it is to the current token $i$.
+\textbf{How do we compute this $\alpha$ weighting?} We weigh each prior embedding proportionally to how \textbf{similar } it is to the current token $i$.
 
 This is the attention-based approach to computing: compare the $x_i$ prior vectors, normalize those scores in a probability distribution.
 
@@ -1668,42 +1668,6 @@ All together the steps are as follows
 	t^5_i & = \text{FFN}(t^4_i)                                           \\
 	h_i   & = t^5_i + t^3_i
 \end{align*}
-
-
-\subsection{Parallelizing computation using a single matrix \textbf{X}}
-
-The attention computation performed for each token $a_i$ is independent of all other token computations, which also holds for all the computation in the transformer block. Thus, instead of looping, we can just do all of this in parallel!
-
-We can do this by packing the input embeddings into a single matrix with size $[N \times d]$ with $N$ being the number of tokens, and $d$ being the model dimension.
-
-Each row of \textbf{X} is one token embedding, which can have hundreds if not millions of rows.
-
-\paragraph{Parallelizing attention}
-
-Instead of doing loops, we can just do matrix multiplication! For each query, key, and value matrix, we can take the matrix \textbf{X} and just multiply it with that getting
-
-
-\begin{equation*}
-  Q = XW^Q; K = XW^K; V = XW^V
-\end{equation*}
-
-From this output, we can compute the query-key comparisons all at once by multiplying \textbf{Q} and $\mathbf{K^T}$ in one matrix multiplication!
-
-Using this newly found $\mathbf{QK^T}$ matrix, we can multiply the result by $\mathbf{V}$ resulting in a matrix with shape $[N \times d]$.
-
-\paragraph{Masking out the future}
-
-With these calculations, we accidentally calculate the future scores as well. Since we want the model to predict the next word, we need to set these values to $-\infty$ so that it doesn't fuck shit up.
-
-\paragraph{Parallelizing multi-attention}
-
-\section{Post-training}
-
-\subsection{Reinforcement learning}
-
-A system learns by taking sequences of actions guided by policies in an environment. The goal is the maximize is to explore the space of policies for those that maximize rewards. The signal from the environment does not say what the correct action is, just how good the outcome is.
-
-Traditional RL is susceptible to reward hacking which is optimizing for the rewards in training data. Since we aren't starting from scratch we don't want to forget everything in pursuit of rewards.
 
 
 % ----------- NOTHING AFTER THIS LINE ------------
