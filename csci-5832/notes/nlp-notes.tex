@@ -1669,6 +1669,67 @@ All together the steps are as follows
 	h_i   & = t^5_i + t^3_i
 \end{align*}
 
+\subsection{Parallelizing computation}
+
+Since the attention computation performed on each individual token is independent for each other token, we can parallelize this whole process and do it all at the same time!
+
+First, we pack the input embeddings of $N$ tokens into a single matrix $X$ of size $[N \times d]$. For one head we multiply \textbf{X} by the query, key, and value matrices
+
+\begin{equation*}
+  Q = XW^Q; \ K = XW^K ; \ V = XW^V
+\end{equation*}
+
+We then have a matrix and can very efficiently scale these scores, take the softmax, and multiply the result by \textbf{V} resulting in a $[N \times d]$ matrix with just one computation!
+
+\begin{align*}
+  \mathbf{head} & = \text{softmax}(\text{mask}(\frac{\mathbf{QK^T}}{\sqrt{d_k}})) \mathbf{V} \\
+  \mathbf{A} & = \mathbf{head (W^O)}
+\end{align*}
+
+\paragraph{Masking out the future}
+
+Since it is faster to do a single matrix multiplication instead of a loop over all the tokens, there are some complications to that. The self-attention head calculates every score for each query value, even the ones that follow the query. Because this is a prediction task, we don't want the model knowing the future, so we must mask out the future queries so the model still has to guess. Still, this is faster than looping.
+
+\paragraph{Parallelizing multi-head attention}
+
+This is pretty similar to the self-attention, but now we have multiple attention heads!
+
+\begin{align*}
+  Q^i = XW^{Qi}; K^i & = XW^{Ki}; V^i = XW^{Vi} \\
+  \mathbf{head} = \text{SelfAttention}(Q^i, K^i, V^i) & = \text{softmax} ( \text{mask} (\frac{Q^iK^{iT}}{\sqrt{d_k}}) ) V^i \\
+  \text{MultiHeadAttention}(X) & = (\text{head}_1 \oplus \text{head}_2 \oplus \dots, \oplus \text{head}_A) W^O
+\end{align*}
+
+\section{Post-training}
+
+\subsection{Instruction tuning}
+
+A method for making an LLM better at following instructions like meal planning, machine translation, etc.
+
+This is a form of supervised learning were the training data consists of instructions and we continue training the model on them using the \textit{same language modeling objective} that it was trained on.
+
+The training corpus is simply treated as additional instructions, and the gradient is updated using cross-entropy loss. Here we train \textbf{only the response}.
+
+This method is called \textbf{supervised fine-tuning} because each instruction/question has a supervised objective: a correct answer.
+
+\paragraph{Fine-tuning} Instructions are a kind of \textbf{fine-tuning} --- taking a fully pre-trained model and running additional training passages using the cross-entropy loss on some new data. This requires a much more modest amount of data than pre-training base LMs. The overall cost is a small fraction of the original training.
+
+\subsubsection{Instructions as training data}
+
+Instructions can be anything: requests for translations, creations of shopping lists/recipes, and can have many sophisticated parts like length restrictions, persona assumptions, and demonstrations.
+
+Developing high quality supervised training data is time consuming and thus costly. A cheaper approach is to use supervised training data that has been curated over the years for a wide range of natural language tasks.
+
+The most common way to generate instruction tuning datasets is to have the language models write them.
+
+\subsubsection{Evaluation of instruction tuned models}
+
+The goal of instruction tuning is not to learn a single task, but to learn to \textbf{follow instructions} in general. We want to assess how well an instruction-tuned model performs on novel tasks when not given explicit instructions.
+
+
+\subsection{Learning from preferences}
+
+Instruction tuning is based on the notion that we can improve LLM performance by fine-tuning them on diverse instructions and demonstrations.
 
 % ----------- NOTHING AFTER THIS LINE ------------
 \end{document}
